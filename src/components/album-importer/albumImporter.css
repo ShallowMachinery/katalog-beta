@@ -1,0 +1,163 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: auto;
+}
+
+p {
+  margin-bottom: 15px;
+  line-height: 1.5;
+}
+
+.import-box {
+  position: relative;
+  width: 100%; /* Increased width to accommodate both form and info */
+  background-color: #5a6875;
+  color: white;
+  display: flex;
+  flex-direction: row; /* Set to row to place form and info side by side */
+  justify-content: space-between;
+  align-items: flex-start;
+  font-size: 18px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-height: none;
+  height: auto;
+  overflow-y: visible;
+  
+}
+
+.import-form {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+form {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
+
+.inputField {
+  flex: 1;
+  padding: 10px;
+  margin-right: 20px;
+  border-radius: 4px;
+  border: none;
+}
+
+.submitButton {
+  padding: 10px 20px;
+  background-color: #0056b3;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.submitButton:hover {
+  background-color: #004494;
+}
+
+.import-data-button-container {
+  margin-left: 10px;
+}
+
+.import-data-button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.import-data-button:hover {
+  background-color: #45a049;
+}
+
+.message {
+  margin-top: 25px;
+  border-radius: 5px;
+  margin-bottom: 0px;
+  text-align: center;
+}
+
+.information {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start; /* Align items to the start of the flex container */
+  gap: 10px; /* Add a gap between the columns */
+  width: 100%; /* Ensure the information div takes up the full width */
+  padding: 10px; /* Optional: Add padding around the information container */
+  box-sizing: border-box; /* Ensure padding and border are included in the element's width and height */
+}
+
+.album-information, .tracks-information, .artist-information {
+  flex: 1; /* Each section will take up equal space */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the text horizontally */
+  justify-content: center; /* Center the text vertically */
+  background-color: #28cf44b4;
+  padding: 10px;
+  border-radius: 1%;
+  border: 1px solid rgba(168, 158, 158, 0.76);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Adds a shadow to the sections */
+  text-align: center; /* Ensure text inside is centered */
+}
+
+.album-info, .artist-info, .tracks-table {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  color: white;
+  text-align: center; /* Center text within these elements */
+}
+
+.album-name-type {
+  line-height: 1.8;
+}
+
+.album-type {
+  background-color: gray;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 20px;
+  text-transform: uppercase;
+}
+
+.tracks-table {
+  border-collapse: collapse;
+}
+
+.tracks-table th, .tracks-table td {
+  border: 1px solid rgba(0, 0, 0, 0.76);
+  padding: 8px;
+}
+
+.album-image {
+  width: 100%;
+  height: 100%;
+  max-width: 200px;
+  max-height: 200px;
+  margin-top: 10px;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+.artist-image {
+  width: 100%; /* Adjust the width as needed */
+  height: auto; /* Maintains the aspect ratio of the image */
+  max-width: 200px; /* Optional: Set a maximum width if needed */
+  border-radius: 8px;
+  object-fit: contain; /* Ensures the image is not stretched or cropped */
+}

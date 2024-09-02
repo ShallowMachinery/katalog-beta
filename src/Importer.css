@@ -1,0 +1,78 @@
+.App {
+  background-color: lightblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-height: none;
+  height: auto;
+  overflow-y: visible;
+}
+
+h1 {
+  color: white;
+}
+
+.import-box {
+  position: relative;
+  width: auto;
+  background-color: #5a6875;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-height: none;
+  height: auto;
+  overflow-y: visible;
+}
+
+.importer-div {
+  justify-content: center;
+  align-items: center;
+}
+
+.tabs {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.tabs button {
+  flex: 1;
+  padding: 10px;
+  background-color: #63cc75;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.tabs button:hover {
+  background-color: #45a049;
+}
+
+.tabs button.active {
+  background-color: #28cf44b4;
+  color: white;
+  cursor: default;
+}
+
+.tab-content {
+  margin-top: 20px;
+}
+
+.album-import-component {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #b4c4d4;
+  box-sizing: border-box;
+}

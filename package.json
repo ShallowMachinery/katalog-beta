@@ -1,7 +1,7 @@
 {
   "proxy": "http://localhost:8000", 
   "name": "katalog-beta",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
