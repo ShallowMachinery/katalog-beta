@@ -247,18 +247,18 @@ function ArtistImporter() {
                     album_track_count: albumData.tracks.length,
                     album_discs_count: Math.max(...albumData.tracks.map(track => track.disc_number)),
                     album_cover_url: albumData.images && albumData.images.length > 0 ? albumData.images[0].url : null,
-                    album_artists: [{
-                        album_artist_name: artistData.name,
-                        album_artist_id: artistData.id,
+                    album_artists: albumData.artists.map(artist => ({
+                        album_artist_name: artist.name,
+                        album_artist_id: artist.id,
                         artist_picture_url: artistData.images && artistData.images.length > 0 ? artistData.images[0].url : null
-                    }],
+                    })),
                     album_tracks: albumData.tracks.map(track => {
+                        
                         // Prepare track artist data
                         const trackArtists = track.artists.map(artist => ({
                             track_artist_name: artist.name,
                             track_artist_id: artist.id,
-                            track_artist_role: track.artists.indexOf(artist) === 0 ? 'Primary' : 'Featuring',
-                            track_artist_picture_url: artist.images && artist.images.length > 0 ? artist.images[0].url : null
+                            track_artist_role: track.artists.indexOf(artist) === 0 ? 'Primary' : 'Featuring'
                         }));
 
                         const externalID = externalIDs.find(id => id.track_id === track.id);
@@ -270,7 +270,7 @@ function ArtistImporter() {
                             track_duration: new Date(track.duration_ms).toISOString().substr(14, 5),
                             track_number: track.track_number,
                             disc_number: track.disc_number,
-                            explicit: track.explicit ? 'Yes' : 'No',
+                            explicit: track.explicit ? '1' : '0',
                             isrc: externalID ? externalID.isrc : 'N/A',
                             upc: externalID ? externalID.upc : 'N/A',
                             ean: externalID ? externalID.ean : 'N/A',
@@ -405,7 +405,7 @@ function ArtistInformation({ artistData }) {
         <div className="artist-information">
             <h3>Artist Information</h3>
             <div className="artist-data">
-                <div className="artist-info">
+                <div className="artist-info-importer">
                     {artistData.images.length > 0 && (
                         <div>
                             <img src={artistData.images[0].url} alt="Artist image" className="artist-image" />

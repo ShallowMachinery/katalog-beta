@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import AlbumImporter from './components/album-importer/albumImporter';
-import ArtistImporter from './components/artist-importer/artistImporter';
+import AlbumImporter from './album-importer/albumImporter';
+import ArtistImporter from './artist-importer/artistImporter';
 import './Importer.css';
+import MenuBar from './MenuBar';
 
 function Importer() {
   const [activeTab, setActiveTab] = useState('album');
@@ -16,8 +17,9 @@ function Importer() {
 
   return (
     <div className="App">
+      <MenuBar />
       <div className="import-box">
-        <h2>Katalog v0.1.1-beta Importer</h2>
+        <h2>Importer</h2>
         <div className="importer-div">
           <div className="tabs">
             <button onClick={() => setActiveTab('album')} className={activeTab === 'album' ? 'active' : ''}>Album Import</button>

@@ -21,7 +21,7 @@ function AlbumImporter() {
                 const response = await axios.get('http://localhost/katalog/beta/api/timer.php?type=album');
                 const expiryTime = response.data.expiryTime;
                 const currentTime = Math.floor(Date.now() / 1000);
-                
+
                 if (expiryTime > currentTime) {
                     setTimer(expiryTime - currentTime);
                     setIsButtonDisabled(true);
@@ -116,14 +116,8 @@ function AlbumImporter() {
                 ean: track.external_ids.ean || 'N/A'
             })));
 
-            const artistDataArray = await Promise.all(albumData.artists.map(async (artist) => {
-                const artistSpotifyResponse = await fetchArtistSpotifyData(artist.id, accessToken);
-                return artistSpotifyResponse;
-            }));
-            setAllArtistData(artistDataArray);
-
             // Automatically upload album data after fetching
-            await uploadData(albumData, artistDataArray, tracksData);
+            await uploadData(albumData, tracksData);
 
         } catch (error) {
             handleError(error);
@@ -147,20 +141,6 @@ function AlbumImporter() {
         }
     };
 
-    const fetchArtistSpotifyData = async (artistId, accessToken) => {
-        try {
-            const response = await axios.get(`https://api.spotify.com/v1/artists/${artistId}`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                }
-            });
-            return response.data;
-        } catch (error) {
-            console.error('Error fetching Spotify artist data:', error);
-            setMessage('There was an error fetching Spotify artist data. Please try again.');
-        }
-    };
-
     const handleError = (error) => {
         if (error.response) {
             switch (error.response.status) {
@@ -181,7 +161,44 @@ function AlbumImporter() {
         }
     };
 
-    const uploadData = async (albumData, allArtistData, tracksData) => {
+    const chunkArray = (arr, size) => {
+        const result = [];
+        for (let i = 0; i < arr.length; i += size) {
+            result.push(arr.slice(i, i + size));
+        }
+        return result;
+    };
+    
+    const fetchArtistsData = async (artistIds, accessToken) => {
+        const artistDataLookup = {};
+    
+        // Batch the artist IDs into groups of 50
+        const artistIdBatches = chunkArray(artistIds, 50);
+    
+        // Fetch data for each batch
+        await Promise.all(artistIdBatches.map(async (batch) => {
+            const response = await axios.get(`https://api.spotify.com/v1/artists?ids=${batch.join(',')}`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            });
+            const artists = response.data.artists;
+    
+            // Process each artist and store in the lookup
+            artists.forEach(artist => {
+                artistDataLookup[artist.id] = {
+                    artist_name: artist.name,
+                    artist_id: artist.id,
+                    genres: artist.genres,
+                    artist_picture_url: artist.images && artist.images.length > 0 ? artist.images[0].url : null
+                };
+            });
+        }));
+    
+        return artistDataLookup;
+    };
+
+    const uploadData = async (albumData, tracksData) => {
         if (!albumData) {
             console.error('No data to upload.');
             setMessage('No data to upload.');
@@ -189,7 +206,7 @@ function AlbumImporter() {
         }
 
         const accessToken = await getSpotifyAccessToken();
-
+  
         const totalDurationMs = albumData.tracks.items
             .map(track => track.duration_ms)
             .reduce((acc, duration) => acc + duration, 0);
@@ -203,6 +220,51 @@ function AlbumImporter() {
             albumReleaseType = 'ep';
         }
 
+        const artistIds = new Set();
+        albumData.artists.forEach(artist => artistIds.add(artist.id, artist.name));
+        albumData.tracks.items.forEach(track => {
+            track.artists.forEach(artist => artistIds.add(artist.id, artist.name));
+        });
+    
+        console.log('Unique artist IDs: ', artistIds);
+        
+        const artistDataLookup = await fetchArtistsData(Array.from(artistIds), accessToken);
+
+        const album_artists = albumData.artists.map(album_artist => ({
+            album_artist_name: album_artist.name,
+            album_artist_id: album_artist.id,
+            artist_picture_url: artistDataLookup[album_artist.id].artist_picture_url,
+            genres: artistDataLookup[album_artist.id].genres
+        }));
+
+        const album_tracks = await Promise.all(albumData.tracks.items.map(async track => {
+            const trackArtists = track.artists.map(artist => ({
+                track_artist_name: artist.name,
+                track_artist_id: artist.id,
+                track_artist_role: track.artists.indexOf(artist) === 0 ? 'Primary' : 'Featuring',
+                track_artist_picture_url: artistDataLookup[artist.id].artist_picture_url,
+                genres: artistDataLookup[artist.id].genres
+            }));
+
+            const externalIDs = getExternalIDsForTrack(track.id);
+
+            return {
+                track_id: track.id,
+                track_name: track.name,
+                track_duration: new Date(track.duration_ms).toISOString().substr(14, 5),
+                track_number: track.track_number,
+                disc_number: track.disc_number,
+                explicit: track.explicit ? '1' : '0',
+                isrc: tracksData.find(t => t.id === track.id)?.external_ids.isrc || 'N/A',
+                upc: tracksData.find(t => t.id === track.id)?.external_ids.upc || 'N/A',
+                ean: tracksData.find(t => t.id === track.id)?.external_ids.ean || 'N/A',
+                track_artists: trackArtists
+            };
+        }));
+
+        console.log("albumData: ", albumData);
+        console.log("tracksData: ", tracksData);
+
         const data = {
             album_id: albumData.id,
             album_name: albumData.name,
@@ -213,40 +275,11 @@ function AlbumImporter() {
             album_track_count: albumTrackCount,
             album_discs_count: Math.max(...albumData.tracks.items.map(track => track.disc_number)),
             album_cover_url: albumData.images && albumData.images.length > 0 ? albumData.images[0].url : null,
-            album_artists: allArtistData.map((artistData) => ({
-                album_artist_name: artistData.name,
-                album_artist_id: artistData.id,
-                artist_picture_url: artistData.images && artistData.images.length > 0 ? artistData.images[0].url : null
-            })),
-            album_tracks: await Promise.all(albumData.tracks.items.map(async track => {
-                const trackArtists = await Promise.all(track.artists.map(async (artist) => {
-                    const artistData = await fetchArtistSpotifyData(artist.id, accessToken);
-                    return {
-                        track_artist_name: artist.name,
-                        track_artist_id: artist.id,
-                        track_artist_role: track.artists.indexOf(artist) === 0 ? 'Primary' : 'Featuring',
-                        track_artist_picture_url: artistData.images && artistData.images.length > 0 ? artistData.images[0].url : null
-                    };
-                }));
-
-                const externalIDs = getExternalIDsForTrack(track.id);
-
-                return {
-                    track_id: track.id,
-                    track_name: track.name,
-                    track_duration: new Date(track.duration_ms).toISOString().substr(14, 5),
-                    track_number: track.track_number,
-                    disc_number: track.disc_number,
-                    explicit: track.explicit ? 'Yes' : 'No',
-                    isrc: externalIDs.isrc,
-                    upc: externalIDs.upc,
-                    ean: externalIDs.ean,
-                    track_artists: trackArtists
-                };
-            }))
+            album_artists: album_artists,
+            album_tracks: album_tracks
         };
 
-        console.log(data);
+        console.log("data: ", data);
 
         try {
             const response = await fetch('http://localhost/katalog/beta/api/importAlbum.php', {

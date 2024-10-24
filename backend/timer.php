@@ -4,17 +4,7 @@ header("Access-Control-Allow-Methods: POST, GET");
 header("Access-Control-Allow-Headers: Content-Type");
 header("Content-Type: application/json");
 
-$servername = "127.0.0.1";
-$username = "root";
-$password = "";
-$dbname = "katalog";
-
-// Connect to the database
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) {
-    echo json_encode(['status' => 'error', 'message' => 'Database connection failed: ' . $conn->connect_error]);
-    exit;
-}
+require 'config.php'; 
 
 // Get the type from GET parameters or POST body
 $type = $_GET['type'] ?? null;

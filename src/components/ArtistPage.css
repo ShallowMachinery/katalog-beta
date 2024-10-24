@@ -1,0 +1,165 @@
+.artist-page-container {
+    max-width: 1200px;
+    margin: 100px auto 50px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9); /* Slight transparency */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1; /* Ensure this is in front of the background */
+}
+
+.artist-page-container .dynamic-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    filter: blur(10px);
+    z-index: -1; /* Place it behind the container */
+    opacity: 0.2; /* Optional: Add transparency to the background */
+}
+
+.artist-page-container .artist-info {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.artist-page-container .artist-info .artist-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    margin-right: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    object-fit: cover;
+}
+
+.artist-page-container .artist-info .artist-name {
+    font-size: 25px;
+    margin: 0;
+    color: #333;
+}
+
+.albums-section, .tracks-section {
+    margin-top: 5px;
+}
+
+.toggle-header {
+    cursor: pointer;
+    color: #4d6d9a;
+    display: inline-block;
+    margin-bottom: 15px;
+    user-select: none; /* Prevent text selection */
+}
+
+.artist-page-container .albums-section .album-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+}
+
+.artist-page-container .albums-section .album-list li {
+    width: 150px;
+    text-align: center;
+    word-break: break-word;
+}
+
+.artist-page-container .albums-section .album-list .album-cover {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}
+
+.artist-page-container .albums-section .album-list a {
+    text-decoration: none;
+    color: #4d6d9a;
+}
+
+.artist-page-container .albums-section .album-list a:hover {
+    text-decoration: none;
+}
+
+.artist-page-container .tracks-section .track-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+.artist-page-container .tracks-section .track-list a {
+    text-decoration: none;
+    color: #4d6d9a;
+}
+
+.artist-page-container .tracks-section .track-list a:hover {
+    text-decoration: none;
+    color: #2c4870;    
+}
+
+.artist-page-container .tracks-section .track-list-div {
+    display: flex;
+    padding: 10px;
+    border-bottom: 1px solid #3039463f;
+}
+
+.artist-page-container .tracks-section .track-list-div .track-album-cover {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    object-fit: cover;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.artist-page-container .tracks-section .track-list-div .track-list-info {
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.artist-page-container .tracks-section .track-list-div .track-list-info small {
+    color: #5e6a7a;
+}
+
+.artist-page-container .related-artists-section {
+    margin-top: 30px;
+}
+
+.artist-page-container .related-artists-section .related-artist-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+}
+
+.artist-page-container .related-artists-section .related-artist-list a {
+    text-decoration: none;
+    color: #333;
+    text-align: center;
+}
+
+.artist-page-container .related-artists-section .related-artist-list a:hover {
+    text-decoration: underline;
+}
+
+.artist-page-container .related-artists-section .related-artist-list .related-artist-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Ensure the name is centered below the picture */
+    width: 120px; /* Control the width of each artist card */
+    text-align: center; /* Center-align the text */
+}
+
+.artist-page-container .related-artists-section .related-artist-list .related-artist-item .related-artist-picture {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 0;
+    object-fit: cover;
+}
