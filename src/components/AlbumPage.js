@@ -13,26 +13,27 @@ function AlbumPage() {
     useEffect(() => {
         const fetchAlbumInfo = async () => {
             try {
-                // Fetch album information based on albumVanity and artistVanity
                 const response = await axios.get(`http://localhost/katalog/beta/api/album-info.php`, {
                     params: { albumVanity, artistVanity },
                 });
+    
                 const albumData = response.data;
                 setAlbumInfo(albumData);
-
-                if (albumData) {
+    
+                if (albumData && albumData.status !== 'error') {
                     document.title = `${albumData.albumName} album by ${albumData.artistName} | Katalog`;
                 }
-
+    
                 // Fetch tracks in the album
                 const tracksResponse = await axios.get(`http://localhost/katalog/beta/api/album-tracks.php`, {
                     params: { albumVanity, artistVanity },
                 });
                 setTracks(tracksResponse.data.tracks);
-                console.log(tracksResponse.data.tracks);
-                setLoading(false);
             } catch (error) {
-                console.error('Error fetching album info or tracks:', error);
+                if (error.response && error.response.status === 404) {
+                    setAlbumInfo(null); // Trigger the "This album doesn't exist" message
+                }
+            } finally {
                 setLoading(false);
             }
         };

@@ -4,6 +4,7 @@ import Importer from './components/Importer';
 import ArtistPage from './components/ArtistPage';
 import AlbumPage from './components/AlbumPage';
 import LyricsPage from './components/LyricsPage';
+import HomePage from './components/HomePage';
 
 import './App.css';
 
@@ -12,9 +13,9 @@ function App() {
     <Router>
       <Routes>
         {/* admin */}
+        <Route path="/home" element={<HomePage />} />
         <Route path="/katalog-admin/lyrics/:artistVanity/:trackVanity" element={<LyricsPage />} />
         <Route path="/katalog-admin/importer" element={<Importer />} />
-
         <Route path="/lyrics/:artistVanity/:trackVanity" element={<LyricsPage />} />
         <Route path="/album/:artistVanity/:albumVanity" element={<AlbumPage />} />
         <Route path="/artist/:artistVanity" element={<ArtistPage />} />

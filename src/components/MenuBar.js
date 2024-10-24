@@ -5,7 +5,7 @@ import packageJson from '../../package.json';
 function MenuBar() {
     return (
         <div className="menu-bar">
-            <h1>Katalog <small>v{packageJson.version}-beta</small></h1>
+            <h1><a href='/home'>Katalog <small>v{packageJson.version}-beta</small></a></h1>
         </div>
     );
 }

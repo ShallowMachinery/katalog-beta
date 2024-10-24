@@ -1,0 +1,141 @@
+.home-page-container {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 100px auto 50px auto;
+    background-color: rgba(255, 255, 255, 0.9); /* Slight transparency */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1; /* Ensure this is in front of the background */
+}
+
+.home-page-container header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.home-page-container header h1 {
+    font-size: 2.5em;
+    color: #343a40; /* Darker text color for the heading */
+}
+
+.home-page-container header .search-input {
+    width: 300px;
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ced4da; /* Light border */
+    border-radius: 5px; /* Rounded corners */
+    outline: none;
+}
+
+.home-page-container header .search-input:focus {
+    border-color: #80bdff; /* Change border color on focus */
+}
+
+.home-page-container .search-results {
+    margin-top: 20px;
+    padding: 20px; /* Add padding for better spacing */
+    border: 1px solid #e0e0e0; /* Light border around search results */
+    border-radius: 10px; /* Rounded corners for the search results container */
+    background-color: rgba(255, 255, 255, 0.8); /* Slight transparency */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+}
+
+.home-page-container .search-results h2 {
+    font-size: 2em;
+    color: #495057;
+    margin-bottom: 10px; /* Reduced margin for better spacing */
+}
+
+.home-page-container .search-results .search-results-list {
+    width: 100%; /* Full width of the container */
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    gap: 10px; /* Space between search items */
+}
+
+.home-page-container .search-results .search-results-list .search-result-item {
+    display: flex;
+    align-items: center; /* Center items vertically */
+    padding: 10px; /* Padding inside each item */
+    border: 1px solid #ced4da; /* Light border for each item */
+    border-radius: 10px; /* Rounded corners */
+    background-color: #f8f9fa; /* Light background color for items */
+    transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition for effects */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.home-page-container .search-results .search-results-list .search-result-item:hover {
+    transform: translateY(-5px); /* Lift effect on hover */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
+}
+
+.home-page-container .search-results .search-results-list .search-item-picture {
+    width: 80px; /* Adjusted size */
+    height: 80px; /* Adjusted size */
+    border-radius: 10px; /* Slightly less rounding for image */
+    border: 2px solid #6c757d; /* Light border around image */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    margin-right: 10px; /* Space between image and text */
+}
+
+.home-page-container .search-results .search-results-list .search-item-name {
+    font-size: 1em; /* Font size for item name */
+    color: #212529; /* Darker text color */
+    overflow-wrap: break-word; /* Allow line wrapping */
+    flex: 1; /* Allow text to take available space */
+}
+
+.home-page-container .featured-artists-section {
+    margin-top: 20px;
+}
+
+.home-page-container .featured-artists-section h2 {
+    font-size: 2em;
+    text-align: center;
+    color: #495057; /* Slightly lighter than h1 */
+    margin-bottom: 20px;
+}
+
+.home-page-container .featured-artists-section .artist-list {
+    width: 100%; /* Full width of the container */
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping for the tiles */
+    gap: 20px; /* Space between artist items */
+    justify-content: center; /* Center the tiles horizontally */
+}
+
+.home-page-container .featured-artists-section .artist-list .artist-item {
+    display: flex;
+    flex-direction: column; /* Stack icon and name vertically */
+    align-items: center; /* Center align items */
+    margin: 10px;
+    text-align: center;
+    width: 120px; /* Fixed width for tiles */
+}
+
+.home-page-container .featured-artists-section .artist-list .artist-picture {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    border: 3px solid #6c757d; /* Add border around image */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Add subtle shadow */
+}
+
+.home-page-container .featured-artists-section .artist-list .artist-name {
+    margin-top: 10px;
+    font-size: 1em; /* Font size for artist name */
+    color: #212529; /* Darker text color */
+    overflow-wrap: break-word; /* Allow line wrapping */
+}
+
+.home-page-container footer {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 0.9em;
+    color: #868e96; /* Light gray for footer text */
+}

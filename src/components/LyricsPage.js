@@ -11,6 +11,7 @@ function LyricsPage() {
     const [rawLyrics, setRawLyrics] = useState('');
     const [isEditing, setIsEditing] = useState(false);
     const [newLyrics, setNewLyrics] = useState('');  // This will hold the lyrics for editing
+    const [lyricsInfo, setLyricsInfo] = useState(null);
     const [loading, setLoading] = useState(true); 
     const location = useLocation();
     const isAdmin = location.pathname.includes('/katalog-admin/');
@@ -24,7 +25,6 @@ function LyricsPage() {
                 });
                 const trackData = response.data;
                 setTrackInfo(trackData);
-                console.log(trackData);
 
                 if (trackData) {
                     document.title = `${trackData.artistName} - ${trackData.trackName} lyrics | Katalog`;
@@ -36,10 +36,12 @@ function LyricsPage() {
                 });
                 
                 const fetchedLyrics = lyricsResponse.data.lyrics;
+                const contributorDetails = lyricsResponse.data;
 
                 setLyrics(fetchedLyrics); // Store the raw lyrics for editing
                 setRawLyrics(fetchedLyrics); // Store the raw lyrics for editing
                 setNewLyrics(fetchedLyrics);
+                setLyricsInfo(contributorDetails);
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching track info or lyrics:', error);
@@ -153,6 +155,7 @@ function LyricsPage() {
                 <div className="additional-info">
                     <strong className="info-header">More information</strong>
                     <table className="info-table">
+                        <tbody>
                         <tr>
                             <td>Duration</td>
                             <td>{trackInfo.trackDuration}</td>
@@ -173,6 +176,11 @@ function LyricsPage() {
                             <td>Label</td>
                             <td>{trackInfo.labelName}</td>
                         </tr>
+                        <tr>
+                            <td>Last modified by</td>
+                            <td>{lyricsInfo ? `${lyricsInfo.userName} (${lyricsInfo.firstName} ${lyricsInfo.lastName}) [${lyricsInfo.userType}]` : 'Unknown'}</td>
+                        </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>

@@ -11,7 +11,7 @@ $type = $_GET['type'] ?? null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && $type) {
     // Fetch expiry time for the given type
-    $stmt = $conn->prepare("SELECT expiry_time FROM timers WHERE type = ?");
+    $stmt = $conn->prepare("SELECT `expiry_time` FROM `katalog1`.`timers` WHERE `type` = ?");
     $stmt->bind_param("s", $type);
     $stmt->execute();
     $stmt->bind_result($expiryTime);
@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && $type) {
 
     if ($type) {
         // Store expiry time for the given type
-        $stmt = $conn->prepare("REPLACE INTO timers (type, expiry_time) VALUES (?, ?)");
+        $stmt = $conn->prepare("REPLACE INTO  `katalog1`.`timers` (`type`, `expiry_time`) VALUES (?, ?)");
         $stmt->bind_param("si", $type, $expiryTime);
         if ($stmt->execute()) {
             echo json_encode(['status' => 'success']);

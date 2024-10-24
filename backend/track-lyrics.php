@@ -11,7 +11,13 @@ $artistVanity = $_GET['artistVanity'] ?? '';
 
 $stmt = $conn->prepare("
     SELECT 
-        tl.`lyrics`
+        tl.`lyrics`,
+        tl.`last_contributor_id` AS `lastContributorId`, 
+        u.`user_id` AS `userId`,
+        u.`first_name` AS `firstName`,
+        u.`last_name` AS `lastName`,
+        u.`user_name` AS `userName`,
+        u.`user_type_name` AS `userType`
     FROM 
         `katalog1`.`Track_Lyrics` tl
     JOIN 
@@ -20,6 +26,8 @@ $stmt = $conn->prepare("
         `katalog1`.`Track_Artists` ta ON t.`track_id` = ta.`track_id`
     JOIN 
         `katalog1`.`Artists` a ON ta.`artist_id` = a.`artist_id`
+    JOIN 
+        `katalog1`.`Accounts` u ON tl.`last_contributor_id` = u.`user_id`
     WHERE 
         t.`track_vanity` = ? AND a.`artist_vanity` = ?
     ORDER BY 
