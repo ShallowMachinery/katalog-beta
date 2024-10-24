@@ -14,5 +14,7 @@
 ## v0.2.0
 
 - Added lyrics page (accessible through /lyrics/:artistVanity/:trackVanity)
+- You can add lyrics to the page through adding /katalog-admin/ before lyrics page (e.g. /katalog-admin/lyrics/:artistVanity/:trackVanity)
 - Added artist page (accessible through /artist/:artistVanity/)
 - Moved importer page to /katalog-admin/importer/
+- Timers may not work as intended, but meh
