@@ -1,13 +1,12 @@
 <?php
-header("Access-Control-Allow-Origin: http://localhost:3000");
-header("Access-Control-Allow-Methods: POST, GET");
-header("Access-Control-Allow-Headers: Content-Type");
-header("Content-Type: application/json");
-
 require 'config.php'; 
 
 // Fetch featured artists
-$sql = "SELECT `artist_id`, `artist_name`, `artist_vanity`, `artist_picture_link` FROM `katalog1`.`Artists` WHERE `artist_type` IS NULL ORDER BY RAND() LIMIT 6"; // Adjust the condition as needed
+$sql = "SELECT `artist_id`, `artist_name`, `artist_vanity`, `artist_picture_link`
+FROM `katalog1`.`Artists`
+WHERE `artist_type` IS NULL
+AND `artist_picture_link` IS NOT NULL
+ORDER BY RAND() LIMIT 6";
 
 $result = $conn->query($sql);
 

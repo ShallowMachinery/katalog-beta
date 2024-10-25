@@ -5,7 +5,7 @@ import MenuBar from './MenuBar';
 import './LyricsPage.css';
 
 function LyricsPage() {
-    const { artistVanity, trackVanity } = useParams();
+    const { artistId, trackId } = useParams();
     const [trackInfo, setTrackInfo] = useState(null);
     const [lyrics, setLyrics] = useState('');
     const [rawLyrics, setRawLyrics] = useState('');
@@ -14,18 +14,17 @@ function LyricsPage() {
     const [lyricsInfo, setLyricsInfo] = useState(null);
     const [loading, setLoading] = useState(true);
     const [albums, setAlbums] = useState([]);
+    const [fontSize, setFontSize] = useState('small');
     const location = useLocation();
     const isAdmin = location.pathname.includes('/katalog-admin/');
 
     useEffect(() => {
-
         const fetchAlbums = async (trackId) => {
             try {
                 const response = await axios.get(`http://localhost/katalog/beta/api/get-track-albums.php`, {
                     params: { trackId },
                 });
                 if (response.data.success) {
-                    console.log("Fetch Albums API Response: " + response.data)
                     setAlbums(response.data.albums); // Set albums state
                 } else {
                     console.error('Failed to fetch albums');
@@ -39,7 +38,7 @@ function LyricsPage() {
             try {
                 // Fetch track information based on artistVanity and trackVanity
                 const response = await axios.get(`http://localhost/katalog/beta/api/track-info.php`, {
-                    params: { artistVanity, trackVanity },
+                    params: { artistId, trackId },
                 });
                 const trackData = response.data;
                 setTrackInfo(trackData);
@@ -51,7 +50,7 @@ function LyricsPage() {
 
                 // Fetch lyrics for the track
                 const lyricsResponse = await axios.get(`http://localhost/katalog/beta/api/track-lyrics.php`, {
-                    params: { artistVanity, trackVanity },
+                    params: { artistId, trackId },
                 });
 
                 const fetchedLyrics = lyricsResponse.data.lyrics;
@@ -68,7 +67,7 @@ function LyricsPage() {
             }
         };
         fetchTrackInfo();
-    }, [artistVanity, trackVanity]);
+    }, [artistId, trackId]);
 
     const handleEditClick = () => {
         setIsEditing(true);
@@ -104,13 +103,19 @@ function LyricsPage() {
     const formatTimestamp = (timestamp) => {
         const date = new Date(timestamp);
         const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Manila' };
-        
+
         const formattedDate = date.toLocaleString('en-US', options);
         const [datePart, timePart] = formattedDate.split(', ');
         return `${datePart}, ${timePart}`;
     };
 
     const formattedLyrics = lyrics.replace(/@(.*?)(\n|$)/g, (_, tag) => `<span class="lyrics-tag">${tag.trim().toUpperCase()}</span>\n`);
+
+    const handleFontSizeChange = (size) => {
+        setFontSize(size); // Set the font size based on the button clicked
+    };
+
+    const fontSizeClass = `lyrics ${fontSize}`;
 
     if (loading) {
         return (
@@ -142,7 +147,7 @@ function LyricsPage() {
                     <img src={trackInfo.albumCoverUrl} alt="cover" className="album-cover" />
                     <div className="album-details">
                         <h2 className="track-name">{trackInfo.trackName} {trackInfo.isExplicit === 1 ? <span className="track-explicit">E</span> : ''}</h2>
-                        <Link style={{ textDecoration: 'none' }} to={`/artist/${artistVanity}`}>
+                        <Link style={{ textDecoration: 'none' }} to={`/artist/${trackInfo.artistVanity}`}>
                             <h3 className="artist-name">{trackInfo.artistName}</h3>
                         </Link>
                         <Link style={{ textDecoration: 'none' }} to={`/album/${trackInfo.albumArtistVanity}/${trackInfo.albumVanity}`}>
@@ -155,6 +160,13 @@ function LyricsPage() {
                         </button>
                     }
                 </div>
+
+                {/* <div className="font-size-toggle">
+                    <h3>Font size:</h3>
+                    <button onClick={() => handleFontSizeChange('small')}>Small</button>
+                    <button onClick={() => handleFontSizeChange('normal')}>Normal</button>
+                    <button onClick={() => handleFontSizeChange('big')}>Big</button>
+                </div> */}
 
                 <div className="lyrics-section">
                     <strong className="lyrics-header">Lyrics</strong>
@@ -176,7 +188,7 @@ function LyricsPage() {
                             </div>
                         </div>
                     ) : (
-                        <p className="lyrics" dangerouslySetInnerHTML={{ __html: formattedLyrics ? formattedLyrics : "There's no lyrics for this yet." }}></p>
+                        <p className={fontSizeClass} dangerouslySetInnerHTML={{ __html: formattedLyrics ? formattedLyrics : "There's no lyrics for this yet." }}></p>
                     )}
                 </div>
 

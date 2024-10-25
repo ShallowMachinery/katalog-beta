@@ -1,19 +1,15 @@
 <?php
-header("Access-Control-Allow-Origin: http://localhost:3000");
-header("Access-Control-Allow-Methods: POST, GET");
-header("Access-Control-Allow-Headers: Content-Type");
-header("Content-Type: application/json");
-
 require 'config.php'; 
 
-$artistVanity = $_GET['artistVanity'] ?? '';
-$trackVanity = $_GET['trackVanity'] ?? '';
+$artistId = $_GET['artistId'] ?? '';
+$trackId = $_GET['trackId'] ?? '';
 
 $stmt = $conn->prepare("
     SELECT 
         t.`track_id` AS `trackId`,
         t.`track_name` AS `trackName`,
         t.`track_vanity` AS `trackVanity`,
+        t.`track_main_artist_id` AS `trackMainArtistId`,
         a.`artist_name` AS `artistName`, 
         a.`artist_vanity` AS `artistVanity`, 
         al.`album_id` AS `albumId`,
@@ -49,14 +45,14 @@ $stmt = $conn->prepare("
             FROM `katalog1`.`Tracks` t2
             JOIN `katalog1`.`Track_Artists` ta2 ON t2.`track_id` = ta2.`track_id`
             JOIN `katalog1`.`Artists` a2 ON ta2.`artist_id` = a2.`artist_id`
-            WHERE a2.`artist_vanity` = ?
-            AND t2.`track_vanity` = ?
+            WHERE a2.`artist_id` = ?
+            AND t2.`track_id` = ?
             LIMIT 1
         )
     GROUP BY 
         t.`track_id`, al.`album_id`, ta2.`track_number`, a2.`artist_vanity`;  -- Include a2.`artist_vanity` in GROUP BY
     ");
-$stmt->bind_param("ss", $artistVanity, $trackVanity);
+$stmt->bind_param("ii", $artistId, $trackId);
 $stmt->execute();
 $result = $stmt->get_result();
 $trackInfo = $result->fetch_assoc();

@@ -119,7 +119,7 @@ function HomePage() {
                             <ul className="search-results-list">
                                 {searchResults.tracks.map((track) => (
                                     <li key={track.trackVanity} className="search-result-item">
-                                        <Link to={`/lyrics/${track.mainArtistVanity}/${track.trackVanity}`}>
+                                        <Link to={`/lyrics/${track.mainArtistId}/${track.trackId}`}>
                                         <img src={track.albumCoverUrl || '/assets_public/music-artist.svg'} alt={track.albumName} className="search-item-picture" />
                                         <span className="search-item-name">{track.trackName}<br></br>{track.mainArtistName}</span>
                                         </Link>
@@ -135,7 +135,7 @@ function HomePage() {
                             <ul className="search-results-list">
                                 {searchResults.lyrics.map((lyric) => (
                                     <li key={lyric.lyricId} className="search-result-item">
-                                        <Link to={`/lyrics/${lyric.mainArtistVanity}/${lyric.trackVanity}`}>
+                                        <Link to={`/lyrics/${lyric.mainArtistId}/${lyric.trackId}`}>
                                         <img src={lyric.albumCoverUrl || '/assets_public/music-artist.svg'} alt={lyric.albumName} className="search-item-picture" />
                                         <span className="search-item-name">{lyric.trackName}<br></br>{lyric.mainArtistName}</span>
                                         </Link>
@@ -155,7 +155,7 @@ function HomePage() {
                     {featuredArtists.map((artist) => (
                         <li key={artist.artistVanity} className="artist-item">
                             <Link to={`/artist/${artist.artistVanity}`}>
-                                <img src={artist.artistPictureUrl || '/assets_public/music-artist.svg'} alt={artist.artistName} className="artist-picture" />
+                                <img src={artist.artistPictureUrl || '/assets_public/music-artist.svg'} alt={artist.artistName} className="artist-picture" /><br />
                                 <span className="artist-name">{artist.artistName}</span>
                             </Link>
                         </li>
@@ -164,7 +164,7 @@ function HomePage() {
             </section>
 
             <footer>
-                <p>&copy; 2024 Eleazar Galope</p>
+                <a href="/katalog-admin/tools">&copy; 2024 Eleazar Galope</a>
             </footer>
         </div>
     );

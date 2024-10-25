@@ -101,6 +101,40 @@ body {
     background-color: #457fa0;
 }
 
+.lyrics-page-container .font-size-toggle {
+    display: flex;
+    justify-content: center; /* Center items horizontally */
+    align-items: center; /* Center items vertically */
+}
+
+.lyrics-page-container .font-size-toggle h3 {
+    margin-right: 10px; /* Space between the header and buttons */
+    margin-bottom: 0; /* No bottom margin */
+    font-size: 16px; /* Set a specific font size */
+    font-weight: bold; /* Bold text */
+}
+
+.lyrics-page-container .font-size-toggle button {
+    font-family: "Hind Siliguri", sans-serif;
+    height: 30px; /* Fixed height */
+    margin-top: 10px;
+    border-radius: 10px;
+    margin-right: 10px; /* Space between buttons */
+    padding: 5px 10px; /* Adjusted padding for better fit */
+    cursor: pointer;
+    text-align: center;
+    background-color: #f0f0f0; /* Background color for buttons */
+    border: 1px solid #ccc; /* Border for buttons */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+/* Optional: Hover effect for buttons */
+.lyrics-page-container .font-size-toggle button:hover {
+    background-color: #e0e0e0; /* Darker shade on hover */
+}
+
+
+
 .lyrics-section {
     background-color: #f9f9f9;
     padding: 20px;
@@ -119,6 +153,18 @@ body {
 .lyrics-section .lyrics {
     font-size: 16px;
     margin: 0;
+}
+
+.lyrics-section .lyrics.small {
+    font-size: 16px /* Small font size */
+}
+
+.lyrics-section .lyrics.normal {
+    font-size: 22px /* Normal font size */
+}
+
+.lyrics-section .lyrics.big {
+    font-size: 28px /* Big font size */
 }
 
 .lyrics-section .lyrics .lyrics-tag {

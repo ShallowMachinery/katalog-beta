@@ -21,3 +21,17 @@
     text-decoration: none;
     color: white;
 }
+
+.menu-bar .admin-toggle-button {
+    font-family: "Hind Siliguri", sans-serif;
+    position: absolute;
+    right: 50px;
+    top: 15px;
+    background-color: #3b5272;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    font-size: 12px;
+    cursor: pointer;
+}

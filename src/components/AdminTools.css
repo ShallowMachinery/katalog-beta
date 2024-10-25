@@ -1,0 +1,42 @@
+.admin-tools-container {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 100px auto 50px auto;
+    background-color: rgba(255, 255, 255, 0.9); /* Slight transparency */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1; /* Ensure this is in front of the background */
+}
+
+.admin-tools-title {
+    font-size: 28px; /* Larger font for the title */
+    margin-bottom: 20px; /* Space below the title */
+    text-align: center; /* Center-align the title */
+}
+
+.tool-list {
+    display: flex; /* Flexbox layout for tool entries */
+    flex-direction: column; /* Stack items vertically */
+    gap: 15px; /* Space between tool entries */
+}
+
+.tool-entry {
+    background-color: #f8f9fa; /* Light background for each entry */
+    padding: 15px; /* Padding for better click area */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    text-decoration: none; /* Remove underline */
+    color: #333; /* Dark text color */
+    transition: transform 0.2s; /* Smooth hover effect */
+}
+
+.tool-entry:hover {
+    transform: translateY(-2px); /* Lift effect on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Slightly increase shadow on hover */
+}
+
+.tool-description {
+    font-size: 14px; /* Smaller font for descriptions */
+    color: #666; /* Lighter color for descriptions */
+}

@@ -1,12 +1,6 @@
 <?php
-header("Access-Control-Allow-Origin: http://localhost:3000");
-header("Access-Control-Allow-Methods: POST, GET");
-header("Access-Control-Allow-Headers: Content-Type");
-header("Content-Type: application/json");
+require 'config.php';
 
-require 'config.php'; // Assuming this contains your $conn (mysqli connection)
-
-// Prepare the SQL query to find duplicate artist names
 $sql = "
     SELECT `artist_name`, GROUP_CONCAT(artist_id) AS artist_ids, COUNT(*) AS duplicate_count
     FROM `katalog1`.`artists`

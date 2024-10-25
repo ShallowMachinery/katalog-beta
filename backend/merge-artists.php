@@ -1,10 +1,5 @@
 <?php
-header("Access-Control-Allow-Origin: http://localhost:3000");
-header("Access-Control-Allow-Methods: POST, GET");
-header("Access-Control-Allow-Headers: Content-Type");
-header("Content-Type: application/json");
-
-require 'config.php'; // Assuming this contains your $conn (mysqli connection)
+require 'config.php';
 
 // Get the JSON input
 $data = json_decode(file_get_contents("php://input"), true);

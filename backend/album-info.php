@@ -1,9 +1,4 @@
 <?php
-header("Access-Control-Allow-Origin: http://localhost:3000");
-header("Access-Control-Allow-Methods: POST, GET");
-header("Access-Control-Allow-Headers: Content-Type");
-header("Content-Type: application/json");
-
 require 'config.php'; 
 
 $albumVanity = $_GET['albumVanity'] ?? '';
@@ -23,6 +18,7 @@ $stmt = $conn->prepare("
         al.`release_date` AS `releaseDate`,
         al.`release_type` AS `albumType`, 
         al.`album_cover_url` AS `albumCoverUrl`,
+        a.`artist_id` AS `artistId`,
         a.`artist_name` AS `artistName`,
         a.`artist_vanity` AS `artistVanity`
     FROM 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import MenuBar from './MenuBar';
+import MenuBar from '../MenuBar';
 import axios from 'axios';
 import './ResolveDuplicateArtists.css';
 

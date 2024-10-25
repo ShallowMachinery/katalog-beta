@@ -1,9 +1,4 @@
 <?php
-header("Access-Control-Allow-Origin: http://localhost:3000");
-header("Access-Control-Allow-Methods: POST, GET");
-header("Access-Control-Allow-Headers: Content-Type");
-header("Content-Type: application/json");
-
 require 'config.php'; 
 
 $albumVanity = $_GET['albumVanity'] ?? '';
@@ -14,6 +9,7 @@ SELECT
     t.`track_id` AS `trackId`,
     t.`track_name` AS `trackName`,
     t.`track_vanity` AS `trackVanity`,
+    t.`track_main_artist_id` AS `trackMainArtistId`,
     a.`artist_name` AS `artistName`, 
     a.`artist_vanity` AS `artistVanity`,
     al.`album_id` AS `albumId`,

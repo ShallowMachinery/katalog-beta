@@ -8,6 +8,7 @@ function AlbumPage() {
     const { albumVanity, artistVanity } = useParams();
     const [albumInfo, setAlbumInfo] = useState(null);
     const [tracks, setTracks] = useState([]);
+    const [moreAlbums, setMoreAlbums] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -16,19 +17,25 @@ function AlbumPage() {
                 const response = await axios.get(`http://localhost/katalog/beta/api/album-info.php`, {
                     params: { albumVanity, artistVanity },
                 });
-    
+
                 const albumData = response.data;
+                console.log(albumData);
                 setAlbumInfo(albumData);
-    
+
                 if (albumData && albumData.status !== 'error') {
                     document.title = `${albumData.albumName} album by ${albumData.artistName} | Katalog`;
                 }
-    
+
                 // Fetch tracks in the album
                 const tracksResponse = await axios.get(`http://localhost/katalog/beta/api/album-tracks.php`, {
                     params: { albumVanity, artistVanity },
                 });
                 setTracks(tracksResponse.data.tracks);
+
+                const moreAlbumsResponse = await axios.get(`http://localhost/katalog/beta/api/artist-albums.php`, {
+                    params: { artistVanity },
+                });
+                setMoreAlbums(moreAlbumsResponse.data.albums);
             } catch (error) {
                 if (error.response && error.response.status === 404) {
                     setAlbumInfo(null); // Trigger the "This album doesn't exist" message
@@ -47,6 +54,14 @@ function AlbumPage() {
             month: 'long',
             day: 'numeric',
         });
+    }
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
     }
 
     if (loading) {
@@ -95,7 +110,7 @@ function AlbumPage() {
                             <div key={track.trackId} className="track-list-item">
                                 <span className="track-number">{track.trackNumber}</span>
                                 <div className="track-info">
-                                    <Link to={`/lyrics/${track.artistVanity}/${track.trackVanity}`}>
+                                    <Link to={`/lyrics/${track.trackMainArtistId}/${track.trackId}`}>
                                         {track.trackName}
                                     </Link><br />
                                     <small>{track.artistName}</small>
@@ -105,6 +120,29 @@ function AlbumPage() {
                         ))}
                     </ul>
                 </div>
+
+                <div className="more-albums-section">
+                    {/* Check if the artist has more than one album */}
+                    {moreAlbums.length > 1 && (
+                        <>
+                            <h2>More Albums by {albumInfo.artistName}</h2>
+                            <ul className="more-albums-list">
+                                {shuffleArray(moreAlbums)
+                                    .filter(album => album.albumId !== albumInfo.albumId) // Exclude the current album
+                                    .slice(0, 6) // Limit to 6 albums
+                                    .map(album => (
+                                        <li key={album.albumId} className="more-album-item">
+                                            <Link to={`/album/${artistVanity}/${album.albumVanity}`}>
+                                                <img src={album.albumCoverUrl} alt={album.albumName} className="more-album-cover" />
+                                                <span>{album.albumName}</span>
+                                            </Link>
+                                        </li>
+                                    ))}
+                            </ul>
+                        </>
+                    )}
+                </div>
+
             </div>
         </div>
     );

@@ -13,6 +13,7 @@ SELECT
     t.`track_id` AS `trackId`,
     t.`track_name` AS `trackName`,
     t.`track_vanity` AS `trackVanity`,
+    t.`track_main_artist_id` AS `trackMainArtistId`,
     MIN(al.`album_cover_url`) AS `albumCoverUrl`,
     a2.`artist_vanity` AS `artistVanity`,
     a.`artist_name` AS `artistName`

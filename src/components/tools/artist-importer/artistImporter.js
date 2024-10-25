@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './artistImporter.css';
-import { getSpotifyAccessToken } from '../spotifyAuth';
+import { getSpotifyAccessToken } from '../../spotifyAuth';
 
 function ArtistImporter() {
     const [spotifyArtistId, setSpotifyArtistId] = useState('');

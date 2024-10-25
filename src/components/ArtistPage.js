@@ -165,7 +165,7 @@ function ArtistPage() {
                                     <div className="track-list-div" key={`${track.trackId}-${index}`}>
                                         <img src={track.albumCoverUrl} alt={track.albumName} className="track-album-cover" />
                                         <div className="track-list-info">
-                                            <a href={`/lyrics/${track.artistVanity}/${track.trackVanity}`}>{track.trackName}</a>
+                                            <a href={`/lyrics/${track.trackMainArtistId}/${track.trackId}`}>{track.trackName}</a>
                                             <small>{track.artistName}</small>
                                         </div>
                                     </div>

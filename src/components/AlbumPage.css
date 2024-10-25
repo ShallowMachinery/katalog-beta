@@ -125,3 +125,32 @@
     color: #777;
 }
 
+.album-page-container .more-albums-section .more-albums-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+}
+
+.album-page-container .more-albums-section .more-albums-list .more-album-item {
+    width: 150px;
+    text-align: center;
+    word-break: break-word;
+}
+
+.album-page-container .more-albums-section .more-album-cover {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+}
+
+.album-page-container .more-albums-section .more-albums-list a {
+    text-decoration: none;
+    color: #4d6d9a;
+}
+
+.album-page-container .more-albums-section .more-albums-list a:hover {
+    text-decoration: none;
+}

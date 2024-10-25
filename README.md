@@ -33,3 +33,11 @@
 - Added artist merger for duplicate artist entries, accessible through /katalog-admin/tools/artist-merger
 - Display what albums the track is listed on at the bottom of the page
 - Added artist Spotify link to their artist page
+
+## v0.3.0
+
+- Changed redirection rules for lyric pages, it will use artistIds and trackIds instead of their vanities (this will leave trackVanity obsolete for now, but maybe it will soon be of use)
+- Added temporary button to toggle admin view at the rightmost of the menu bar
+- Added admin tools page, accessible by clicking the home page's footer
+- Added font size toggler in lyrics, but commented out for now
+- Add other albums of the artists in their album pages
