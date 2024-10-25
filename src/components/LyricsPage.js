@@ -12,11 +12,29 @@ function LyricsPage() {
     const [isEditing, setIsEditing] = useState(false);
     const [newLyrics, setNewLyrics] = useState('');  // This will hold the lyrics for editing
     const [lyricsInfo, setLyricsInfo] = useState(null);
-    const [loading, setLoading] = useState(true); 
+    const [loading, setLoading] = useState(true);
+    const [albums, setAlbums] = useState([]);
     const location = useLocation();
     const isAdmin = location.pathname.includes('/katalog-admin/');
 
     useEffect(() => {
+
+        const fetchAlbums = async (trackId) => {
+            try {
+                const response = await axios.get(`http://localhost/katalog/beta/api/get-track-albums.php`, {
+                    params: { trackId },
+                });
+                if (response.data.success) {
+                    console.log("Fetch Albums API Response: " + response.data)
+                    setAlbums(response.data.albums); // Set albums state
+                } else {
+                    console.error('Failed to fetch albums');
+                }
+            } catch (error) {
+                console.error('Error fetching albums:', error);
+            }
+        };
+
         const fetchTrackInfo = async () => {
             try {
                 // Fetch track information based on artistVanity and trackVanity
@@ -28,13 +46,14 @@ function LyricsPage() {
 
                 if (trackData) {
                     document.title = `${trackData.artistName} - ${trackData.trackName} lyrics | Katalog`;
+                    await fetchAlbums(trackData.trackId);
                 }
 
                 // Fetch lyrics for the track
                 const lyricsResponse = await axios.get(`http://localhost/katalog/beta/api/track-lyrics.php`, {
                     params: { artistVanity, trackVanity },
                 });
-                
+
                 const fetchedLyrics = lyricsResponse.data.lyrics;
                 const contributorDetails = lyricsResponse.data;
 
@@ -80,6 +99,15 @@ function LyricsPage() {
             setIsEditing(false); // Exit editing mode without saving
             setNewLyrics(rawLyrics); // Reset newLyrics to the raw lyrics
         }
+    };
+
+    const formatTimestamp = (timestamp) => {
+        const date = new Date(timestamp);
+        const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Manila' };
+        
+        const formattedDate = date.toLocaleString('en-US', options);
+        const [datePart, timePart] = formattedDate.split(', ');
+        return `${datePart}, ${timePart}`;
     };
 
     const formattedLyrics = lyrics.replace(/@(.*?)(\n|$)/g, (_, tag) => `<span class="lyrics-tag">${tag.trim().toUpperCase()}</span>\n`);
@@ -153,35 +181,62 @@ function LyricsPage() {
                 </div>
 
                 <div className="additional-info">
-                    <strong className="info-header">More information</strong>
-                    <table className="info-table">
-                        <tbody>
-                        <tr>
-                            <td>Duration</td>
-                            <td>{trackInfo.trackDuration}</td>
-                        </tr>
-                        <tr>
-                            <td>Release date</td>
-                            <td>{new Date(trackInfo.releaseDate).toLocaleDateString('en-US', {
-                                year: 'numeric',
-                                month: 'long',
-                                day: 'numeric',
-                            })}</td>
-                        </tr>
-                        <tr>
-                            <td>ISRC</td>
-                            <td>{trackInfo.isrc}</td>
-                        </tr>
-                        <tr>
-                            <td>Label</td>
-                            <td>{trackInfo.labelName}</td>
-                        </tr>
-                        <tr>
-                            <td>Last modified by</td>
-                            <td>{lyricsInfo ? `${lyricsInfo.userName} (${lyricsInfo.firstName} ${lyricsInfo.lastName}) [${lyricsInfo.userType}]` : 'Unknown'}</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div className="more-information">
+                        <strong className="info-header">More information</strong>
+                        <table className="info-table">
+                            <tbody>
+                                <tr>
+                                    <td>Duration</td>
+                                    <td>{trackInfo.trackDuration}</td>
+                                </tr>
+                                <tr>
+                                    <td>Release date</td>
+                                    <td>{new Date(trackInfo.releaseDate).toLocaleDateString('en-US', {
+                                        year: 'numeric',
+                                        month: 'long',
+                                        day: 'numeric',
+                                    })}</td>
+                                </tr>
+                                <tr>
+                                    <td>ISRC</td>
+                                    <td>{trackInfo.isrc}</td>
+                                </tr>
+                                <tr>
+                                    <td>Label</td>
+                                    <td>{trackInfo.labelName}</td>
+                                </tr>
+                                <tr>
+                                    <td>Last modified by</td>
+                                    <td>{lyricsInfo ? `${lyricsInfo.userName} (${lyricsInfo.firstName} ${lyricsInfo.lastName}) [${lyricsInfo.userType}]` : 'Unknown'}</td>
+                                </tr>
+                                <tr>
+                                    <td>Last updated at</td>
+                                    <td>{lyricsInfo.lyrics ? formatTimestamp(lyricsInfo.updateTimestamp) : 'Never'}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className="track-albums">
+                        <strong className="track-album-header">Albums where this track is listed</strong>
+                        {albums.length > 0 ? (
+                            <div>
+                                {albums.map((album) => (
+                                    <div key={album.album_id} className="album-entry">
+                                        <Link to={`/album/${album.artist_vanity}/${album.album_vanity}`} className="album-link">
+                                            <img src={album.album_cover_url} alt={`${album.album_name} cover`} className="album-cover" />
+                                            <div className="album-details">
+                                                <p className="album-name">{album.album_name}</p>
+                                                <p className="track-number">Track {album.track_number}</p>
+                                            </div>
+                                        </Link>
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <p>No albums found for this track.</p>
+                        )}
+                    </div>
+
                 </div>
             </div>
 

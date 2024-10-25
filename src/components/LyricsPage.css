@@ -176,26 +176,27 @@ body {
     line-height: 1.6;
     color: #333;
     margin-top: 20px;
+    display: flex;
 }
 
-.additional-info .info-header {
+.additional-info .more-information .info-header {
     font-size: 20px;
     margin-bottom: 15px;
 }
 
-.additional-info .info-table {
+.additional-info .more-information .info-table {
     margin-top: 10px;
     margin-left: 0;
     width: 100%; /* Ensures the table takes full width */
     font-size: 15px; /* Slightly bigger font for clarity */
 }
 
-.additional-info .info-table td {
+.additional-info .more-information .info-table td {
     padding: 8px 0; /* Adds vertical space between rows */
     vertical-align: top; /* Ensures consistent text alignment */
 }
 
-.additional-info .info-table td:first-child {
+.additional-info .more-information .info-table td:first-child {
     font-weight: bold;
     color: #444; /* Slightly darker text for labels */
     padding-right: 50px; /* Reduces the space between label and value */
@@ -203,7 +204,58 @@ body {
     white-space: nowrap; /* Prevents text from wrapping in the first column */
 }
 
-.additional-info .info-table td:last-child {
+.additional-info .more-information .info-table td:last-child {
     text-align: left;
     color: #666; /* Lighter shade for the info */
+}
+
+.additional-info .track-albums .track-album-header {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.additional-info .track-albums .album-entry {
+    display: flex; /* Aligns items in a row */
+    align-items: center; /* Vertically centers the items */
+    margin-bottom: 15px; /* Space between album entries */
+    border: 1px solid #ddd; /* Light gray border for separation */
+    border-radius: 8px; /* Rounded corners */
+    padding: 10px; /* Padding around each album entry */
+    transition: transform 0.5s; /* Animation effect for hover */
+}
+
+.additional-info .track-albums .album-entry:hover {
+    border-color: #cde5ff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Adds shadow effect on hover */
+}
+
+.additional-info .track-albums .album-link {
+    text-decoration: none; /* Removes underline from links */
+    color: inherit; /* Inherits the text color */
+    display: flex; /* Allows for easy layout */
+    align-items: center; /* Vertically centers the content */
+}
+
+.additional-info .track-albums .album-cover {
+    width: 50px; /* Fixed width for album cover */
+    height: 50px; /* Fixed height for album cover */
+    border-radius: 5px; /* Rounded corners for album cover */
+    object-fit: cover; /* Ensures the image covers the container */
+    margin-right: 10px; /* Space between image and text */
+}
+
+.additional-info .track-albums .album-details {
+    display: flex;
+    flex-direction: column; /* Stacks album name and track number vertically */
+}
+
+.additional-info .track-albums .album-name {
+    font-weight: bold; /* Makes the album name bold */
+    margin: 0; /* Removes default margin */
+}
+
+.additional-info .track-albums .track-number {
+    color: #555; /* Darker gray for track number */
+    margin: 0; /* Removes default margin */
+    font-size: 0.9em; /* Smaller font size for track number */
 }

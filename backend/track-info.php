@@ -13,7 +13,9 @@ $stmt = $conn->prepare("
     SELECT 
         t.`track_id` AS `trackId`,
         t.`track_name` AS `trackName`,
+        t.`track_vanity` AS `trackVanity`,
         a.`artist_name` AS `artistName`, 
+        a.`artist_vanity` AS `artistVanity`, 
         al.`album_id` AS `albumId`,
         al.`album_name` AS `albumName`,
         al.`album_cover_url` AS `albumCoverUrl`,
@@ -30,7 +32,7 @@ $stmt = $conn->prepare("
     JOIN 
         `katalog1`.`Track_Artists` ta ON t.`track_id` = ta.`track_id`
     JOIN 
-        `katalog1`.`Artists` a ON ta.`artist_id` = a.`artist_id`
+        `katalog1`.`Artists` a ON t.`track_main_artist_id` = a.`artist_id`
     JOIN 
         `katalog1`.`Track_Albums` ta2 ON t.`track_id` = ta2.`track_id`
     JOIN 

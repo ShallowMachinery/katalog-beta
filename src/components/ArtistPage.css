@@ -38,10 +38,20 @@
     object-fit: cover;
 }
 
-.artist-page-container .artist-info .artist-name {
+.artist-page-container .artist-info .artist-details {
+    text-align: left;
+}
+
+.artist-page-container .artist-info .artist-details .artist-name {
     font-size: 25px;
     margin: 0;
     color: #333;
+}
+
+.artist-page-container .artist-info .artist-details .spotify-icon {
+    margin-top: 5px;
+    color: #1DB954; /* Spotify green color */
+    font-size: 20px; /* Adjust size as needed */
 }
 
 .albums-section, .tracks-section {

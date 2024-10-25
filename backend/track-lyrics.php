@@ -13,6 +13,7 @@ $stmt = $conn->prepare("
     SELECT 
         tl.`lyrics`,
         tl.`last_contributor_id` AS `lastContributorId`, 
+        tl.`updated_at` AS `updateTimestamp`,
         u.`user_id` AS `userId`,
         u.`first_name` AS `firstName`,
         u.`last_name` AS `lastName`,

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import MenuBar from './MenuBar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpotify } from '@fortawesome/free-brands-svg-icons';
 import './ArtistPage.css';
 
 function ArtistPage() {
@@ -76,28 +78,6 @@ function ArtistPage() {
         );
     }
 
-    // const renderArtists = (artists) => {
-    //     if (!artists || typeof artists !== 'string') {
-    //         return 'No artists available';
-    //     }
-
-    //     const artistPairs = artists.split('@'); // Split by the main separator '@'
-    //     const artistArray = [];
-
-    //     for (let i = 0; i < artistPairs.length; i += 2) {
-    //         const name = artistPairs[i];
-    //         const vanity = artistPairs[i + 1];
-    //         artistArray.push({ name, vanity });
-    //     }
-
-    //     return artistArray.map((artist, index) => (
-    //         <React.Fragment key={`${artist.vanity}-${index}`}>
-    //             <Link to={`/artist/${artist.vanity}`}>{artist.name}</Link>
-    //             {index < artistArray.length - 1 && ', '}
-    //         </React.Fragment>
-    //     ));
-    // };
-
     function formatAlbumType(albumType) {
         switch (albumType) {
             case 'ep':
@@ -133,7 +113,17 @@ function ArtistPage() {
                         alt="artist"
                         className="artist-picture"
                     />
-                    <h1 className="artist-name">{artistInfo.artistName}</h1>
+                    <div className="artist-details">
+                        <h1 className="artist-name">{artistInfo.artistName}</h1>
+                        {artistInfo.artistSpotifyId && (
+                            <span className="artist-spotify-link">
+                                <a href={`https://open.spotify.com/artist/${artistInfo.artistSpotifyId}`} target="_blank" rel="noopener noreferrer">
+                                    <FontAwesomeIcon icon={faSpotify} className="spotify-icon" />
+                                </a>
+                            </span>
+                        )}
+                    </div>
+
                 </div>
                 <div className="albums-section">
                     <h3 onClick={() => setShowAlbums(!showAlbums)} className="toggle-header">
