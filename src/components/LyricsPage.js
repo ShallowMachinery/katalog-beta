@@ -217,12 +217,13 @@ function LyricsPage() {
                             </div>
                         </div>
                     ) : (
-                        <p className={fontSizeClass}>
-                            {isInstrumental
-                                ? "This song is instrumental."
-                                : (formattedLyrics ? formattedLyrics : "There's no lyrics for this yet.")
-                            }
-                        </p>
+                        <div className={fontSizeClass}>
+                            {isInstrumental ? (
+                                <p>This song is instrumental.</p>
+                            ) : (
+                                <p dangerouslySetInnerHTML={{ __html: formattedLyrics || "There's no lyrics for this yet." }} />
+                            )}
+                        </div>
                     )}
                 </div>
 

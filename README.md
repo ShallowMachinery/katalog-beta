@@ -49,3 +49,7 @@
 - Added track merger for duplicate track entries, accessible through /katalog-admin/tools/track-merger
 - Added option to view all ISRCs in track information
 - Added the disc indicator in the tracklist for multi-disc albums in the album tracks page
+
+## v0.4.0a
+
+- Fixed a bug where lyric tags are not showing correctly
