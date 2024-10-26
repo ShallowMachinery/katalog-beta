@@ -40,4 +40,12 @@
 - Added temporary button to toggle admin view at the rightmost of the menu bar
 - Added admin tools page, accessible by clicking the home page's footer
 - Added font size toggler in lyrics, but commented out for now
-- Add other albums of the artists in their album pages
+- Added other albums of the artists in their album pages
+
+## v0.4.0
+
+- Changed favicon.ico for the website
+- Added function to mark lyrics as instrumental
+- Added track merger for duplicate track entries, accessible through /katalog-admin/tools/track-merger
+- Added option to view all ISRCs in track information
+- Added the disc indicator in the tracklist for multi-disc albums in the album tracks page

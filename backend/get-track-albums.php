@@ -4,7 +4,7 @@ require 'config.php';
 $trackId = $_GET['trackId'];
 
 // Prepare the SQL query to fetch album details
-$sql = "SELECT a.`album_id`, a.`album_name`, a.`album_vanity`, a.`album_cover_url`, ta.`track_number`, ar.`artist_id`, art.`artist_name`, art.`artist_vanity`
+$sql = "SELECT a.`album_id`, a.`album_name`, a.`album_vanity`, a.`album_cover_url`, ta.`track_number`, ta.`disc_number`, ar.`artist_id`, art.`artist_name`, art.`artist_vanity`
 FROM `katalog1`.`track_albums` ta 
 JOIN `katalog1`.`albums` a ON ta.`album_id` = a.`album_id` 
 JOIN `katalog1`.`album_artists` ar ON a.`album_id` = ar.`album_id` 

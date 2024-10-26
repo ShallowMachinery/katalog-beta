@@ -70,7 +70,7 @@ function ResolveDuplicateArtists() {
             ) : (
                 duplicateArtists.length > 0 ? (
                     <div className="artist-duplicates-list">
-                        <h3>Duplicate Artists Found:</h3>
+                        <h3>Duplicate artists found ({duplicateArtists.length}):</h3>
                         <table>
                             <thead>
                                 <tr>
@@ -86,13 +86,13 @@ function ResolveDuplicateArtists() {
                                         <tr>
                                             <td>
                                                 {artist.artist_name}
-                                                <button onClick={() => toggleExpandRow(artist.artist_name)}>
+                                                <button className="artist-details-button" onClick={() => toggleExpandRow(artist.artist_name)}>
                                                     {expandedRows.includes(artist.artist_name) ? 'Hide' : 'Show'} Details
                                                 </button>
                                             </td>
                                             <td>{artist.duplicate_count}</td>
                                             <td>
-                                                <button onClick={() => handleMerge(artist.artist_ids)}>
+                                                <button className="merge-button" onClick={() => handleMerge(artist.artist_ids)}>
                                                     Merge
                                                 </button>
                                             </td>

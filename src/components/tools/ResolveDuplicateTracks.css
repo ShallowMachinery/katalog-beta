@@ -14,7 +14,7 @@
     margin-bottom: 20px;
 }
 
-.resolve-duplicates-page .artist-duplicates-list {
+.track-duplicates-list {
     margin-top: 20px;
     padding: 20px;
     background-color: rgba(255, 255, 255, 0.8);
@@ -22,42 +22,35 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.resolve-duplicates-page .artist-duplicates-list table {
-    width: 100%; /* Ensure table takes full width */
-    border-collapse: collapse; /* Remove gaps between table cells */
+.track-duplicates-list table {
+    width: 100%;
+    border-collapse: collapse;
     margin-top: 20px;
 }
 
-.resolve-duplicates-page .artist-duplicates-list table th, 
-.resolve-duplicates-page .artist-duplicates-list table td {
+.track-duplicates-list table th,
+.track-duplicates-list table td {
     padding: 10px;
     border: 1px solid #ced4da;
     text-align: left;
 }
 
-.resolve-duplicates-page .artist-duplicates-list table th {
+.track-duplicates-list table th {
     background-color: #f8f9fa;
     font-weight: bold;
     color: #495057;
 }
 
-.resolve-duplicates-page .artist-duplicates-list table td {
+.track-duplicates-list table td {
     background-color: #ffffff;
     color: #212529;
 }
 
-.resolve-duplicates-page .artist-duplicates-list table td .artist-details-button {
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-left: 8px;
+.track-duplicates-list table td .details {
+    margin-left: 10px;
 }
 
-.resolve-duplicates-page .artist-duplicates-list table td .merge-button {
+.track-duplicates-list table td button {
     padding: 5px 10px;
     border: none;
     border-radius: 5px;
@@ -67,12 +60,12 @@
     transition: background-color 0.3s ease;
 }
 
-.resolve-duplicates-page .artist-duplicates-list table td button:hover {
+.track-duplicates-list table td button:hover {
     background-color: #0056b3;
 }
 
-/* Styling for the expanded artist details */
-.resolve-duplicates-page .artist-duplicates-list table .artist-details {
+/* Styling for the expanded track details */
+.track-duplicates-list .track-details {
     background-color: #f9f9f9;
     padding: 10px;
     margin-top: 10px;
@@ -80,20 +73,20 @@
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-.resolve-duplicates-page .artist-duplicates-list table .artist-details h4 {
+.track-duplicates-list .track-details h4 {
     margin-top: 0;
 }
 
-.resolve-duplicates-page .artist-duplicates-list table .artist-details ul {
+.track-duplicates-list .track-details ul {
     list-style: none;
     padding-left: 0;
 }
 
-.resolve-duplicates-page .artist-duplicates-list table .artist-details li {
+.track-duplicates-list .track-details li {
     margin-bottom: 10px;
 }
 
-.resolve-duplicates-page .error-message {
+.error-message {
     color: red;
     text-align: center;
 }

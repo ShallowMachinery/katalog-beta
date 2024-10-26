@@ -11,11 +11,15 @@ function AdminTools() {
             <div className="tool-list">
                 <Link to={`/katalog-admin/tools/importer`} className="tool-entry">
                     <h4>Importer</h4>
-                    <span className="tool-description">Import albums or artists to the database</span>
+                    <span className="tool-description">Import albums or artists to the database from Spotify API</span>
                 </Link>
                 <Link to={`/katalog-admin/tools/artist-merger`} className="tool-entry">
                     <h4>Artist Merger</h4>
-                    <span className="tool-description">Merge artists</span>
+                    <span className="tool-description">Resolve duplicate artist entries</span>
+                </Link>
+                <Link to={`/katalog-admin/tools/track-merger`} className="tool-entry">
+                    <h4>Track Merger</h4>
+                    <span className="tool-description">Resolve duplicate track entries</span>
                 </Link>
             </div>
         </div>

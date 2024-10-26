@@ -425,7 +425,7 @@ function addTracktoTables($conn, $albumTrack, $trackArtistIds, $albumId)
 
     $trackVanity = generateVanityUrl($conn, $trackName, $trackArtistIds[0], 'track');
 
-    $stmt = $conn->prepare("INSERT INTO `Tracks` (`track_name`, `track_vanity`, `track_number`,  `disc_number`, `track_main_artist_id`, `explicit`, `duration`, `contributor_id`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO `Tracks` (`track_name`, `track_vanity`, `track_number`, `disc_number`, `track_main_artist_id`, `explicit`, `duration`, `contributor_id`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("ssiiissi", $trackName, $trackVanity, $trackNumber, $trackDiscNumber, $trackMainArtistId, $trackExplicit, $trackDuration, $contributorId);
     if (!$stmt->execute())
         throw new Exception($stmt->error);
@@ -433,7 +433,7 @@ function addTracktoTables($conn, $albumTrack, $trackArtistIds, $albumId)
     $stmt->close();
 
     addTrackArtistIdToTrackArtistsTable($conn, $trackArtistIds, $trackId);
-    addTrackAlbumIdToTrackAlbumsTable($conn, $trackId, $albumId, $trackNumber);
+    addTrackAlbumIdToTrackAlbumsTable($conn, $trackId, $albumId, $trackNumber, $trackDiscNumber);
     addTrackLyricsIdToTrackLyricsTable($conn, $trackId, $contributorId);
     addTrackExternalIdsToTrackExternalIdsTable($conn, $trackId, $trackISRC, $trackUPC, $trackEAN);
     addTrackSpotifyIdsToTrackSpotifyIdsTable($conn, $trackId, $trackSpotifyId);
@@ -453,10 +453,10 @@ function addTrackArtistIdToTrackArtistsTable($conn, $trackArtistIds, $trackId)
 
 }
 
-function addTrackAlbumIdToTrackAlbumsTable($conn, $trackId, $albumId, $trackNumber)
+function addTrackAlbumIdToTrackAlbumsTable($conn, $trackId, $albumId, $trackNumber, $discNumber)
 {
-    $stmt = $conn->prepare("INSERT INTO `Track_Albums` (`track_id`, `album_id`, `track_number`) VALUES (?, ?, ?)");
-    $stmt->bind_param("iii", $trackId, $albumId, $trackNumber);
+    $stmt = $conn->prepare("INSERT INTO `Track_Albums` (`track_id`, `album_id`, `track_number`, `disc_number`) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("iiii", $trackId, $albumId, $trackNumber, $discNumber);
     if (!$stmt->execute())
         throw new Exception($stmt->error);
     $stmt->close();
@@ -493,13 +493,14 @@ function addTrackSpotifyIdsToTrackSpotifyIdsTable($conn, $trackId, $trackSpotify
 function updateTrackToTables($conn, $albumTrack, $trackId, $trackArtistIds, $albumId)
 {
     $trackNumber = $albumTrack['track_number'];
+    $trackDiscNumber = $albumTrack['disc_number'];
     $trackISRC = $albumTrack['isrc'];
     $trackUPC = $albumTrack['upc'];
     $trackEAN = $albumTrack['ean'];
     $trackSpotifyId = $albumTrack['track_id'];
 
     addTrackArtistIdToTrackArtistsTable($conn, $trackArtistIds, $trackId);
-    addTrackAlbumIdToTrackAlbumsTable($conn, $trackId, $albumId, $trackNumber);
+    addTrackAlbumIdToTrackAlbumsTable($conn, $trackId, $albumId, $trackNumber, $trackDiscNumber);
     addTrackExternalIdsToTrackExternalIdsTable($conn, $trackId, $trackISRC, $trackUPC, $trackEAN);
     addTrackSpotifyIdsToTrackSpotifyIdsTable($conn, $trackId, $trackSpotifyId);
 }

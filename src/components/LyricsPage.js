@@ -12,11 +12,14 @@ function LyricsPage() {
     const [isEditing, setIsEditing] = useState(false);
     const [newLyrics, setNewLyrics] = useState('');  // This will hold the lyrics for editing
     const [lyricsInfo, setLyricsInfo] = useState(null);
+    const [isInstrumental, setIsInstrumental] = useState(false);
     const [loading, setLoading] = useState(true);
     const [albums, setAlbums] = useState([]);
     const [fontSize, setFontSize] = useState('small');
     const location = useLocation();
     const isAdmin = location.pathname.includes('/katalog-admin/');
+    const [isrcsVisible, setIsrcsVisible] = useState(false); // State to control visibility of ISRCs
+    const [isrcs, setIsrcs] = useState([]); // State to hold ISRCs
 
     useEffect(() => {
         const fetchAlbums = async (trackId) => {
@@ -42,6 +45,8 @@ function LyricsPage() {
                 });
                 const trackData = response.data;
                 setTrackInfo(trackData);
+                setIsInstrumental(trackData.isInstrumental);
+                setIsrcs(trackData.isrc.split(', '));
 
                 if (trackData) {
                     document.title = `${trackData.artistName} - ${trackData.trackName} lyrics | Katalog`;
@@ -100,6 +105,18 @@ function LyricsPage() {
         }
     };
 
+    const handleInstrumentalChange = () => {
+        if (!isInstrumental) {
+            if (window.confirm('Are you sure to mark this song as instrumental?')) {
+                setIsInstrumental(true);
+                setNewLyrics('@INSTRUMENTAL');
+            }
+        } else {
+            setIsInstrumental(false);
+            setNewLyrics(rawLyrics);
+        }
+    };
+
     const formatTimestamp = (timestamp) => {
         const date = new Date(timestamp);
         const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Manila' };
@@ -151,14 +168,14 @@ function LyricsPage() {
                             <h3 className="artist-name">{trackInfo.artistName}</h3>
                         </Link>
                         <Link style={{ textDecoration: 'none' }} to={`/album/${trackInfo.albumArtistVanity}/${trackInfo.albumVanity}`}>
-                            <p className="album-name">Track {trackInfo.trackNumber} on <strong>{trackInfo.albumName}</strong> · {new Date(trackInfo.releaseDate).getFullYear()}</p>
+                            <p className="album-name" title={`Disc #${trackInfo.discNumber}`}>Track {trackInfo.trackNumber} on <strong>{trackInfo.albumName}</strong> · {new Date(trackInfo.releaseDate).getFullYear()}</p>
                         </Link>
                     </div>
-                    {isAdmin &&
+                    {isAdmin && !isEditing && (
                         <button className="edit-lyrics-button" onClick={handleEditClick}>
                             {lyrics ? 'Edit lyrics' : 'Add lyrics'}
                         </button>
-                    }
+                    )}
                 </div>
 
                 {/* <div className="font-size-toggle">
@@ -177,18 +194,35 @@ function LyricsPage() {
                                 value={newLyrics} // Use newLyrics state for textarea value
                                 onChange={handleLyricsChange}
                                 rows="10"
+                                disabled={isInstrumental}
                             />
-                            <div className="lyrics-buttons">
-                                <button className="save-lyrics-button" onClick={handleSaveClick}>
-                                    Save
-                                </button>
-                                <button className="cancel-lyrics-button" onClick={handleCancelClick}>
-                                    Cancel
-                                </button>
+                            <div className="lyrics-options">
+                                <label className="instrumental-label">
+                                    <input
+                                        type="checkbox"
+                                        checked={isInstrumental}
+                                        onChange={handleInstrumentalChange}
+                                    />
+                                    <div className="custom-checkbox"></div>
+                                    Mark as instrumental
+                                </label>
+                                <div style={{ marginLeft: 'auto' }}> {/* Ensure the buttons are to the right */}
+                                    <button className="save-lyrics-button" onClick={handleSaveClick}>
+                                        Save
+                                    </button>
+                                    <button className="cancel-lyrics-button" onClick={handleCancelClick}>
+                                        Cancel
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     ) : (
-                        <p className={fontSizeClass} dangerouslySetInnerHTML={{ __html: formattedLyrics ? formattedLyrics : "There's no lyrics for this yet." }}></p>
+                        <p className={fontSizeClass}>
+                            {isInstrumental
+                                ? "This song is instrumental."
+                                : (formattedLyrics ? formattedLyrics : "There's no lyrics for this yet.")
+                            }
+                        </p>
                     )}
                 </div>
 
@@ -210,8 +244,35 @@ function LyricsPage() {
                                     })}</td>
                                 </tr>
                                 <tr>
-                                    <td>ISRC</td>
-                                    <td>{trackInfo.isrc}</td>
+                                    <td>{isrcs.length > 1 ? `ISRCs` : `ISRC`}</td>
+                                    <td>
+                                        {isrcs.length === 1 ? (
+                                            <span>{isrcs[0]}</span>
+                                        ) : (
+                                            <span>
+                                                {isrcsVisible ? (
+                                                    <>
+                                                        {isrcs.map((isrc, index) => (
+                                                            <div key={index}>{isrc}</div>
+                                                        ))}
+                                                        <button onClick={() => setIsrcsVisible(false)} className="isrc-buttons">
+                                                            Collapse
+                                                        </button>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <span>{isrcs[0]} </span>
+                                                        <small>+ {isrcs.length - 1} more </small>
+                                                    </>
+                                                )}
+                                                {isrcs.length > 1 && !isrcsVisible && (
+                                                    <button onClick={() => setIsrcsVisible(true)} className="isrc-buttons">
+                                                        Expand
+                                                    </button>
+                                                )}
+                                            </span>
+                                        )}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Label</td>
@@ -238,7 +299,7 @@ function LyricsPage() {
                                             <img src={album.album_cover_url} alt={`${album.album_name} cover`} className="album-cover" />
                                             <div className="album-details">
                                                 <p className="album-name">{album.album_name}</p>
-                                                <p className="track-number">Track {album.track_number}</p>
+                                                <p className="track-number" title={`Disc #${album.disc_number}`}>Track {album.track_number}</p>
                                             </div>
                                         </Link>
                                     </div>

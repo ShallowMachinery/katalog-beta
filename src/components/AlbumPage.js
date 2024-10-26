@@ -10,6 +10,7 @@ function AlbumPage() {
     const [tracks, setTracks] = useState([]);
     const [moreAlbums, setMoreAlbums] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [isMultiDisc, setIsMultiDisc] = useState(false);
 
     useEffect(() => {
         const fetchAlbumInfo = async () => {
@@ -32,13 +33,16 @@ function AlbumPage() {
                 });
                 setTracks(tracksResponse.data.tracks);
 
+                const multiDisc = tracksResponse.data.tracks.some(track => track.discNumber !== 1);
+                setIsMultiDisc(multiDisc);
+
                 const moreAlbumsResponse = await axios.get(`http://localhost/katalog/beta/api/artist-albums.php`, {
                     params: { artistVanity },
                 });
                 setMoreAlbums(moreAlbumsResponse.data.albums);
             } catch (error) {
                 if (error.response && error.response.status === 404) {
-                    setAlbumInfo(null); // Trigger the "This album doesn't exist" message
+                    setAlbumInfo(null);
                 }
             } finally {
                 setLoading(false);
@@ -86,6 +90,14 @@ function AlbumPage() {
         );
     }
 
+    const groupedTracks = tracks.reduce((acc, track) => {
+        if (!acc[track.discNumber]) {
+            acc[track.discNumber] = [];
+        }
+        acc[track.discNumber].push(track);
+        return acc;
+    }, {});
+
     return (
         <div>
             <MenuBar />
@@ -105,20 +117,25 @@ function AlbumPage() {
                 </div>
 
                 <div className="tracks-section">
-                    <ul className="track-list">
-                        {tracks.map(track => (
-                            <div key={track.trackId} className="track-list-item">
-                                <span className="track-number">{track.trackNumber}</span>
-                                <div className="track-info">
-                                    <Link to={`/lyrics/${track.trackMainArtistId}/${track.trackId}`}>
-                                        {track.trackName}
-                                    </Link><br />
-                                    <small>{track.artistName}</small>
-                                </div>
-                                <span className="track-duration">{track.trackDuration}</span>
-                            </div>
-                        ))}
-                    </ul>
+                    {Object.keys(groupedTracks).map(discNumber => (
+                        <div key={discNumber}>
+                            {isMultiDisc && <h3>Disc {discNumber}</h3>}
+                            <ul className="track-list">
+                                {groupedTracks[discNumber].map(track => (
+                                    <div key={track.trackId} className="track-list-item">
+                                        <span className="track-number">{track.trackNumber}</span>
+                                        <div className="track-info">
+                                            <Link to={`/lyrics/${track.trackMainArtistId}/${track.trackId}`}>
+                                                {track.trackName}
+                                            </Link><br />
+                                            <small>{track.artistName}</small>
+                                        </div>
+                                        <span className="track-duration">{track.trackDuration}</span>
+                                    </div>
+                                ))}
+                            </ul>
+                        </div>
+                    ))}
                 </div>
 
                 <div className="more-albums-section">

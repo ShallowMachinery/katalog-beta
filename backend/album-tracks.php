@@ -21,7 +21,7 @@ SELECT
     t.`duration` AS `trackDuration`,
     t.`explicit` AS `isExplicit`,
     ta2.`track_number` AS `trackNumber`,
-    t.`disc_number` AS `discNumber`
+    ta2.`disc_number` AS `discNumber`
 FROM 
     `katalog1`.`Tracks` t
 JOIN 
@@ -42,7 +42,7 @@ WHERE
 GROUP BY 
     t.`track_id`, al.`album_id`, ta2.`track_number`, t.`disc_number`
 ORDER BY 
-    t.`disc_number` ASC, ta2.`track_number` ASC;
+    ta2.`disc_number` ASC, ta2.`track_number` ASC;
 ");
 
 $stmt->bind_param("ss", $artistVanity, $albumVanity);

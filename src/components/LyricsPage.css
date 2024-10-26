@@ -133,8 +133,6 @@ body {
     background-color: #e0e0e0; /* Darker shade on hover */
 }
 
-
-
 .lyrics-section {
     background-color: #f9f9f9;
     padding: 20px;
@@ -182,39 +180,95 @@ body {
     font-family: "Hind Siliguri", sans-serif;
 }
 
-.lyrics-section .lyrics-buttons {
+.lyrics-section .lyrics-options {
     display: flex;
+    align-items: center;
     gap: 10px;
     margin-top: 10px;
+    justify-content: space-between; /* Keeps elements spaced evenly */
 }
 
-.lyrics-section .lyrics-buttons .save-lyrics-button, .lyrics-section .lyrics-buttons .cancel-lyrics-button {
-    position: relative;
+.lyrics-section .lyrics-options .instrumental-label {
+    display: flex; /* Use flex for alignment */
+    align-items: center;
+    font-size: 18px; /* Increase font size for the label */
+    cursor: pointer;
+}
+
+.lyrics-section .lyrics-options .instrumental-label input[type="checkbox"] {
+    display: none; /* Hide the default checkbox */
+}
+
+.lyrics-section .lyrics-options .instrumental-label .custom-checkbox {
+    width: 18px; /* Custom checkbox width */
+    height: 18px; /* Custom checkbox height */
+    border: 2px solid #3e6094; /* Border color */
+    border-radius: 4px; /* Slightly rounded corners */
+    position: relative; /* Positioning for the checkmark */
+    background-color: white; /* Background color */
+    transition: background-color 0.3s, border-color 0.3s; /* Smooth transition for hover effect */
+    margin-right: 8px; /* Space between checkbox and label text */
+}
+
+.lyrics-section .lyrics-options .instrumental-label input[type="checkbox"]:checked + .custom-checkbox {
+    background-color: #4C74af; /* Background color when checked */
+    border-color: #3e6094; /* Change border color when checked */
+}
+
+.lyrics-section .lyrics-options .instrumental-label .custom-checkbox:before {
+    content: '';
+    position: absolute;
+    left: 5px; /* Positioning the checkmark */
+    top: 1px;
+    width: 6px; /* Width of the checkmark */
+    height: 10px; /* Height of the checkmark */
+    border: solid white; /* Checkmark color */
+    border-width: 0 2px 2px 0; /* Checkmark shape */
+    transform: rotate(45deg); /* Rotate to create checkmark */
+    opacity: 0; /* Initially hidden */
+    transition: opacity 0.2s; /* Smooth transition for checkmark appearance */
+}
+
+.lyrics-section .lyrics-options .instrumental-label input[type="checkbox"]:checked + .custom-checkbox:before {
+    opacity: 1; /* Show checkmark when checked */
+}
+
+.lyrics-section .lyrics-options .custom-checkbox:hover {
+    background-color: rgba(76, 175, 80, 0.1); 
+    border-color: #38488e; 
+}
+
+/* Button Styles */
+.lyrics-section .lyrics-options .save-lyrics-button, 
+.lyrics-section .lyrics-options .cancel-lyrics-button {
+    font-family: "Hind Siliguri", sans-serif;
     padding: 8px 16px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 14px;
     transition: background-color 0.3s;
 }
 
-.lyrics-section .lyrics-buttons .save-lyrics-button {
-    background-color: #4CAF50; /* Green */
+.lyrics-section .lyrics-options .save-lyrics-button {
+    background-color: #4CAF50;
+    color: white;
+    margin-right: 8px;
+}
+
+.lyrics-section .lyrics-options .save-lyrics-button:hover {
+    background-color: #45a049;
+}
+
+.lyrics-section .lyrics-options .cancel-lyrics-button {
+    background-color: #f44336;
     color: white;
 }
 
-.lyrics-section .lyrics-buttons .save-lyrics-button:hover {
-    background-color: #45a049; /* Darker green on hover */
+.lyrics-section .lyrics-options .cancel-lyrics-button:hover {
+    background-color: #e31b0c;
 }
 
-.lyrics-section .lyrics-buttons .cancel-lyrics-button {
-    background-color: #f44336; /* Red */
-    color: white;
-}
-
-.lyrics-section .lyrics-buttons .cancel-lyrics-button:hover {
-    background-color: #e31b0c; /* Darker red on hover */
-}
 
 .additional-info {
     padding: 20px;
@@ -235,6 +289,19 @@ body {
     margin-left: 0;
     width: 100%; /* Ensures the table takes full width */
     font-size: 15px; /* Slightly bigger font for clarity */
+}
+
+.additional-info .more-information .info-table tr .isrc-buttons {
+    font-family: "Hind Siliguri", sans-serif;
+    border: none; /* Remove the border */
+    background: none; /* Remove the background */
+    color: #716d9b; /* Set text color to blue */
+    cursor: pointer; /* Change cursor to pointer */
+    padding: 0; /* Remove default padding */
+}
+
+.additional-info .more-information .info-table tr .isrc-buttons:hover {
+    text-decoration: underline; /* Optional: underline on hover */
 }
 
 .additional-info .more-information .info-table td {

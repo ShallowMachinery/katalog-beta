@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import AdminTools from './components/AdminTools';
 import Importer from './components/tools/Importer';
 import ResolveDuplicateArtists from './components/tools/ResolveDuplicateArtists';
+import ResolveDuplicateTracks from './components/tools/ResolveDuplicateTracks';
 import ArtistPage from './components/ArtistPage';
 import AlbumPage from './components/AlbumPage';
 import LyricsPage from './components/LyricsPage';
@@ -20,6 +21,7 @@ function App() {
         <Route path="/katalog-admin/lyrics/:artistId/:trackId" element={<LyricsPage />} />
         <Route path="/katalog-admin/tools/importer" element={<Importer />} />
         <Route path="/katalog-admin/tools/artist-merger" element={<ResolveDuplicateArtists />} />
+        <Route path="/katalog-admin/tools/track-merger" element={<ResolveDuplicateTracks />} />
 
         <Route path="/" element={<HomePage />} />
         <Route path="/home" element={<HomePage />} />

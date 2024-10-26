@@ -21,8 +21,10 @@ $stmt = $conn->prepare("
         t.`duration` AS `trackDuration`,
         t.`explicit` AS `isExplicit`,
         ta2.`track_number` AS `trackNumber`,
+        ta2.`disc_number` AS `discNumber`,
         a2.`artist_vanity` AS `albumArtistVanity`,  -- Fetch the album artist vanity
-        te.`isrc` AS `isrc`  -- Fetch the ISRC from Track_External_IDs
+        GROUP_CONCAT(DISTINCT te.`isrc` SEPARATOR ', ') AS `isrc`,  -- Fetch the ISRC from Track_External_IDs
+        IF(TRIM(tl.`lyrics`) = '@INSTRUMENTAL', 1, 0) AS `isInstrumental`
     FROM 
         `katalog1`.`Tracks` t
     JOIN 
@@ -37,6 +39,8 @@ $stmt = $conn->prepare("
         `katalog1`.`Album_Artists` aa ON al.`album_id` = aa.`album_id`  -- Join Album_Artists to get album artist id
     JOIN 
         `katalog1`.`Artists` a2 ON aa.`artist_id` = a2.`artist_id`  -- Join Artists table to get album artist's vanity
+    JOIN
+        `katalog1`.`Track_Lyrics` tl ON t.`track_id` = tl.`track_id`
     LEFT JOIN 
         `katalog1`.`Track_External_IDs` te ON t.`track_id` = te.`track_id`  -- Left join to get ISRC if available
     WHERE 
