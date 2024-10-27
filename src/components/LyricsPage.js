@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
 import MenuBar from './MenuBar';
+import DetectLanguage from 'detectlanguage';
 import './LyricsPage.css';
 
 function LyricsPage() {
@@ -20,6 +21,25 @@ function LyricsPage() {
     const isAdmin = location.pathname.includes('/katalog-admin/');
     const [isrcsVisible, setIsrcsVisible] = useState(false); // State to control visibility of ISRCs
     const [isrcs, setIsrcs] = useState([]); // State to hold ISRCs
+
+    const detectlanguage = new DetectLanguage(process.env.REACT_APP_DETECT_LANGUAGE_API_KEY);
+
+    const languageMap = {
+        'en': 'English',
+        'es': 'Spanish',
+        'fr': 'French',
+        'de': 'German',
+        'it': 'Italian',
+        'pt': 'Portuguese',
+        'zh': 'Chinese',
+        'ja': 'Japanese',
+        'ru': 'Russian',
+        'tl': 'Tagalog',
+        'ceb': 'Cebuano',
+        'ko': 'Korean',
+        'war': 'Waray',
+        'null': 'Not available'
+    };
 
     useEffect(() => {
         const fetchAlbums = async (trackId) => {
@@ -84,11 +104,23 @@ function LyricsPage() {
     };
 
     const handleSaveClick = async () => {
+        let languageResult = null;
+
+        if (newLyrics !== "@INSTRUMENTAL") {
+            try {
+                languageResult = await detectlanguage.detectCode(newLyrics);
+                console.log("Language found: ", languageResult);
+            } catch (error) {
+                console.error("Error detecting language:", error);
+            }
+        }
+
         try {
             // Make an API call to save the updated lyrics
             await axios.post(`http://localhost/katalog/beta/api/update-lyrics.php`, {
                 trackId: trackInfo.trackId,
-                newLyrics
+                newLyrics,
+                languageResult
             });
             setLyrics(newLyrics); // Update the displayed lyrics with the new lyrics
             setRawLyrics(newLyrics); // Update the raw lyrics
@@ -127,6 +159,8 @@ function LyricsPage() {
     };
 
     const formattedLyrics = lyrics.replace(/@(.*?)(\n|$)/g, (_, tag) => `<span class="lyrics-tag">${tag.trim().toUpperCase()}</span>\n`);
+
+    const filteredIsrcs = isrcs.filter(isrc => isrc !== "N/A" || isrcs.length === 1);
 
     const handleFontSizeChange = (size) => {
         setFontSize(size); // Set the font size based on the button clicked
@@ -233,6 +267,10 @@ function LyricsPage() {
                         <table className="info-table">
                             <tbody>
                                 <tr>
+                                    <td>Language</td>
+                                    <td>{lyricsInfo.language ? languageMap[lyricsInfo.language] || lyricsInfo.language : 'Unknown'}</td>
+                                </tr>
+                                <tr>
                                     <td>Duration</td>
                                     <td>{trackInfo.trackDuration}</td>
                                 </tr>
@@ -245,15 +283,15 @@ function LyricsPage() {
                                     })}</td>
                                 </tr>
                                 <tr>
-                                    <td>{isrcs.length > 1 ? `ISRCs` : `ISRC`}</td>
+                                    <td>{filteredIsrcs.length > 1 ? `ISRCs` : `ISRC`}</td>
                                     <td>
-                                        {isrcs.length === 1 ? (
-                                            <span>{isrcs[0]}</span>
+                                        {filteredIsrcs.length === 1 ? (
+                                            <span>{filteredIsrcs[0]}</span>
                                         ) : (
                                             <span>
                                                 {isrcsVisible ? (
                                                     <>
-                                                        {isrcs.map((isrc, index) => (
+                                                        {filteredIsrcs.map((isrc, index) => (
                                                             <div key={index}>{isrc}</div>
                                                         ))}
                                                         <button onClick={() => setIsrcsVisible(false)} className="isrc-buttons">
@@ -262,11 +300,11 @@ function LyricsPage() {
                                                     </>
                                                 ) : (
                                                     <>
-                                                        <span>{isrcs[0]} </span>
-                                                        <small>+ {isrcs.length - 1} more </small>
+                                                        <span>{filteredIsrcs[0]} </span>
+                                                        <small>+ {filteredIsrcs.length - 1} more </small>
                                                     </>
                                                 )}
-                                                {isrcs.length > 1 && !isrcsVisible && (
+                                                {filteredIsrcs.length > 1 && !isrcsVisible && (
                                                     <button onClick={() => setIsrcsVisible(true)} className="isrc-buttons">
                                                         Expand
                                                     </button>

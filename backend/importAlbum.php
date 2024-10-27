@@ -296,7 +296,7 @@ function addSingleTrackArtistToArtistTable($conn, $trackArtist)
     $trackArtistName = $trackArtist['track_artist_name'];
     $trackArtistType = null;
     $trackArtistVanity = generateArtistVanityUrl($conn, $trackArtistName);
-    $trackArtistPictureUrl = $trackArtist['track_artist_picture_url'];
+    $trackArtistPictureUrl = '';
     $contributorId = 1;
 
     $stmt = $conn->prepare("

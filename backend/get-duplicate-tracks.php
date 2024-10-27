@@ -20,7 +20,7 @@ if ($result) {
 
         // Fetch additional details for each duplicate track
         $trackDetailsSql = "
-            SELECT t.track_id, t.track_name, ta.artist_id, ar.artist_name, ar.artist_id, al.album_name, t.duration, te.isrc
+            SELECT t.track_id, t.track_name, ta.artist_id, ar.artist_name, ar.artist_id, al.album_name, al.release_date, t.duration, te.isrc
             FROM katalog1.tracks t
             JOIN katalog1.track_artists ta ON t.track_id = ta.track_id
             JOIN katalog1.artists ar ON ta.artist_id = ar.artist_id

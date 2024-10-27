@@ -173,6 +173,7 @@ function ResolveDuplicateTracks() {
                                                                         <strong>Artist ID:</strong> {detail.artist_id} <br />
                                                                         <strong>Artist Name:</strong> {detail.artist_name} <br />
                                                                         <strong>Album Name:</strong> {detail.album_name} <br />
+                                                                        <strong>Release Date: </strong> {detail.release_date} <br />
                                                                         <strong>Duration:</strong> {detail.duration} <br />
                                                                         <strong>ISRC:</strong> {detail.isrc} <br />
                                                                         <strong>Link: </strong>

@@ -4,6 +4,7 @@ require 'config.php';
 $data = json_decode(file_get_contents('php://input'), true);
 $trackId = $data['trackId'] ?? null;
 $newLyrics = $data['newLyrics'] ?? null;
+$language = $data['languageResult'] ?? null;
 
 if (!$trackId || !$newLyrics) {
     echo json_encode(['status' => 'error', 'message' => 'Missing track ID or lyrics data.', 'trackId' => $trackId, 'newLyrics' => $newLyrics]);
@@ -23,13 +24,13 @@ if ($trackId && $newLyrics) {
     $stmt->close();
 
     if ($existingLyrics && $existingLyrics['lyrics'] === '') {
-        $stmt = $conn->prepare("UPDATE `katalog1`.`Track_Lyrics` SET `lyrics` = ?, `last_contributor_id` = ? WHERE `lyrics_id` = ?");
+        $stmt = $conn->prepare("UPDATE `katalog1`.`Track_Lyrics` SET `lyrics` = ?, `language` = ?, `last_contributor_id` = ? WHERE `lyrics_id` = ?");
         if (!$stmt) {
             echo json_encode(['status' => 'error', 'message' => 'Failed to prepare update statement: ' . $conn->error]);
             exit;
         }
         $contributorId = 1; // Replace this with the actual contributor ID from the session or request
-        $stmt->bind_param("sii", $newLyrics, $contributorId, $existingLyrics['lyrics_id']);
+        $stmt->bind_param("ssii", $newLyrics, $language, $contributorId, $existingLyrics['lyrics_id']);
 
         if ($stmt->execute()) {
             echo json_encode(['status' => 'success', 'message' => 'Lyrics updated successfully.']);
@@ -40,13 +41,13 @@ if ($trackId && $newLyrics) {
         $stmt->close();
     } else {
         // If lyrics already exist, insert a new row
-        $stmt = $conn->prepare("INSERT INTO `katalog1`.`Track_Lyrics` (`track_id`, `lyrics`, `last_contributor_id`) VALUES (?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO `katalog1`.`Track_Lyrics` (`track_id`, `lyrics`, `last_contributor_id`, `language`) VALUES (?, ?, ?, ?)");
         if (!$stmt) {
             echo json_encode(['status' => 'error', 'message' => 'Failed to prepare insert statement: ' . $conn->error]);
             exit;
         }
         $contributorId = 1; // Replace this with the actual contributor ID from the session or request
-        $stmt->bind_param("isi", $trackId, $newLyrics, $contributorId);
+        $stmt->bind_param("isis", $trackId, $newLyrics, $contributorId, $language);
 
         if ($stmt->execute()) {
             echo json_encode(['status' => 'success', 'message' => 'Lyrics added successfully.']);

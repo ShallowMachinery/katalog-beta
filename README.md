@@ -53,3 +53,7 @@
 ## v0.4.0a
 
 - Fixed a bug where lyric tags are not showing correctly
+
+## v0.4.1
+
+- When saving a new lyrics, DetectLanguage API will detect what language the new lyrics is and will be saved to the database
