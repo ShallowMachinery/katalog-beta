@@ -1,10 +1,44 @@
 <?php
 require 'config.php'; 
+require 'vendor/autoload.php';
+
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+use Firebase\JWT\ExpiredException;
+
+$response = array('status' => 'error', 'message' => '');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit;
 }
+
+$headers = apache_request_headers();
+$accessToken = $headers['Authorization'] ?? '';
+
+try {
+    if (strpos($accessToken, 'Bearer ') === 0) {
+        $accessToken = substr($accessToken, 7);
+    }
+    $key = new Key($secretKey, 'HS256');
+    $decoded = JWT::decode($accessToken, $key);
+    if (!isset($decoded->data->user_id) || !isset($decoded->data->user_hierarchy)) {
+        echo json_encode(['status' => 'error', 'message' => 'Invalid token structure.']);
+        exit;
+    }
+    if ($decoded->data->user_hierarchy !== 1) {
+        echo json_encode(['status' => 'error', 'message' => 'Unauthorized access.']);
+        exit;
+    }
+} catch (ExpiredException $e) {
+    echo json_encode(['status' => 'error', 'message' => 'Access token has expired.']);
+    exit;
+} catch (Exception $e) {
+    echo json_encode(['status' => 'error', 'message' => 'Invalid access token.']);
+    exit;
+}
+
+
 
 function generateArtistVanityUrl($conn, $name)
 {
@@ -526,8 +560,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $albumReleaseType = $data['album_release_type'];
         $albumTrackCount = $data['album_track_count'];
         $albumTracks = $data['album_tracks'];
-
-        $contributorId = 1; // Administrator's ID
+        $contributorId = $decoded->data->user_id; // Administrator Id
 
         // If the Spotify API only returns year of the album's release date,
         // concatenate January 1st

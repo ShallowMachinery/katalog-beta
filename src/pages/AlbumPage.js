@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-import MenuBar from './MenuBar';
+import MenuBar from '../components/MenuBar';
 import './AlbumPage.css';
 
 function AlbumPage() {
@@ -15,7 +15,7 @@ function AlbumPage() {
     useEffect(() => {
         const fetchAlbumInfo = async () => {
             try {
-                const response = await axios.get(`http://localhost/katalog/beta/api/album-info.php`, {
+                const response = await axios.get(`http://192.168.100.8/katalog/beta/api/album-info.php`, {
                     params: { albumVanity, artistVanity },
                 });
 
@@ -28,7 +28,7 @@ function AlbumPage() {
                 }
 
                 // Fetch tracks in the album
-                const tracksResponse = await axios.get(`http://localhost/katalog/beta/api/album-tracks.php`, {
+                const tracksResponse = await axios.get(`http://192.168.100.8/katalog/beta/api/album-tracks.php`, {
                     params: { albumVanity, artistVanity },
                 });
                 setTracks(tracksResponse.data.tracks);
@@ -36,7 +36,7 @@ function AlbumPage() {
                 const multiDisc = tracksResponse.data.tracks.some(track => track.discNumber !== 1);
                 setIsMultiDisc(multiDisc);
 
-                const moreAlbumsResponse = await axios.get(`http://localhost/katalog/beta/api/artist-albums.php`, {
+                const moreAlbumsResponse = await axios.get(`http://192.168.100.8/katalog/beta/api/artist-albums.php`, {
                     params: { artistVanity },
                 });
                 setMoreAlbums(moreAlbumsResponse.data.albums);
@@ -142,7 +142,7 @@ function AlbumPage() {
                     {/* Check if the artist has more than one album */}
                     {moreAlbums.length > 1 && (
                         <>
-                            <h2>More Albums by {albumInfo.artistName}</h2>
+                            <h2 className="more-albums-header">More Albums by {albumInfo.artistName}</h2>
                             <ul className="more-albums-list">
                                 {shuffleArray(moreAlbums)
                                     .filter(album => album.albumId !== albumInfo.albumId) // Exclude the current album
@@ -150,7 +150,7 @@ function AlbumPage() {
                                     .map(album => (
                                         <li key={album.albumId} className="more-album-item">
                                             <Link to={`/album/${artistVanity}/${album.albumVanity}`}>
-                                                <img src={album.albumCoverUrl} alt={album.albumName} className="more-album-cover" />
+                                                <img src={album.albumCoverUrl} alt={album.albumName} className="more-album-cover" /><br />
                                                 <span>{album.albumName}</span>
                                             </Link>
                                         </li>

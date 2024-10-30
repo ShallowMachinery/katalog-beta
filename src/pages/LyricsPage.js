@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
-import MenuBar from './MenuBar';
+import MenuBar from '../components/MenuBar';
 import DetectLanguage from 'detectlanguage';
 import './LyricsPage.css';
 
@@ -18,10 +18,10 @@ function LyricsPage() {
     const [albums, setAlbums] = useState([]);
     const [fontSize, setFontSize] = useState('small');
     const location = useLocation();
-    const isAdmin = location.pathname.includes('/katalog-admin/');
     const [isrcsVisible, setIsrcsVisible] = useState(false); // State to control visibility of ISRCs
     const [isrcs, setIsrcs] = useState([]); // State to hold ISRCs
-
+    
+    const userToken = localStorage.getItem('access_token');
     const detectlanguage = new DetectLanguage(process.env.REACT_APP_DETECT_LANGUAGE_API_KEY);
 
     const languageMap = {
@@ -44,7 +44,7 @@ function LyricsPage() {
     useEffect(() => {
         const fetchAlbums = async (trackId) => {
             try {
-                const response = await axios.get(`http://localhost/katalog/beta/api/get-track-albums.php`, {
+                const response = await axios.get(`http://192.168.100.8/katalog/beta/api/get-track-albums.php`, {
                     params: { trackId },
                 });
                 if (response.data.success) {
@@ -60,7 +60,7 @@ function LyricsPage() {
         const fetchTrackInfo = async () => {
             try {
                 // Fetch track information based on artistVanity and trackVanity
-                const response = await axios.get(`http://localhost/katalog/beta/api/track-info.php`, {
+                const response = await axios.get(`http://192.168.100.8/katalog/beta/api/track-info.php`, {
                     params: { artistId, trackId },
                 });
                 const trackData = response.data;
@@ -74,7 +74,7 @@ function LyricsPage() {
                 }
 
                 // Fetch lyrics for the track
-                const lyricsResponse = await axios.get(`http://localhost/katalog/beta/api/track-lyrics.php`, {
+                const lyricsResponse = await axios.get(`http://192.168.100.8/katalog/beta/api/track-lyrics.php`, {
                     params: { artistId, trackId },
                 });
 
@@ -109,7 +109,6 @@ function LyricsPage() {
         if (newLyrics !== "@INSTRUMENTAL") {
             try {
                 languageResult = await detectlanguage.detectCode(newLyrics);
-                console.log("Language found: ", languageResult);
             } catch (error) {
                 console.error("Error detecting language:", error);
             }
@@ -117,14 +116,19 @@ function LyricsPage() {
 
         try {
             // Make an API call to save the updated lyrics
-            await axios.post(`http://localhost/katalog/beta/api/update-lyrics.php`, {
+            await axios.post(`http://192.168.100.8/katalog/beta/api/update-lyrics.php`, {
                 trackId: trackInfo.trackId,
                 newLyrics,
                 languageResult
+            }, {
+                headers: {
+                    Authorization: `Bearer ${userToken}` // Set the Authorization header
+                }
             });
             setLyrics(newLyrics); // Update the displayed lyrics with the new lyrics
             setRawLyrics(newLyrics); // Update the raw lyrics
             setIsEditing(false); // Exit editing mode
+            window.location.reload();
         } catch (error) {
             console.error('Error saving lyrics:', error);
         }
@@ -205,7 +209,7 @@ function LyricsPage() {
                             <p className="album-name" title={`Disc #${trackInfo.discNumber}`}>Track {trackInfo.trackNumber} on <strong>{trackInfo.albumName}</strong> · {new Date(trackInfo.releaseDate).getFullYear()}</p>
                         </Link>
                     </div>
-                    {isAdmin && !isEditing && (
+                    {userToken && !isEditing && (
                         <button className="edit-lyrics-button" onClick={handleEditClick}>
                             {lyrics ? 'Edit lyrics' : 'Add lyrics'}
                         </button>

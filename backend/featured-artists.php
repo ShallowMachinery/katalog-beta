@@ -2,10 +2,11 @@
 require 'config.php'; 
 
 // Fetch featured artists
-$sql = "SELECT `artist_id`, `artist_name`, `artist_vanity`, `artist_picture_link`
-FROM `katalog1`.`Artists`
-WHERE `artist_type` IS NULL
-AND `artist_picture_link` IS NOT NULL
+$sql = "SELECT artist_id, artist_name, artist_vanity, artist_picture_link
+FROM katalog1.Artists
+WHERE artist_type IS NULL
+AND artist_picture_link IS NOT NULL
+AND artist_picture_link != ''
 ORDER BY RAND() LIMIT 6";
 
 $result = $conn->query($sql);

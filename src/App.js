@@ -1,33 +1,62 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import AdminTools from './components/AdminTools';
-import Importer from './components/tools/Importer';
-import ResolveDuplicateArtists from './components/tools/ResolveDuplicateArtists';
-import ResolveDuplicateTracks from './components/tools/ResolveDuplicateTracks';
-import ArtistPage from './components/ArtistPage';
-import AlbumPage from './components/AlbumPage';
-import LyricsPage from './components/LyricsPage';
-import HomePage from './components/HomePage';
-
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
+import AdminTools from './components/tools/AdminTools';
+import Importer from './components/tools/importer/Importer';
+import ResolveDuplicateArtists from './components/tools/merger/ResolveDuplicateArtists';
+import ResolveDuplicateTracks from './components/tools/merger/ResolveDuplicateTracks';
+import ArtistPage from './pages/ArtistPage';
+import AlbumPage from './pages/AlbumPage';
+import LyricsPage from './pages/LyricsPage';
+import HomePage from './main/HomePage';
+import LoginPage from './main/LoginPage';
+import RegisterPage from './main/RegisterPage';
+import NotFoundPage from './main/NotFoundPage';
+import ProtectedRoute from './components/ProtectedRoute';
 
 import './App.css';
 
 function App() {
+  const { isLoggedIn } = useAuth();
+
   return (
     <Router>
       <Routes>
-        {/* admin */}
-        <Route path="/katalog-admin/tools/" element={<AdminTools />} />
-        <Route path="/katalog-admin/lyrics/:artistId/:trackId" element={<LyricsPage />} />
-        <Route path="/katalog-admin/tools/importer" element={<Importer />} />
-        <Route path="/katalog-admin/tools/artist-merger" element={<ResolveDuplicateArtists />} />
-        <Route path="/katalog-admin/tools/track-merger" element={<ResolveDuplicateTracks />} />
+        {/* Admin routes */}
+        <Route 
+          path="/katalog-admin/tools" 
+          element={<ProtectedRoute element={<AdminTools />} allowedHierarchy={1} />} 
+        />
+        <Route 
+          path="/katalog-admin/tools/importer" 
+          element={<ProtectedRoute element={<Importer />} allowedHierarchy={1} />} 
+        />
+        <Route 
+          path="/katalog-admin/tools/artist-merger" 
+          element={<ProtectedRoute element={<ResolveDuplicateArtists />} allowedHierarchy={1} />} 
+        />
+        <Route 
+          path="/katalog-admin/tools/track-merger" 
+          element={<ProtectedRoute element={<ResolveDuplicateTracks />} allowedHierarchy={1} />} 
+        />
 
+        {/* Public routes */}
+        <Route 
+          path="/login" 
+          element={isLoggedIn ? <Navigate to="/home" /> : <LoginPage />} 
+        />
+        <Route 
+          path="/register" 
+          element={isLoggedIn ? <Navigate to="/home" /> : <RegisterPage />} 
+        />
         <Route path="/" element={<HomePage />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/lyrics/:artistId/:trackId" element={<LyricsPage />} />
         <Route path="/album/:artistVanity/:albumVanity" element={<AlbumPage />} />
         <Route path="/artist/:artistVanity" element={<ArtistPage />} />
+
+        {/* 404 Not Found Route */}
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
   );

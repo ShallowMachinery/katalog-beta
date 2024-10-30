@@ -19,7 +19,7 @@ $lyrics = [];
 // Search artists
 $artistStmt = $conn->prepare("SELECT `artist_id`, `artist_name`, `artist_vanity`, `artist_picture_link` 
                                FROM `katalog1`.`Artists` 
-                               WHERE `artist_name` LIKE ? LIMIT 10");
+                               WHERE `artist_name` LIKE ? GROUP BY `artist_id` LIMIT 10");
 $likeTerm = "%$searchTerm%";
 $artistStmt->bind_param("s", $likeTerm);
 $artistStmt->execute();
@@ -38,7 +38,7 @@ $albumStmt = $conn->prepare("SELECT a.`album_id`, a.`album_name`, a.`album_vanit
     FROM `katalog1`.`Albums` AS a
     JOIN `katalog1`.`album_artists` AS aa ON a.`album_id` = aa.`album_id`
     JOIN `katalog1`.`Artists` AS ar ON aa.`artist_id` = ar.`artist_id`
-    WHERE a.`album_name` LIKE ? 
+    WHERE a.`album_name` LIKE ? GROUP BY a.`album_id`
     LIMIT 10");
 $albumStmt->bind_param("s", $likeTerm);
 $albumStmt->execute();
@@ -64,7 +64,7 @@ $trackStmt = $conn->prepare("
     JOIN `katalog1`.`Artists` AS a ON t.`track_main_artist_id` = a.`artist_id`
     LEFT JOIN `katalog1`.`Track_Albums` AS ta ON t.`track_id` = ta.`track_id`
     LEFT JOIN `katalog1`.`Albums` AS al ON ta.`album_id` = al.`album_id`
-    WHERE t.`track_name` LIKE ? 
+    WHERE t.`track_name` LIKE ? GROUP BY t.`track_id`
     LIMIT 10
 ");
 $trackStmt->bind_param("s", $likeTerm);
@@ -94,7 +94,7 @@ $lyricStmt = $conn->prepare("
     JOIN `katalog1`.`Artists` AS a ON t.`track_main_artist_id` = a.`artist_id`
     LEFT JOIN `katalog1`.`Track_Albums` AS ta ON t.`track_id` = ta.`track_id`
     LEFT JOIN `katalog1`.`Albums` AS al ON ta.`album_id` = al.`album_id`
-    WHERE REGEXP_REPLACE(l.`lyrics`, '@[^\\n]*\\n?', '') LIKE ? 
+    WHERE REGEXP_REPLACE(l.`lyrics`, '@[^\\n]*\\n?', '') LIKE ? GROUP BY l.`track_id`
     LIMIT 10
 ");
 $lyricStmt->bind_param("s", $likeTerm);

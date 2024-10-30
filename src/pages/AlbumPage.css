@@ -48,7 +48,7 @@
     color: #333;
 }
 
-.album-type {
+.album-page-container .album-info .album-details .album-type {
     background-color: gray;
     border-radius: 10px;
     margin-left: 3px;
@@ -131,6 +131,7 @@
     gap: 20px;
     list-style: none;
     padding: 0;
+    justify-content: center;
 }
 
 .album-page-container .more-albums-section .more-albums-list .more-album-item {
@@ -153,4 +154,63 @@
 
 .album-page-container .more-albums-section .more-albums-list a:hover {
     text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .album-page-container {
+        margin-top: 60px;
+    }
+
+    .album-page-container .album-info .album-cover {
+        width: 125px;
+        height: 125px;
+    }
+
+    .album-page-container .album-info .album-details .album-name {
+        font-size: 20px;
+    }
+
+    .album-page-container .album-info .album-details {
+        line-height: 30px;
+    }
+
+    .album-page-container .album-info .album-details .album-type {
+        font-size: 10px;
+    }
+    
+    .album-page-container .album-info .album-details .artist-name {
+        font-size: 16px;
+    }
+    
+    .album-page-container .album-info .album-details .release-date {
+        font-size: 12px;
+    }
+    
+    .album-page-container .tracks-section {
+        margin-top: 20px;
+    }
+    
+    .album-page-container .tracks-section .track-list {
+        font-size: smaller;
+    }
+    
+    .album-page-container .tracks-section .track-list-item .track-duration {
+        font-size: small;
+    }
+
+    .album-page-container .more-albums-section .more-albums-header {
+        font-size: large;
+    }
+
+    .album-page-container .more-albums-section .more-albums-list {
+        font-size: smaller;
+    }
+    
+    .album-page-container .more-albums-section .more-albums-list .more-album-item {
+        width: 100px;
+    }
+
+    .album-page-container .more-albums-section .more-album-cover {
+        width: 80%;
+    }
 }

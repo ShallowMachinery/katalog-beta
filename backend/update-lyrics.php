@@ -1,10 +1,37 @@
 <?php
-require 'config.php'; 
+require 'config.php';
+require 'vendor/autoload.php';
+
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+use Firebase\JWT\ExpiredException;
+
+$headers = apache_request_headers();
+$accessToken = $headers['Authorization'] ?? '';
+
+try {
+    if (strpos($accessToken, 'Bearer ') === 0) {
+        $accessToken = substr($accessToken, 7);
+    }
+    $key = new Key($secretKey, 'HS256');
+    $decoded = JWT::decode($accessToken, $key);
+    if (!isset($decoded->data->user_id) || !isset($decoded->data->user_hierarchy)) {
+        echo json_encode(['status' => 'error', 'message' => 'Invalid token structure.']);
+        exit;
+    }
+} catch (ExpiredException $e) {
+    echo json_encode(['status' => 'error', 'message' => 'Access token has expired.']);
+    exit;
+} catch (Exception $e) {
+    echo json_encode(['status' => 'error', 'message' => 'Invalid access token.']);
+    exit;
+}
 
 $data = json_decode(file_get_contents('php://input'), true);
 $trackId = $data['trackId'] ?? null;
 $newLyrics = $data['newLyrics'] ?? null;
 $language = $data['languageResult'] ?? null;
+$contributorId = $decoded->data->user_id ?? null;
 
 if (!$trackId || !$newLyrics) {
     echo json_encode(['status' => 'error', 'message' => 'Missing track ID or lyrics data.', 'trackId' => $trackId, 'newLyrics' => $newLyrics]);
@@ -29,7 +56,6 @@ if ($trackId && $newLyrics) {
             echo json_encode(['status' => 'error', 'message' => 'Failed to prepare update statement: ' . $conn->error]);
             exit;
         }
-        $contributorId = 1; // Replace this with the actual contributor ID from the session or request
         $stmt->bind_param("ssii", $newLyrics, $language, $contributorId, $existingLyrics['lyrics_id']);
 
         if ($stmt->execute()) {
@@ -46,7 +72,6 @@ if ($trackId && $newLyrics) {
             echo json_encode(['status' => 'error', 'message' => 'Failed to prepare insert statement: ' . $conn->error]);
             exit;
         }
-        $contributorId = 1; // Replace this with the actual contributor ID from the session or request
         $stmt->bind_param("isis", $trackId, $newLyrics, $contributorId, $language);
 
         if ($stmt->execute()) {

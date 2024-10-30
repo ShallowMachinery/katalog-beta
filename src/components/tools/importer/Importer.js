@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import AlbumImporter from './album-importer/albumImporter';
 import ArtistImporter from './artist-importer/artistImporter';
 import './Importer.css';
-import MenuBar from '../MenuBar';
+import MenuBar from '../../MenuBar';
 
 function Importer() {
   const [activeTab, setActiveTab] = useState('album');

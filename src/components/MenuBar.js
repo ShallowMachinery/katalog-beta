@@ -1,31 +1,65 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './MenuBar.css';
-import { useNavigate, useLocation } from 'react-router-dom';
 import packageJson from '../../package.json';
+import axios from 'axios';
 
 function MenuBar() {
-    const location = useLocation();
+    const isMobile = window.innerWidth <= 768;
     const navigate = useNavigate();
-    const isAdmin = location.pathname.includes('/katalog-admin/');
-    const isLyricPage = location.pathname.includes('/lyrics');
+    
+    // Check login status
+    const isLoggedIn = !!localStorage.getItem('user_id');
+    
+    // State to hold user details
+    const [firstName, setFirstName] = useState('');
 
-    const toggleAdminView = () => {
-        const currentPath = location.pathname;
+    // Fetch user details if logged in
+    useEffect(() => {
+        const fetchUserDetails = async () => {
+            const userToken = localStorage.getItem('access_token'); // Retrieve the access token
+            if (isLoggedIn && userToken) {
+                try {
+                    const response = await axios.get('http://192.168.100.8/katalog/beta/api/get-user-details.php', {
+                        headers: {
+                            'Authorization': `Bearer ${userToken}`
+                        }
+                    });
 
-        if (isAdmin) {
-            navigate(currentPath.replace('/katalog-admin', ''));
-            window.location.reload();
-        } else {
-            navigate(`/katalog-admin${currentPath}`);
-        }
+                    if (response.data.success) {
+                        setFirstName(response.data.first_name);
+                    } else {
+                        console.error(response.data.message);
+                    }
+                } catch (error) {
+                    console.error('Error fetching user details:', error);
+                }
+            }
+        };
+        fetchUserDetails();
+    }, [isLoggedIn]);
+
+    // Handle logout
+    const handleLogout = () => {
+        localStorage.clear();
+        window.location.reload();
+        navigate('/home');
     };
 
     return (
         <div className="menu-bar">
-            <h1><a href='/home'>Katalog <small>v{packageJson.version}-beta</small></a></h1>
-            {isLyricPage && (<button className="admin-toggle-button" onClick={toggleAdminView}>
-                {isAdmin ? 'View as User' : 'View as Admin'}
-            </button>)}
+            <h1>
+                <a href='/home'>Katalog {isMobile ? <small>beta</small> : <small>v{packageJson.version}-beta</small>}</a>
+            </h1>
+            <div className="menu-links">
+                {isLoggedIn ? (
+                    <>
+                        <span onClick={handleLogout} style={{ cursor: 'pointer' }}>Logout, {firstName}</span>
+                    </>
+                ) : (
+                    <Link to="/login">Login</Link>
+                )}
+            </div>
         </div>
     );
 }

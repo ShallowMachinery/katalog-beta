@@ -1,0 +1,67 @@
+.login-container {
+    padding: 20px;
+    max-width: 400px;
+    margin: 100px auto;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.login-container h2 {
+    text-align: center;
+    font-size: 2em;
+    color: #343a40;
+    margin-bottom: 20px;
+}
+
+.login-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.login-container input {
+    font-family: "Hind Siliguri", sans-serif;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    outline: none;
+    font-size: 1em;
+}
+
+.login-container input:focus {
+    border-color: #80bdff;
+}
+
+.login-container button {
+    font-family: "Hind Siliguri", sans-serif;
+    padding: 10px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-container button:hover {
+    background-color: #0056b3;
+}
+
+.login-container .register-link {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 0.9em;
+    color: #4d6d9a;
+}
+
+.login-container .register-link a {
+    color: #4d6d9a;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-container .register-link a:hover {
+    text-decoration: underline;
+}

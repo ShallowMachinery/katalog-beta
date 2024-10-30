@@ -1,0 +1,55 @@
+.register-container {
+    padding: 20px;
+    max-width: 500px;
+    margin: 100px auto 50px auto;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.register-container h2 {
+    text-align: center;
+    font-size: 2em;
+    color: #343a40;
+    margin-bottom: 20px;
+}
+
+.register-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between form inputs */
+}
+
+.register-container form input {
+    font-family: "Hind Siliguri", sans-serif;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.register-container form input:focus {
+    border-color: #80bdff;
+}
+
+.register-container form button {
+    font-family: "Hind Siliguri", sans-serif;
+    padding: 10px;
+    font-size: 1em;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.register-container form button:hover {
+    background-color: #0056b3;
+}
+
+.register-container form input[type="date"] {
+    color: #495057; /* Text color for the date input */
+}

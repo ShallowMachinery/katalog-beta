@@ -1,20 +1,20 @@
 .menu-bar {
-    background-color: #4d6d9a; /* Darker blue */
+    background-color: #4d6d9a;
     padding: 15px;
-    text-align: center;
     color: white;
-    position: fixed; /* Fixes the menu bar at the top */
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100%; /* Make the menu bar span the full width of the page */
-    z-index: 1000; /* Ensures the menu bar stays on top of other elements */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow for depth */
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .menu-bar h1 {
-    margin: 0;
+    margin-left: 1rem;
     font-family: "Hind Siliguri", sans-serif;
     font-size: 24px;
+    display: inline;
 }
 
 .menu-bar a {
@@ -22,16 +22,22 @@
     color: white;
 }
 
-.menu-bar .admin-toggle-button {
-    font-family: "Hind Siliguri", sans-serif;
+.menu-bar .menu-links {
     position: absolute;
-    right: 50px;
-    top: 15px;
-    background-color: #3b5272;
+    right: 0;
+    margin-right: 4rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.menu-bar .menu-links a {
+    margin-left: 15px;
+    font-size: 16px;
     color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 15px;
-    font-size: 12px;
-    cursor: pointer;
+    text-decoration: none;
+    font-family: "Hind Siliguri", sans-serif;
+}
+
+.menu-bar .menu-links a:hover {
+    text-decoration: underline;
 }

@@ -57,3 +57,9 @@
 ## v0.4.1
 
 - When saving a new lyrics, DetectLanguage API will detect what language the new lyrics is and will be saved to the database
+
+## v0.5.0
+
+- Added account functionality, users can now create accounts and log in
+- Updating lyrics, importing albums (admin), merging artists and tracks (admin) now require access token
+- Added support for smaller screens (devices)

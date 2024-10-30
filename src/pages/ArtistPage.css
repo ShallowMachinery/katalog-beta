@@ -72,6 +72,7 @@
     gap: 20px;
     list-style: none;
     padding: 0;
+    justify-content: center;
 }
 
 .artist-page-container .albums-section .album-list li {
@@ -146,6 +147,7 @@
     gap: 20px;
     list-style: none;
     padding: 0;
+    justify-content: center;
 }
 
 .artist-page-container .related-artists-section .related-artist-list a {
@@ -172,4 +174,62 @@
     border-radius: 50%;
     margin-bottom: 0;
     object-fit: cover;
+}
+
+@media (max-width: 768px) {
+    .artist-page-container {
+        margin-top: 60px;
+    }
+
+    .artist-page-container .artist-info .artist-picture {
+        width: 125px;
+        height: 125px;
+    }
+
+    .artist-page-container .artist-info .artist-details .artist-name {
+        font-size: 20px;
+    }
+
+    .toggle-header {
+        font-size: 15px;
+    }
+
+    .artist-page-container .albums-section .album-list li {
+        width: 100px;
+    }
+
+    .artist-page-container .albums-section .album-list .album-name {
+        font-size: 14px;
+        line-height: 0;
+    }
+
+    .artist-page-container .albums-section .album-list .album-details {
+        font-size: 10px;
+    }
+    
+    .artist-page-container .tracks-section .track-list-div {
+        font-size: smaller;
+    }
+    
+    .artist-page-container .tracks-section .track-list-div .track-list-info {
+        margin-top: 5px;
+        margin-left: 15px;
+    }
+    
+    .artist-page-container .related-artists-section {
+        margin-top: 30px;
+    }
+    
+    .artist-page-container .related-artists-section .related-artist-list .related-artist-item {
+        width: 100px;
+        font-size: smaller;
+    }
+    
+    .artist-page-container .related-artists-section .related-artist-list .related-artist-item .related-artist-picture {
+        width: 75px;
+        height: 75px;
+        border-radius: 50%;
+        margin-bottom: 0;
+        object-fit: cover;
+    }
 }

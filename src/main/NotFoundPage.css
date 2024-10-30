@@ -1,0 +1,54 @@
+.not-found-container {
+    padding: 20px;
+    max-width: 600px; /* Adjusted max-width for better focus */
+    margin: 100px auto; /* Center the page with margin */
+    background-color: rgba(255, 255, 255, 0.9); /* Slight transparency */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1; /* Ensure this is in front of the background */
+    display: flex; /* Use flexbox to center content */
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center align items */
+}
+
+.not-found-container h2 {
+    font-size: 2.5em;
+    color: #343a40; /* Darker text color for emphasis */
+    margin-bottom: 20px; /* Spacing below the heading */
+    text-align: center; /* Center align text */
+}
+
+.not-found-container p {
+    font-size: 1.2em; /* Font size for the message */
+    color: #495057; /* Slightly lighter color for the paragraph */
+    margin-top: 10px; /* Spacing above the message */
+    text-align: center; /* Center align text */
+}
+
+.not-found-container .home-link {
+    margin-top: 20px; /* Space above the link */
+    font-size: 1em; /* Font size for the link */
+    color: #007bff; /* Bootstrap primary color */
+    text-decoration: none; /* Remove underline */
+    transition: color 0.3s; /* Smooth transition on hover */
+}
+
+.not-found-container .home-link:hover {
+    color: #0056b3; /* Darker shade on hover */
+    text-decoration: underline; /* Underline on hover */
+}
+
+@media (max-width: 768px) {
+    .not-found-container {
+        margin: 60px auto; /* Adjust margin for smaller screens */
+    }
+
+    .not-found-container h2 {
+        font-size: 2em; /* Smaller font size on mobile */
+    }
+
+    .not-found-container p {
+        font-size: 1em; /* Smaller font size on mobile */
+    }
+}

@@ -32,6 +32,24 @@
     border-color: #80bdff; /* Change border color on focus */
 }
 
+.home-page-container header .auth-links {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.home-page-container header .auth-links .auth-link {
+    color: #495057;
+    font-size: 0.9em;
+    text-decoration: none;
+    padding: 0 8px;
+    transition: color 0.3s;
+}
+
+.home-page-container header .auth-links .auth-separator {
+    color: #868e96;
+}
+
 .home-page-container .search-results {
     margin-top: 20px;
     padding: 20px; /* Add padding for better spacing */
@@ -137,9 +155,26 @@
     text-align: center;
     margin-top: 40px;
     font-size: 0.9em;
+    line-height: 0rem;
+    margin-bottom: 1rem;
 }
 
-.home-page-container footer a {
+.home-page-container footer a, .home-page-container footer .common-footer {
     text-decoration: none;
     color: #868e96;
+}
+
+@media (max-width: 768px) { /* You can adjust the max-width as needed */
+    .home-page-container {
+        margin-top: 60px;
+    }
+
+    .home-page-container .featured-artists-section .artist-list .artist-picture {
+        width: 80px;
+        height: 80px;
+        border-radius: 10px;
+        border: 3px solid #6c757d; /* Add border around image */
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Add subtle shadow */
+    }
+
 }

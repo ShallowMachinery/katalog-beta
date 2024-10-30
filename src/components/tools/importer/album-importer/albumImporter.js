@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './albumImporter.css';
-import { getSpotifyAccessToken } from '../../spotifyAuth';
+import { getSpotifyAccessToken } from '../../../spotifyAuth';
 
 function AlbumImporter() {
     const [spotifyAlbumId, setSpotifyAlbumId] = useState('');
@@ -18,7 +18,7 @@ function AlbumImporter() {
         // Fetch the timer details from the server when the component mounts
         const fetchTimer = async () => {
             try {
-                const response = await axios.get('http://localhost/katalog/beta/api/timer.php?type=album');
+                const response = await axios.get('http://192.168.100.8/katalog/beta/api/timer.php?type=album');
                 const expiryTime = response.data.expiryTime;
                 const currentTime = Math.floor(Date.now() / 1000);
 
@@ -66,7 +66,7 @@ function AlbumImporter() {
 
         // Store the expiry time in the backend
         try {
-            await axios.post('http://localhost/katalog/beta/api/timer.php', {
+            await axios.post('http://192.168.100.8/katalog/beta/api/timer.php', {
                 type: 'album',
                 expiryTime: expiryTime
             }, {
@@ -206,6 +206,7 @@ function AlbumImporter() {
         }
 
         const accessToken = await getSpotifyAccessToken();
+        const userToken = localStorage.getItem("access_token");
   
         const totalDurationMs = albumData.tracks.items
             .map(track => track.duration_ms)
@@ -282,10 +283,11 @@ function AlbumImporter() {
         console.log("data: ", data);
 
         try {
-            const response = await fetch('http://localhost/katalog/beta/api/importAlbum.php', {
+            const response = await fetch('http://192.168.100.8/katalog/beta/api/importAlbum.php', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${userToken}`
                 },
                 body: JSON.stringify(data)
             });

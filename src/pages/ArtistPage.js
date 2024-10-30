@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
-import MenuBar from './MenuBar';
+import MenuBar from '../components/MenuBar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpotify } from '@fortawesome/free-brands-svg-icons';
 import './ArtistPage.css';
@@ -20,7 +20,7 @@ function ArtistPage() {
         const fetchArtistInfo = async () => {
             try {
                 // Fetch artist information based on artistVanity
-                const response = await axios.get(`http://localhost/katalog/beta/api/artist-info.php`, {
+                const response = await axios.get(`http://192.168.100.8/katalog/beta/api/artist-info.php`, {
                     params: { artistVanity },
                 });
                 const artistData = response.data;
@@ -30,19 +30,19 @@ function ArtistPage() {
                     document.title = `${artistData.artistName} | Katalog`;
                 }
 
-                const tracksResponse = await axios.get(`http://localhost/katalog/beta/api/artist-tracks.php`, {
+                const tracksResponse = await axios.get(`http://192.168.100.8/katalog/beta/api/artist-tracks.php`, {
                     params: { artistVanity },
                 });
                 setTracks(tracksResponse.data.tracks);
                 console.log(tracksResponse.data.tracks);
 
-                const albumsResponse = await axios.get(`http://localhost/katalog/beta/api/artist-albums.php`, {
+                const albumsResponse = await axios.get(`http://192.168.100.8/katalog/beta/api/artist-albums.php`, {
                     params: { artistVanity },
                 });
                 setAlbums(albumsResponse.data.albums);
                 console.log(albumsResponse.data.albums);
 
-                const relatedArtistsResponse = await axios.get(`http://localhost/katalog/beta/api/related-artists.php`, {
+                const relatedArtistsResponse = await axios.get(`http://192.168.100.8/katalog/beta/api/related-artists.php`, {
                     params: { artistVanity },
                 });
                 setRelatedArtists(relatedArtistsResponse.data.artists);
@@ -127,7 +127,7 @@ function ArtistPage() {
                 </div>
                 <div className="albums-section">
                     <h3 onClick={() => setShowAlbums(!showAlbums)} className="toggle-header">
-                        Albums by {artistInfo.artistName} {showAlbums ? '⮟' : '⮞'}
+                        Albums by {artistInfo.artistName} {showAlbums ? '▼' : '►'}
                     </h3>
                     {showAlbums && (
                         albums.length > 0 ?
@@ -136,8 +136,8 @@ function ArtistPage() {
                                     <li key={`${album.albumSpotifyId}-${index}`}>
                                         <a href={`/album/${album.artistVanity}/${album.albumVanity}`}>
                                             <img src={album.albumCoverUrl} alt={album.albumName} className="album-cover" />
-                                            <span>{album.albumName}</span><br />
-                                            <small><span>{formatAlbumType(album.albumType)} | {formatReleaseDate(album.releaseDate)}</span></small>
+                                            <span className="album-name">{album.albumName}</span><br />
+                                            <small className="album-details"><span>{formatAlbumType(album.albumType)} | {formatReleaseDate(album.releaseDate)}</span></small>
                                         </a>
                                     </li>
                                 ))}
@@ -150,7 +150,7 @@ function ArtistPage() {
                 </div>
                 <div className="tracks-section">
                     <h3 onClick={() => setShowTracks(!showTracks)} className="toggle-header">
-                        Songs by {artistInfo.artistName} {showTracks ? '⮟' : '⮞'}
+                        Songs by {artistInfo.artistName} {showTracks ? '▼' : '►'}
                     </h3>
                     {showTracks && (
                         tracks.length > 0 ? (

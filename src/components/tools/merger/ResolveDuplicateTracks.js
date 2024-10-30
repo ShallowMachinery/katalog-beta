@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import MenuBar from '../MenuBar';
+import MenuBar from '../../MenuBar';
 import axios from 'axios';
 import './ResolveDuplicateTracks.css';
 
@@ -10,11 +10,16 @@ function ResolveDuplicateTracks() {
     const [error, setError] = useState('');
     const [expandedRows, setExpandedRows] = useState([]);
     const [selectedTracks, setSelectedTracks] = useState({});
+    const userToken = localStorage.getItem('access_token');
 
     useEffect(() => {
         const fetchDuplicateTracks = async () => {
             try {
-                const response = await axios.get('http://localhost/katalog/beta/api/get-duplicate-tracks.php');
+                const response = await axios.get('http://192.168.100.8/katalog/beta/api/get-duplicate-tracks.php', {
+                    headers: {
+                        Authorization: `Bearer ${userToken}`
+                    }
+                });
                 setDuplicateTracks(response.data);
                 console.log('Duplicate Tracks API Response:', response.data);
             } catch (error) {
@@ -46,9 +51,13 @@ function ResolveDuplicateTracks() {
 
         const primaryTrackId = trackIds[0];
         try {
-            const response = await axios.post('http://localhost/katalog/beta/api/merge-tracks.php', {
+            const response = await axios.post('http://192.168.100.8/katalog/beta/api/merge-tracks.php', {
                 primaryTrackId,
                 duplicateTrackIds: trackIds.slice(1)
+            }, {
+                headers: {
+                    Authorization: `Bearer ${userToken}` // Set the Authorization header
+                }
             });
 
             if (response.data.success) {

@@ -25,9 +25,7 @@ SELECT
 FROM 
     `katalog1`.`Tracks` t
 JOIN 
-    `katalog1`.`Track_Artists` ta ON t.`track_id` = ta.`track_id`
-JOIN 
-    `katalog1`.`Artists` a ON ta.`artist_id` = a.`artist_id`
+    `katalog1`.`Artists` a ON t.`track_main_artist_id` = a.`artist_id`
 JOIN 
     `katalog1`.`Track_Albums` ta2 ON t.`track_id` = ta2.`track_id`
 JOIN 

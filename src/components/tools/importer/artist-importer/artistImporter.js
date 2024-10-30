@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './artistImporter.css';
-import { getSpotifyAccessToken } from '../../spotifyAuth';
+import { getSpotifyAccessToken } from '../../../spotifyAuth';
 
 function ArtistImporter() {
     const [spotifyArtistId, setSpotifyArtistId] = useState('');
@@ -17,7 +17,7 @@ function ArtistImporter() {
         // Fetch the timer details from the server when the component mounts
         const fetchTimer = async () => {
             try {
-                const response = await axios.get('http://localhost/katalog/beta/api/timer.php?type=artist');
+                const response = await axios.get('http://192.168.100.8/katalog/beta/api/timer.php?type=artist');
                 const expiryTime = response.data.expiryTime;
                 const currentTime = Math.floor(Date.now() / 1000);
                 
@@ -65,7 +65,7 @@ function ArtistImporter() {
 
         // Store the expiry time in the backend
         try {
-            await axios.post('http://localhost/katalog/beta/api/timer.php', {
+            await axios.post('http://192.168.100.8/katalog/beta/api/timer.php', {
                 type: 'artist',
                 expiryTime: expiryTime
             }, {
@@ -217,6 +217,7 @@ function ArtistImporter() {
 
         try {
             const accessToken = await getSpotifyAccessToken();
+            const userToken = localStorage.getItem("access_token");
 
             for (let albumData of allAlbumData) {
                 // Calculate total duration of the album
@@ -282,10 +283,11 @@ function ArtistImporter() {
                 console.log(data);
 
                 try {
-                    const response = await fetch('http://localhost/katalog/beta/api/importAlbum.php', {
+                    const response = await fetch('http://192.168.100.8/katalog/beta/api/importAlbum.php', {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${userToken}`
                         },
                         body: JSON.stringify(data)
                     });

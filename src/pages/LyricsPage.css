@@ -372,3 +372,111 @@ body {
     margin: 0; /* Removes default margin */
     font-size: 0.9em; /* Smaller font size for track number */
 }
+
+@media (max-width: 768px) { /* You can adjust the max-width as needed */
+    .lyrics-page-container {
+        margin-top: 60px;
+    }
+
+    .lyrics-page-container .album-info .album-cover {
+        width: 125px;
+        height: 125px;
+    }
+    
+    .lyrics-page-container .album-info .album-details .track-name {
+        font-size: 20px;
+    }
+    
+    .lyrics-page-container .album-info .album-details .track-explicit {
+        font-size: 10px;
+    }
+    
+    .lyrics-page-container .album-info .album-details .artist-name {
+        font-size: 16px;
+    }
+    
+    .lyrics-page-container .album-info .album-details .album-name {
+        font-size: 14px;
+    }
+    
+    .lyrics-page-container .album-info .edit-lyrics-button {
+        font-family: "Hind Siliguri", sans-serif;
+        position: absolute;
+        top: 250px;
+        right: 40px;
+    }
+    
+    .lyrics-section .lyrics-header {
+        font-size: 18px;
+    }
+    
+    .lyrics-section .lyrics {
+        font-size: 14px;
+    }
+    
+    .lyrics-section .lyrics .lyrics-tag {
+        color: #4d6d9a;
+        font-weight: bold;
+    }
+    
+    .lyrics-section .lyrics-options .instrumental-label {
+        font-size: 14px; /* Increase font size for the label */
+    }
+    
+    .lyrics-section .lyrics-options .instrumental-label .custom-checkbox {
+        width: 14px; /* Custom checkbox width */
+        height: 14px; /* Custom checkbox height */
+    }
+    
+    /* Button Styles */
+    .lyrics-section .lyrics-options .save-lyrics-button, 
+    .lyrics-section .lyrics-options .cancel-lyrics-button {
+        font-family: "Hind Siliguri", sans-serif;
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+    
+    .additional-info {
+        padding: 20px;
+        font-size: 16px;
+        line-height: 1.6;
+        color: #333;
+        margin-top: 20px;
+        display: flex;
+    }
+    
+    .additional-info .more-information .info-header {
+        font-size: 18px;
+    }
+    
+    .additional-info .more-information .info-table {
+        margin-top: 5px;
+    }
+    
+    .additional-info .more-information .info-table td {
+        font-size: small;
+    }
+    
+    .additional-info {
+        flex-direction: column;
+    }
+
+    .additional-info .track-albums {
+        margin-top: 20px;
+    }
+
+    .additional-info .track-albums .track-album-header {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+    
+    .additional-info .track-albums .album-entry {
+        margin-top: 10px;
+        font-size: small;
+    }
+    
+    .additional-info .track-albums .album-cover {
+        width: 45px; /* Fixed width for album cover */
+        height: 45px; /* Fixed height for album cover */
+    }
+}

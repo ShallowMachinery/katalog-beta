@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import MenuBar from '../MenuBar';
+import MenuBar from '../../MenuBar';
 import axios from 'axios';
 import './ResolveDuplicateArtists.css';
 
@@ -8,12 +8,17 @@ function ResolveDuplicateArtists() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const [expandedRows, setExpandedRows] = useState([]); // To track expanded rows
+    const userToken = localStorage.getItem('access_token');
 
     // Fetch duplicate artists when the page loads
     useEffect(() => {
         const fetchDuplicateArtists = async () => {
             try {
-                const response = await axios.get('http://localhost/katalog/beta/api/get-duplicate-artists.php');
+                const response = await axios.get('http://192.168.100.8/katalog/beta/api/get-duplicate-artists.php', {
+                    headers: {
+                        Authorization: `Bearer ${userToken}`
+                    }
+                });
                 setDuplicateArtists(response.data);
                 console.log('Duplicate Artists API Response:', response.data);
             } catch (error) {
@@ -32,9 +37,13 @@ function ResolveDuplicateArtists() {
         const primaryArtistId = idsArray[0]; // Use the first artist ID as the primary
     
         try {
-            const response = await axios.post('http://localhost/katalog/beta/api/merge-artists.php', {
+            const response = await axios.post('http://192.168.100.8/katalog/beta/api/merge-artists.php', {
                 primaryArtistId,
                 duplicateArtistIds: idsArray.slice(1) // Pass the remaining IDs for merging
+            }, {
+                headers: {
+                    Authorization: `Bearer ${userToken}` // Set the Authorization header
+                }
             });
     
             if (response.data.success) {
