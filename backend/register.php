@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $hashedPassword = hash('sha256', $password);
 
     // Check for existing username or email
-    $stmt = $conn->prepare("SELECT COUNT(*) FROM `katalog1`.Accounts WHERE `user_name` = ? OR `user_email` = ?");
+    $stmt = $conn->prepare("SELECT COUNT(*) FROM `katalog1`.`Accounts` WHERE `user_name` = ? OR `user_email` = ?");
     $stmt->bind_param("ss", $username, $email);
     $stmt->execute();
     $stmt->bind_result($count);
@@ -44,10 +44,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userTypeName = "Member";
 
     // Insert new user
-    $stmt = $conn->prepare("INSERT INTO `katalog1`.Accounts (last_name, first_name, middle_name, user_picture_link, user_hierarchy, user_type_name, user_email, user_password, user_name, birthday) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO `katalog1`.`Accounts` (`last_name`, `first_name`, `middle_name`, `user_picture_link`, `user_hierarchy`, `user_type_name`, `user_email`, `user_password`, `user_name`, `birthday`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("ssssisssss", $surname, $firstName, $middleName, $userPictureLink, $userHierarchy, $userTypeName, $email, $hashedPassword, $username, $birthday);
 
     if ($stmt->execute()) {
+        $userId = $conn->insert_id;
+
+        // Insert into User_Points table
+        $stmt = $conn->prepare("INSERT INTO `katalog1`.`User_Points` (`user_id`, `user_points`) VALUES (?, 0)");
+        $stmt->bind_param("i", $userId);
+
+        if (!$stmt->execute()) {
+            $response['message'] = 'Failed to initialize user points.';
+        }
+
         $response['success'] = true;
         $response['message'] = 'Registration successful!';
     } else {

@@ -38,6 +38,8 @@ if (!$trackId || !$newLyrics) {
     exit;
 }
 
+$pointsToAdd = 0;
+
 if ($trackId && $newLyrics) {
     $stmt = $conn->prepare("SELECT `lyrics_id`, `lyrics` FROM `katalog1`.`Track_Lyrics` WHERE `track_id` = ? ORDER BY `lyrics_id` DESC LIMIT 1");
     if (!$stmt) {
@@ -59,6 +61,7 @@ if ($trackId && $newLyrics) {
         $stmt->bind_param("ssii", $newLyrics, $language, $contributorId, $existingLyrics['lyrics_id']);
 
         if ($stmt->execute()) {
+            $pointsToAdd = 8;
             echo json_encode(['status' => 'success', 'message' => 'Lyrics updated successfully.']);
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Failed to update lyrics: ' . $stmt->error]);
@@ -75,9 +78,25 @@ if ($trackId && $newLyrics) {
         $stmt->bind_param("isis", $trackId, $newLyrics, $contributorId, $language);
 
         if ($stmt->execute()) {
+            $pointsToAdd = 5;
             echo json_encode(['status' => 'success', 'message' => 'Lyrics added successfully.']);
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Failed to add lyrics: ' . $stmt->error]);
+        }
+
+        $stmt->close();
+    }
+
+    if ($pointsToAdd > 0) {
+        $stmt = $conn->prepare("UPDATE `katalog1`.`User_Points` SET `user_points` = `user_points` + ? WHERE `user_id` = ?");
+        if (!$stmt) {
+            echo json_encode(['status' => 'error', 'message' => 'Failed to prepare update points statement: ' . $conn->error]);
+            exit;
+        }
+        $stmt->bind_param("ii", $pointsToAdd, $contributorId);
+
+        if (!$stmt->execute()) {
+            echo json_encode(['status' => 'error', 'message' => 'Failed to update user points: ' . $stmt->error]);
         }
 
         $stmt->close();

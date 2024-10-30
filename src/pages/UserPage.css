@@ -1,0 +1,140 @@
+body {
+    margin: 0;
+    font-family: "Hind Siliguri", sans-serif;
+    background-color: #add8e6; /* Light blue background */
+    color: #333;
+}
+
+.user-page-container {
+    max-width: 800px;
+    margin: 100px auto 50px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-page-container .user-info {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding: 20px; /* Add padding */
+    background: rgba(255, 255, 255, 0.8); /* Slightly opaque background for contrast */
+}
+
+.user-page-container .user-info .user-picture {
+    width: 120px; /* Adjust size */
+    height: 120px; /* Adjust size */
+    border-radius: 50%; /* Circular image */
+    margin-right: 20px; /* Space between image and text */
+    border: 3px solid #fff; /* White border around the picture */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Stronger shadow */
+}
+
+.user-page-container .user-info .user-details {
+    text-align: left;
+    flex-grow: 1; /* Allow this section to take up remaining space */
+    line-height: 1rem;
+}
+
+.user-page-container .user-info .user-details .type {
+    font-size: 16px; /* Font size for user type */
+    color: #7f8c8d; /* Grey color */
+    margin: 0;
+    margin-bottom: 5px;
+    font-style: italic; /* Italicize user type */
+}
+
+.user-page-container .user-info .user-details .legal-name {
+    font-size: 24px; /* Slightly larger font */
+    margin: 0;
+    color: #2c3e50; /* Darker color for better readability */
+    font-weight: 600; /* Semi-bold font weight */
+    margin-top: 5px; /* Margin for spacing */
+    margin-bottom: 5px; /* Margin for spacing */
+}
+
+.user-page-container .user-info .user-details .username {
+    font-size: 16px; /* Font size for username */
+    color: #34495e; /* Darker color for contrast */
+    margin-top: 5px; /* Margin for spacing */
+    margin-bottom: 5px; /* Margin for spacing */
+}
+
+.user-page-container .user-info .user-details .points {
+    font-size: 1rem; /* Adjust size as needed */
+    color: #666;     /* Change color as needed */
+    margin: 0;
+    margin-top: 5px; /* Margin for spacing */
+}
+
+.user-page-container .recent-contributions {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.user-page-container .recent-contributions h1 {
+    color: #333;
+    font-size: 1.5em;
+    margin-bottom: 15px;
+    margin-top: 0px;
+}
+
+.user-page-container .recent-contributions ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.user-page-container .recent-contributions li {
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.user-page-container .recent-contributions .contribution-item {
+    display: flex;             /* Use flexbox for alignment */
+    align-items: center;      /* Center items vertically */
+    justify-content: space-between; /* Space items evenly */
+}
+
+.user-page-container .recent-contributions .contribution-item .album-cover {
+    width: 50px;              /* Set width for the album cover */
+    height: 50px;             /* Set height for the album cover */
+    border-radius: 8px;       /* Rounded corners */
+    margin-right: 15px;       /* Space between cover and text */
+    object-fit: cover;        /* Cover the image nicely */
+}
+
+.user-page-container .recent-contributions .text-container {
+    flex: 1;                           /* Allow text to take up remaining space */
+}
+
+.user-page-container .recent-contributions a {
+    text-decoration: none;
+    color: #007bff;
+    flex: 1;                  /* Allow the link to take up remaining space */
+}
+
+.user-page-container .recent-contributions .contribution-item .updated-at {
+    font-size: 0.9em;
+    color: #666;
+    margin-left: 10px;        /* Space between text and date */
+}
+
+@media (max-width: 768px) {
+    .user-page-container .user-info {
+        flex-direction: column; /* Stack the picture and details */
+        align-items: center; /* Center-align */
+    }
+
+    .user-page-container .user-info .user-picture {
+        margin-bottom: 15px; /* Space below image */
+    }
+
+    .user-page-container .user-info .user-details {
+        text-align: center;
+    }
+}

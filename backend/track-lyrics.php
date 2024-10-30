@@ -11,6 +11,7 @@ $stmt = $conn->prepare("
         tl.`language` AS `language`,
         tl.`updated_at` AS `updateTimestamp`,
         u.`user_id` AS `userId`,
+        u.`user_hierarchy` AS `userHierarchy`,
         u.`first_name` AS `firstName`,
         u.`last_name` AS `lastName`,
         u.`user_name` AS `userName`,

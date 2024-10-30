@@ -28,6 +28,7 @@
     margin-right: 4rem;
     top: 50%;
     transform: translateY(-50%);
+    gap: 50px;
 }
 
 .menu-bar .menu-links a {

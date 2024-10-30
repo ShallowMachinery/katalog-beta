@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 import MenuBar from '../components/MenuBar';
 import DetectLanguage from 'detectlanguage';
 import './LyricsPage.css';
@@ -20,9 +21,11 @@ function LyricsPage() {
     const location = useLocation();
     const [isrcsVisible, setIsrcsVisible] = useState(false); // State to control visibility of ISRCs
     const [isrcs, setIsrcs] = useState([]); // State to hold ISRCs
-    
+
     const userToken = localStorage.getItem('access_token');
     const detectlanguage = new DetectLanguage(process.env.REACT_APP_DETECT_LANGUAGE_API_KEY);
+
+    const [userHierarchy, setUserHierarchy] = useState(0);
 
     const languageMap = {
         'en': 'English',
@@ -40,6 +43,14 @@ function LyricsPage() {
         'war': 'Waray',
         'null': 'Not available'
     };
+
+    useEffect(() => {
+        // Decode the user token to get the user hierarchy
+        if (userToken) {
+            const decodedToken = jwtDecode(userToken);
+            setUserHierarchy(decodedToken.data.user_hierarchy || 0); // Set the user hierarchy
+        }
+    }, [userToken]);
 
     useEffect(() => {
         const fetchAlbums = async (trackId) => {
@@ -194,6 +205,14 @@ function LyricsPage() {
         );
     }
 
+    const isUserAdmin = userHierarchy === 1;
+    const isUserMember = userHierarchy === 3;
+    const hasLyrics = lyricsInfo.lyrics;
+    const isLyricsAdminLocked = lyricsInfo.userHierarchy === 1;
+    // const isLyricsMemberDone = lyricsInfo.userHierarchy === 3;
+    // const isLyricsEditableByAdmin = userHierarchy === lyricsInfo.userHierarchy && userHierarchy === 1;
+    // const isLyricsEditableByUser = userHierarchy === lyricsInfo.userHierarchy && userHierarchy === 3;
+    
     return (
         <div>
             <MenuBar />
@@ -209,11 +228,6 @@ function LyricsPage() {
                             <p className="album-name" title={`Disc #${trackInfo.discNumber}`}>Track {trackInfo.trackNumber} on <strong>{trackInfo.albumName}</strong> · {new Date(trackInfo.releaseDate).getFullYear()}</p>
                         </Link>
                     </div>
-                    {userToken && !isEditing && (
-                        <button className="edit-lyrics-button" onClick={handleEditClick}>
-                            {lyrics ? 'Edit lyrics' : 'Add lyrics'}
-                        </button>
-                    )}
                 </div>
 
                 {/* <div className="font-size-toggle">
@@ -256,6 +270,18 @@ function LyricsPage() {
                         </div>
                     ) : (
                         <div className={fontSizeClass}>
+                            <div className="edit-lyrics-button-container">
+                                {userToken && (
+                                    <button
+                                        className="edit-lyrics-button"
+                                        onClick={handleEditClick}
+                                        disabled={(hasLyrics && isLyricsAdminLocked && isUserMember)}
+                                    >
+                                        {hasLyrics ? (isLyricsAdminLocked ? (isUserAdmin ? 'Edit lyrics' : 'Locked lyrics') : 'Edit lyrics') : 'Add lyrics'}
+                                    </button>
+                                )}
+                            </div>
+
                             {isInstrumental ? (
                                 <p>This song is instrumental.</p>
                             ) : (
@@ -323,7 +349,13 @@ function LyricsPage() {
                                 </tr>
                                 <tr>
                                     <td>Last modified by</td>
-                                    <td>{lyricsInfo ? `${lyricsInfo.userName} (${lyricsInfo.firstName} ${lyricsInfo.lastName}) [${lyricsInfo.userType}]` : 'Unknown'}</td>
+                                    <td>
+                                        {lyricsInfo ? (
+                                            <Link to={`/user/${lyricsInfo.userName}`} style={{ textDecoration: 'none', color: 'gray' }}>
+                                                {`${lyricsInfo.userName} (${lyricsInfo.firstName} ${lyricsInfo.lastName}) [${lyricsInfo.userType}]`}
+                                            </Link>
+                                        ) : 'Unknown'}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Last updated at</td>

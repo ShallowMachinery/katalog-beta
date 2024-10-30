@@ -63,3 +63,10 @@
 - Added account functionality, users can now create accounts and log in
 - Updating lyrics, importing albums (admin), merging artists and tracks (admin) now require access token
 - Added support for smaller screens (devices)
+
+## v0.6.0
+
+- Added user pages, with functionality to view recent contributions
+- Added pointing system, where adding a new lyrics is equivalent to 8 points, meanwhile editing/updating the lyrics is given 5 points
+- Added link to the user page who modified the lyrics recently
+- Administrator can now lock their lyrics, meaning member accounts can't directly edit the lyrics
