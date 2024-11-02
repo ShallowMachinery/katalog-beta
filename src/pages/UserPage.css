@@ -124,7 +124,39 @@ body {
     margin-left: 10px;        /* Space between text and date */
 }
 
+.user-page-container .pagination-controls {
+    display: flex;
+    justify-content: center; /* Center buttons horizontally */
+    margin: 20px 0; /* Margin for spacing */
+}
+
+.user-page-container .pagination-controls button {
+    font-family: "Hind Siliguri", sans-serif;
+    background-color: #007bff; /* Button background color */
+    color: white; /* Button text color */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 15px; /* Padding for buttons */
+    margin: 0 5px; /* Space between buttons */
+    font-size: 16px; /* Font size */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.user-page-container .pagination-controls button:hover:not(:disabled) {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.user-page-container .pagination-controls button:disabled {
+    background-color: #ccc; /* Light grey for disabled state */
+    cursor: not-allowed; /* Not-allowed cursor for disabled button */
+}
+
 @media (max-width: 768px) {
+    .user-page-container {
+        margin-top: 60px;
+    }
+
     .user-page-container .user-info {
         flex-direction: column; /* Stack the picture and details */
         align-items: center; /* Center-align */
@@ -132,9 +164,14 @@ body {
 
     .user-page-container .user-info .user-picture {
         margin-bottom: 15px; /* Space below image */
+        margin-right: 0px;
     }
 
     .user-page-container .user-info .user-details {
         text-align: center;
+    }
+
+    .user-page-container .recent-contributions {
+        font-size: small;
     }
 }

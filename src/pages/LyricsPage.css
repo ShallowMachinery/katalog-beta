@@ -131,6 +131,7 @@ body {
 }
 
 .lyrics-section {
+    margin-top: -60px;
     position: relative;
     background-color: #f9f9f9;
     padding: 20px;
@@ -140,7 +141,6 @@ body {
     font-size: 16px;
     line-height: 1.5;
     color: #333;
-    margin-top: 20px;
 }
 
 .lyrics-section .lyrics-header {
@@ -300,6 +300,7 @@ body {
 }
 
 /* Button Styles */
+.lyrics-section .lyrics-options .more-options-lyrics-button,
 .lyrics-section .lyrics-options .save-lyrics-button,
 .lyrics-section .lyrics-options .cancel-lyrics-button {
     font-family: "Hind Siliguri", sans-serif;
@@ -309,6 +310,64 @@ body {
     cursor: pointer;
     font-size: 14px;
     transition: background-color 0.3s;
+}
+
+.lyrics-section .lyrics-options .more-options-lyrics-button {
+    background-color: #4d6d9a;
+    color: white;
+    margin-right: 8px;
+}
+
+.lyrics-section .lyrics-options .more-options-lyrics-button:hover {
+    background-color: #2d405a;
+}
+
+.lyrics-section .lyrics-options .options-overlay {
+    font-family: "Hind Siliguri", sans-serif;
+    color: white;
+    position: absolute;
+    top: 93.5%; /* Position just below the button */
+    right: 50;
+    background-color: #597fb4;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a slight shadow */
+    border-radius: 4px;
+    margin-top: 6px; /* Space between button and menu */
+    z-index: 100;
+    min-width: 113px; /* Ensure a minimum width */
+    padding: 8px 0; /* Vertical padding */
+}
+
+/* Style each option within the overlay */
+.lyrics-section .lyrics-options .options-overlay ul {
+    list-style: none; /* Remove default list styling */
+    padding: 8px 12px;
+    margin: 0;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    color: #f4ecff; /* Red color for delete option */
+}
+
+.lyrics-section .lyrics-options .options-overlay ul.disabled {
+    cursor: not-allowed;
+    color: gray;
+}
+
+.lyrics-section .lyrics-options .options-overlay ul.disabled:hover {
+    background-color: inherit;
+}
+
+.lyrics-section .lyrics-options .options-overlay ul:hover {
+    background-color: #2d405a; /* Light background on hover */
+}
+
+.lyrics-section .lyrics-options .options-overlay ul:nth-child(2) {
+    color: #ffc2c2;
+}
+
+.lyrics-section .lyrics-options .options-overlay ul:nth-child(2):hover {
+    background-color: #f9e0e0; /* Light red background on hover */
+    color: red;
 }
 
 .lyrics-section .lyrics-options .save-lyrics-button {
@@ -321,6 +380,15 @@ body {
     background-color: #45a049;
 }
 
+.lyrics-section .lyrics-options .save-lyrics-button:disabled {
+    background-color: gray;
+    cursor: not-allowed;
+}
+
+.lyrics-section .lyrics-options .save-lyrics-button:disabled:hover {
+    background-color: black;
+}
+
 .lyrics-section .lyrics-options .cancel-lyrics-button {
     background-color: #f44336;
     color: white;
@@ -329,7 +397,6 @@ body {
 .lyrics-section .lyrics-options .cancel-lyrics-button:hover {
     background-color: #e31b0c;
 }
-
 
 .additional-info {
     padding: 20px;
@@ -515,7 +582,10 @@ body {
 
     .lyrics-section .lyrics-options .instrumental-label {
         font-size: 14px;
-        /* Increase font size for the label */
+    }
+
+    .lyrics-section .lyrics-options .instrumental-label span {
+        font-size: 13px;
     }
 
     .lyrics-section .lyrics-options .instrumental-label .custom-checkbox {
@@ -526,6 +596,7 @@ body {
     }
 
     /* Button Styles */
+    .lyrics-section .lyrics-options .more-options-lyrics-button,
     .lyrics-section .lyrics-options .save-lyrics-button,
     .lyrics-section .lyrics-options .cancel-lyrics-button {
         font-family: "Hind Siliguri", sans-serif;

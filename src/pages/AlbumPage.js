@@ -32,6 +32,7 @@ function AlbumPage() {
                     params: { albumVanity, artistVanity },
                 });
                 setTracks(tracksResponse.data.tracks);
+                console.log(tracks);
 
                 const multiDisc = tracksResponse.data.tracks.some(track => track.discNumber !== 1);
                 setIsMultiDisc(multiDisc);
@@ -125,7 +126,7 @@ function AlbumPage() {
                                     <div key={track.trackId} className="track-list-item">
                                         <span className="track-number">{track.trackNumber}</span>
                                         <div className="track-info">
-                                            <Link to={`/lyrics/${track.trackMainArtistId}/${track.trackId}`}>
+                                            <Link to={`/lyrics/${track.artistVanity}/${track.trackVanity}`}>
                                                 {track.trackName}
                                             </Link><br />
                                             <small>{track.artistName}</small>

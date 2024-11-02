@@ -53,7 +53,7 @@ function App() {
         />
         <Route path="/" element={<HomePage />} />
         <Route path="/home" element={<HomePage />} />
-        <Route path="/lyrics/:artistId/:trackId" element={<LyricsPage />} />
+        <Route path="/lyrics/:artistVanity/:trackVanity" element={<LyricsPage />} />
         <Route path="/album/:artistVanity/:albumVanity" element={<AlbumPage />} />
         <Route path="/artist/:artistVanity" element={<ArtistPage />} />
 

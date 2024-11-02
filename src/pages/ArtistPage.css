@@ -58,6 +58,34 @@
     margin-top: 5px;
 }
 
+.artist-page-container .albums-section .album-filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.artist-page-container .albums-section .album-filters button {
+    font-family: "Hind Siliguri", sans-serif;
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4d6d9a;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: 100%
+}
+
+.artist-page-container .albums-section .album-filters button:hover {
+    background-color: #2d405a;
+}
+
+.artist-page-container .albums-section .album-filters button.active {
+    background-color: #2d405a;;
+    color: white;
+}
+
 .toggle-header {
     cursor: pointer;
     color: #4d6d9a;
@@ -73,6 +101,7 @@
     list-style: none;
     padding: 0;
     justify-content: center;
+    line-height: 1.5rem;
 }
 
 .artist-page-container .albums-section .album-list li {
@@ -100,6 +129,7 @@
 .artist-page-container .tracks-section .track-list {
     list-style: none;
     padding: 0;
+    margin-top: 10px;
     margin-bottom: 10px;
 }
 
@@ -135,6 +165,33 @@
 
 .artist-page-container .tracks-section .track-list-div .track-list-info small {
     color: #5e6a7a;
+}
+
+.artist-page-container .tracks-section .pagination-controls {
+    display: flex;
+    justify-content: center; /* Center buttons horizontally */
+}
+
+.artist-page-container .tracks-section .pagination-controls button {
+    font-family: "Hind Siliguri", sans-serif;
+    background-color: #007bff; /* Button background color */
+    color: white; /* Button text color */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 15px; /* Padding for buttons */
+    margin: 0 5px; /* Space between buttons */
+    font-size: 12px; /* Font size */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.artist-page-container .tracks-section .pagination-controls button:hover:not(:disabled) {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.artist-page-container .tracks-section .pagination-controls button:disabled {
+    background-color: #ccc; /* Light grey for disabled state */
+    cursor: not-allowed; /* Not-allowed cursor for disabled button */
 }
 
 .artist-page-container .related-artists-section {

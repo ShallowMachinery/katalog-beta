@@ -50,13 +50,13 @@ if ($result) {
 
         // Fetch additional details for each duplicate track
         $trackDetailsSql = "
-            SELECT t.track_id, t.track_name, ta.artist_id, ar.artist_name, ar.artist_id, al.album_name, al.release_date, t.duration, te.isrc
+            SELECT t.track_id, t.track_name, t.track_vanity, t.track_main_artist_id, ar.artist_name, ar.artist_vanity, ar.artist_id, al.album_name, al.release_date, t.duration, te.isrc, ts.track_spotify_id
             FROM katalog1.tracks t
-            JOIN katalog1.track_artists ta ON t.track_id = ta.track_id
-            JOIN katalog1.artists ar ON ta.artist_id = ar.artist_id
+            JOIN katalog1.artists ar ON t.track_main_artist_id = ar.artist_id
             JOIN katalog1.track_albums ta1 ON t.track_id = ta1.track_id
             JOIN katalog1.albums al ON ta1.album_id = al.album_id
             JOIN katalog1.track_external_ids te ON t.track_id = te.track_id
+            JOIN katalog1.track_spotify_ids ts ON t.track_id = ts.track_id
             WHERE t.track_id IN ($track_ids)
             GROUP BY t.track_id
         ";

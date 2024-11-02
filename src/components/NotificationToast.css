@@ -1,0 +1,46 @@
+.notification-toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    animation: slide-in 0.2s ease-out;
+    opacity: 1;
+    z-index: 1001;
+    transition: opacity 1s ease-out;
+}
+
+.notification-toast.success {
+    background-color: #4caf50;
+}
+
+.notification-toast.error {
+    background-color: #f44336;
+}
+
+.notification-toast.fade-out {
+    animation: fadeOut 0.5s forwards;
+}
+
+.notification-toast button {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+@keyframes slide-in {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}

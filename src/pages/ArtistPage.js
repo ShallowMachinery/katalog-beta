@@ -14,39 +14,34 @@ function ArtistPage() {
     const [relatedArtists, setRelatedArtists] = useState([]);
     const [loading, setLoading] = useState(true);
     const [showAlbums, setShowAlbums] = useState(true);
+    const [albumFilter, setAlbumFilter] = useState('all'); // Filter state
     const [showTracks, setShowTracks] = useState(false);
+    const [page, setPage] = useState(0);
+    const limit = 10;
 
     useEffect(() => {
         const fetchArtistInfo = async () => {
             try {
-                // Fetch artist information based on artistVanity
                 const response = await axios.get(`http://192.168.100.8/katalog/beta/api/artist-info.php`, {
                     params: { artistVanity },
                 });
                 const artistData = response.data;
                 setArtistInfo(artistData);
-
                 if (artistData) {
                     document.title = `${artistData.artistName} | Katalog`;
                 }
-
                 const tracksResponse = await axios.get(`http://192.168.100.8/katalog/beta/api/artist-tracks.php`, {
                     params: { artistVanity },
                 });
                 setTracks(tracksResponse.data.tracks);
-                console.log(tracksResponse.data.tracks);
-
                 const albumsResponse = await axios.get(`http://192.168.100.8/katalog/beta/api/artist-albums.php`, {
                     params: { artistVanity },
                 });
                 setAlbums(albumsResponse.data.albums);
-                console.log(albumsResponse.data.albums);
-
                 const relatedArtistsResponse = await axios.get(`http://192.168.100.8/katalog/beta/api/related-artists.php`, {
                     params: { artistVanity },
                 });
                 setRelatedArtists(relatedArtistsResponse.data.artists);
-                console.log(relatedArtistsResponse.data.artists);
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching artist info or tracks:', error);
@@ -55,6 +50,36 @@ function ArtistPage() {
         };
         fetchArtistInfo();
     }, [artistVanity]);
+
+    const handleFilterChange = (filter) => {
+        setAlbumFilter(filter);
+    };
+
+    const filteredAlbums = albums.filter(album => {
+        if (albumFilter === 'all') return true;
+        if (albumFilter === 'album') return album.albumType === 'album' || album.albumType === 'compilation';
+        return album.albumType === albumFilter;
+    });
+
+    const uniqueTracks = tracks.reduce((accumulator, track) => {
+        if (!accumulator.some(item => item.trackId === track.trackId)) {
+            accumulator.push(track);
+        }
+        return accumulator;
+    }, []);
+
+    // Calculate paginated tracks
+    const paginatedTracks = uniqueTracks.slice(page * limit, (page + 1) * limit);
+
+    // Pagination handlers
+    const handleNextPage = () => {
+        setPage(prevPage => prevPage + 1);
+    };
+
+    const handlePreviousPage = () => {
+        setPage(prevPage => Math.max(prevPage - 1, 0));
+    };
+
 
     if (loading) {
         return (
@@ -130,47 +155,60 @@ function ArtistPage() {
                         Albums by {artistInfo.artistName} {showAlbums ? '▼' : '►'}
                     </h3>
                     {showAlbums && (
-                        albums.length > 0 ?
-                            (<ul className="album-list">
-                                {albums.map((album, index) => (
-                                    <li key={`${album.albumSpotifyId}-${index}`}>
-                                        <a href={`/album/${album.artistVanity}/${album.albumVanity}`}>
-                                            <img src={album.albumCoverUrl} alt={album.albumName} className="album-cover" />
-                                            <span className="album-name">{album.albumName}</span><br />
-                                            <small className="album-details"><span>{formatAlbumType(album.albumType)} | {formatReleaseDate(album.releaseDate)}</span></small>
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
+                        <>
+                            <div className="album-filters">
+                                <button onClick={() => handleFilterChange('all')} className={albumFilter === 'all' ? 'active' : ''}>Show All</button>
+                                <button onClick={() => handleFilterChange('single')} className={albumFilter === 'single' ? 'active' : ''}>Singles</button>
+                                <button onClick={() => handleFilterChange('ep')} className={albumFilter === 'ep' ? 'active' : ''}>EPs</button>
+                                <button onClick={() => handleFilterChange('album')} className={albumFilter === 'album' ? 'active' : ''}>Albums</button>
+                            </div>
+                            {filteredAlbums.length > 0 ? (
+                                <ul className="album-list">
+                                    {filteredAlbums.map((album, index) => (
+                                        <li key={`${album.albumSpotifyId}-${index}`}>
+                                            <a href={`/album/${album.artistVanity}/${album.albumVanity}`}>
+                                                <img src={album.albumCoverUrl} alt={album.albumName} className="album-cover" />
+                                                <span className="album-name">{album.albumName}</span><br />
+                                                <small className="album-details"><span>{formatAlbumType(album.albumType)} | {formatReleaseDate(album.releaseDate)}</span></small>
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
                             ) : (
-                                <p>There are no albums listed under this artist.</p>
-                            )
-                    )
-                    }
+                                <p style={{ textAlign: "center " }}>No albums available for this filter.</p>
+                            )}
+                        </>
+                    )}
                 </div>
                 <div className="tracks-section">
                     <h3 onClick={() => setShowTracks(!showTracks)} className="toggle-header">
                         Songs by {artistInfo.artistName} {showTracks ? '▼' : '►'}
                     </h3>
                     {showTracks && (
-                        tracks.length > 0 ? (
-                            <ul className="track-list">
-                                {tracks.reduce((accumulator, track) => {
-                                    // Check if the trackId already exists in the accumulator
-                                    if (!accumulator.some(item => item.trackId === track.trackId)) {
-                                        accumulator.push(track); // Add the track if it's not already present
-                                    }
-                                    return accumulator; // Return the accumulator for the next iteration
-                                }, []).map((track, index) => (
-                                    <div className="track-list-div" key={`${track.trackId}-${index}`}>
-                                        <img src={track.albumCoverUrl} alt={track.albumName} className="track-album-cover" />
-                                        <div className="track-list-info">
-                                            <a href={`/lyrics/${track.trackMainArtistId}/${track.trackId}`}>{track.trackName}</a>
-                                            <small>{track.artistName}</small>
-                                        </div>
+                        uniqueTracks.length > 0 ? (
+                            <>
+                                {uniqueTracks.length > limit && (
+                                    <div className="pagination-controls">
+                                        {page > 0 && (
+                                            <button onClick={handlePreviousPage}>Previous</button>
+                                        )}
+                                        {(page + 1) * limit < uniqueTracks.length && (
+                                            <button onClick={handleNextPage}>Next</button>
+                                        )}
                                     </div>
-                                ))}
-                            </ul>
+                                )}
+                                <ul className="track-list">
+                                    {paginatedTracks.map((track, index) => (
+                                        <div className="track-list-div" key={`${track.trackId}-${index}`}>
+                                            <img src={track.albumCoverUrl} alt={track.albumName} className="track-album-cover" />
+                                            <div className="track-list-info">
+                                                <a href={`/lyrics/${track.artistVanity}/${track.trackVanity}`}>{track.trackName}</a>
+                                                <small>{track.artistName}</small>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </ul>
+                            </>
                         ) : (
                             <p>There are no tracks listed under this artist.</p>
                         )
@@ -191,7 +229,7 @@ function ArtistPage() {
                                 </li>
                             ))
                         ) : (
-                            <li>No related artists found.</li> // Message for no related artists
+                            <li>No related artists found.</li>
                         )}
                     </ul>
                 </div>

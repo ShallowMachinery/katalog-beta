@@ -1,0 +1,62 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0; /* Start hidden */
+    transition: opacity 0.3s ease; /* Fade effect */
+    visibility: hidden; /* Prevent interaction when hidden */
+}
+
+.modal-overlay.show {
+    opacity: 1; /* Fully visible when shown */
+    visibility: visible; /* Make it interactable */
+}
+
+.modal-overlay.show .modal-content {
+    font-size: large;
+    color: black;
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transform: translateY(-30px); /* Start slightly above */
+    transition: transform 0.3s ease, opacity 0.3s ease; /* Smooth entrance */
+    opacity: 0; /* Start hidden */
+    width: 20rem;
+    transform: translateY(0); /* Slide in */
+    opacity: 1; /* Fully visible */
+}
+
+.modal-overlay.show .modal-content .modal-actions {
+    margin-top: 20px;
+}
+
+.modal-overlay.show .modal-content .modal-actions button {
+    font-family: "Hind Siliguri", sans-serif;
+    padding: 10px 15px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 4px;
+    background: #007BFF; /* Primary color */
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease; /* Smooth background change */
+}
+
+.modal-overlay.show .modal-content .modal-actions button:hover {
+    background: #0056b3; /* Darker shade on hover */
+}
+
+.modal-overlay.show .modal-content .modal-actions button:focus {
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5); /* Custom focus outline */
+}

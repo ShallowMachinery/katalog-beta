@@ -103,7 +103,7 @@ function ResolveDuplicateTracks() {
                 const durations = track_details.map(detail => convertToSeconds(detail.duration));
                 const hasLongerDurations = durations.some(duration => duration > firstDuration);
                 const hasShorterDurations = durations.some(duration => duration < firstDuration);
-    
+
                 if (hasLongerDurations && hasShorterDurations) {
                     notes.push(<span style={{ color: 'orange' }}>Durations vary<br /></span>);
                 } else if (hasLongerDurations) {
@@ -150,7 +150,7 @@ function ResolveDuplicateTracks() {
                             </thead>
                             <tbody>
                                 {duplicateTracks.map((track) => (
-                                    <React.Fragment key={track.track_name}>
+                                    <React.Fragment key={track.track_id}>
                                         <tr>
                                             <td>{track.track_name}</td>
                                             <td>{track.artist_name}</td>
@@ -185,10 +185,14 @@ function ResolveDuplicateTracks() {
                                                                         <strong>Release Date: </strong> {detail.release_date} <br />
                                                                         <strong>Duration:</strong> {detail.duration} <br />
                                                                         <strong>ISRC:</strong> {detail.isrc} <br />
-                                                                        <strong>Link: </strong>
-                                                                        <a href={`/lyrics/${detail.artist_id}/${detail.track_id}`} target="_blank" rel="noopener noreferrer">
-                                                                            View track
-                                                                        </a>
+                                                                        <iframe
+                                                                            className="spotify-embed"
+                                                                            style={{ borderRadius: "12px", width: "100%", height: "100", marginTop: "5px" }}
+                                                                            src={`https://open.spotify.com/embed/track/${detail.track_spotify_id}?utm_source=generator&theme=1`}
+                                                                            frameBorder="0"
+                                                                            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                                                                            loading="lazy">
+                                                                        </iframe>
                                                                     </li>
                                                                 ))}
                                                             </ul>

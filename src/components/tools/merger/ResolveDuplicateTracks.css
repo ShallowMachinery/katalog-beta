@@ -51,6 +51,7 @@
 }
 
 .track-duplicates-list table td button {
+    font-family: "Hind Siliguri", sans-serif;
     padding: 5px 10px;
     border: none;
     border-radius: 5px;
@@ -83,7 +84,7 @@
 }
 
 .track-duplicates-list .track-details li {
-    margin-bottom: 10px;
+    margin-bottom: -60px;
 }
 
 .error-message {

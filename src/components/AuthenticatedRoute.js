@@ -10,7 +10,10 @@ function AuthenticatedRoute({ element }) {
         <Navigate 
             to="/login" 
             replace 
-            state={{ message: 'You must be logged in first to do that.' }}
+            state={{
+                message: 'You must be logged in first to do that.',
+                from: window.location.pathname
+            }}
         />
     );
 }

@@ -151,9 +151,90 @@
     overflow-wrap: break-word; /* Allow line wrapping */
 }
 
+.home-page-container .recent-contributions-section {
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.home-page-container .recent-contributions-section h1 {
+    color: #333;
+    font-size: 2em;
+    text-align: center;
+    margin-bottom: 15px;
+    margin-top: 0px;
+}
+
+.home-page-container .recent-contributions-section ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.home-page-container .recent-contributions-section li {
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.home-page-container .recent-contributions-section .contribution-item {
+    display: flex;             /* Use flexbox for alignment */
+    align-items: center;      /* Center items vertically */
+    justify-content: space-between; /* Space items evenly */
+}
+
+.home-page-container .recent-contributions-section .contribution-item .album-cover {
+    width: 50px;              /* Set width for the album cover */
+    height: 50px;             /* Set height for the album cover */
+    border-radius: 8px;       /* Rounded corners */
+    margin-right: 15px;       /* Space between cover and text */
+    object-fit: cover;        /* Cover the image nicely */
+}
+
+.home-page-container .recent-contributions-section .text-container {
+    flex: 1;                           /* Allow text to take up remaining space */
+}
+
+.home-page-container .recent-contributions-section a {
+    text-decoration: none;
+    color: #007bff;
+    flex: 1;                  /* Allow the link to take up remaining space */
+}
+
+.home-page-container .recent-contributions-section .contribution-item .updated-at {
+    font-size: 0.9em;
+    color: #666;
+    margin-left: 10px;        /* Space between text and date */
+}
+
+.home-page-container .recent-contributions-section .pagination-controls {
+    display: flex;
+    justify-content: center; /* Center buttons horizontally */
+    margin: 20px 0; /* Margin for spacing */
+}
+
+.home-page-container .recent-contributions-section .pagination-controls button {
+    background-color: #007bff; /* Button background color */
+    color: white; /* Button text color */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px 15px; /* Padding for buttons */
+    margin: 0 5px; /* Space between buttons */
+    font-size: 16px; /* Font size */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+}
+
+.home-page-container .recent-contributions-section .pagination-controls button:hover:not(:disabled) {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.home-page-container .recent-contributions-section .pagination-controls button:disabled {
+    background-color: #ccc; /* Light grey for disabled state */
+    cursor: not-allowed; /* Not-allowed cursor for disabled button */
+}
+
 .home-page-container footer {
     text-align: center;
-    margin-top: 40px;
+    margin-top: 0px;
     font-size: 0.9em;
     line-height: 0rem;
     margin-bottom: 1rem;
@@ -177,4 +258,12 @@
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Add subtle shadow */
     }
 
+    .home-page-container .recent-contributions-section {
+        font-size: smaller;
+    }
+
+    .home-page-container .recent-contributions-section .contribution-item .updated-at {
+        text-align: end;
+        width: 25%;
+    }
 }

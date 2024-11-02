@@ -8,25 +8,22 @@ $stmt = $conn->prepare("
     SELECT 
         tl.`lyrics`,
         tl.`lyrics_id` AS `lyricsId`,
-        tl.`last_contributor_id` AS `lastContributorId`, 
-        tl.`language` AS `language`,
         tl.`updated_at` AS `updateTimestamp`,
         tl.`verified`,
         tl.`verifier_id` AS `verifierId`,
-        u.`user_id` AS `userId`,
-        u.`user_hierarchy` AS `userHierarchy`,
-        u.`first_name` AS `firstName`,
-        u.`last_name` AS `lastName`,
-        u.`user_name` AS `userName`,
-        u.`user_type_name` AS `userType`
+        u.`user_hierarchy` AS `verifierHierarchy`,
+        u.`first_name` AS `verifierFirstName`,
+        u.`last_name` AS `verifierLastName`,
+        u.`user_name` AS `verifierUserName`,
+        u.`user_type_name` AS `verifierUserType`
     FROM 
         `katalog1`.`Track_Lyrics` tl
     JOIN 
         `katalog1`.`Tracks` t ON tl.`track_id` = t.`track_id`
     JOIN 
         `katalog1`.`Artists` a ON t.`track_main_artist_id` = a.`artist_id`
-    JOIN 
-        `katalog1`.`Accounts` u ON tl.`last_contributor_id` = u.`user_id`
+	JOIN 
+        `katalog1`.`Accounts` u ON tl.`verifier_id` = u.`user_id`
     WHERE 
         t.`track_id` = ? AND a.`artist_id` = ?
     ORDER BY 
