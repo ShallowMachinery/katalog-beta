@@ -12,13 +12,14 @@ function UserPage() {
     const [page, setPage] = useState(0); // Current page
     const [totalContributions, setTotalContributions] = useState(0); // Total contributions count
     const limit = 10; // Contributions per page
+    const userToken = localStorage.getItem('access_token');
+    const baseUrl = `${window.location.protocol}//${window.location.hostname}`;
 
     useEffect(() => {
         const fetchUserInfo = async () => {
-            const userToken = localStorage.getItem('access_token');
             try {
                 // Fetch user information based on userId
-                const response = await axios.get('http://192.168.100.8/katalog/beta/api/user-info.php', {
+                const response = await axios.get(`${baseUrl}/katalog/beta/api/user-info.php`, {
                     headers: {
                         'Authorization': `Bearer ${userToken}`
                     },
@@ -45,7 +46,7 @@ function UserPage() {
 
     const fetchContributions = async (userToken, username) => {
         try {
-            const contributionsResponse = await axios.get('http://192.168.100.8/katalog/beta/api/user-recent-contributions.php', {
+            const contributionsResponse = await axios.get(`${baseUrl}/katalog/beta/api/user-recent-contributions.php`, {
                 headers: {
                     'Authorization': `Bearer ${userToken}`
                 },
@@ -54,6 +55,59 @@ function UserPage() {
             setRecentContributions(contributionsResponse.data.contributions || []);
         } catch (error) {
             console.error('Error fetching contributions:', error);
+        }
+    };
+
+    function decodeBase64(str) {
+        str = str.replace(/-/g, '+').replace(/_/g, '/');
+        const decodedStr = atob(str);
+        return JSON.parse(decodedStr);
+    }
+
+    function checkUserAndShowOverlay() {
+        const accessToken = userToken;
+        const storedUserId = userInfo.user_id;
+        if (accessToken && storedUserId) {
+            const tokenParts = accessToken.split('.');
+            if (tokenParts.length === 3) {
+                const payload = decodeBase64(tokenParts[1]);
+                const userIdFromToken = payload.data?.user_id;
+                if (userIdFromToken && userIdFromToken === storedUserId) {
+                    return true;
+                }
+            }
+        }
+    }
+
+    const handleFileChange = async (e) => {
+        const file = e.target.files[0];
+
+        if (!file) return;
+        if (file.type !== 'image/jpeg') {
+            alert('Only JPG files are allowed');
+            return;
+        }
+        if (file.size > 1024 * 1024) { // 1MB size limit
+            alert('File size should be less than 1MB');
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('profilePicture', file);
+
+        try {
+            const response = await axios.post(`${baseUrl}/katalog/beta/api/upload-profile-picture.php`, formData, {
+                headers: {
+                    'Authorization': `Bearer ${userToken}`,
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            
+            alert('Profile picture updated successfully');
+            window.location.reload();
+        } catch (error) {
+            console.error('Error uploading profile picture:', error);
+            alert('Failed to upload profile picture');
         }
     };
 
@@ -119,7 +173,7 @@ function UserPage() {
             <div>
                 <MenuBar />
                 <div className="user-page-container">
-                    <p>Loading user profile...</p>
+                    <div className="loading-spinner"></div>
                 </div>
             </div>
         );
@@ -142,13 +196,25 @@ function UserPage() {
             <div className="user-page-container">
                 <div className="dynamic-background" style={{ backgroundImage: `url(${userInfo.user_picture_url})` }}></div>
                 <div className="user-info">
-                    <img
-                        src={userInfo.user_picture_url && userInfo.user_picture_url.trim() !== ''
-                            ? userInfo.user_picture_url
-                            : 'https://i.ibb.co/g9dXQdc/icons8-user-100.png'}
-                        alt=""
-                        className="user-picture"
-                    />
+                    <div className="user-picture-container">
+                        <img
+                            src={userInfo.user_picture_url && userInfo.user_picture_url.trim() !== ''
+                                ? userInfo.user_picture_url
+                                : '/assets_public/default_user.png'}
+                            alt="User Profile Picture"
+                            className="user-picture"
+                        />
+                        {checkUserAndShowOverlay() && <div className="edit-profile-overlay">
+                            <label>Edit Profile Picture
+                                <input
+                                    type="file"
+                                    accept="image/jpeg"
+                                    onChange={handleFileChange}
+                                    style={{ display: 'none' }}
+                                />
+                            </label>
+                        </div>} 
+                    </div>
                     <div className="user-details">
                         <p className="type">{userInfo.user_type_name}</p>
                         <h1 className="legal-name">{userInfo.first_name} {userInfo.last_name}</h1>

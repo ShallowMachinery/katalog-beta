@@ -10,22 +10,9 @@ p {
   line-height: 1.5;
 }
 
-.import-box {
-  position: relative;
-  width: 100%; /* Increased width to accommodate both form and info */
-  background-color: #5a6875;
-  color: white;
-  display: flex;
-  flex-direction: row; /* Set to row to place form and info side by side */
-  justify-content: space-between;
-  align-items: flex-start;
-  font-size: 18px;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  max-height: none;
-  height: auto;
-  overflow-y: visible;
-  
+.import-component .import-box {
+  margin-top: 50px;
+  background-color: transparent;
 }
 
 .import-form {
@@ -52,8 +39,9 @@ form {
 }
 
 .submitButton {
+  font-family: "Hind Siliguri", sans-serif;
   padding: 10px 20px;
-  background-color: #0056b3;
+  background-color: #4c93af;
   color: white;
   border: none;
   border-radius: 4px;
@@ -62,7 +50,7 @@ form {
 }
 
 .submitButton:hover {
-  background-color: #004494;
+  background-color: #457fa0;
 }
 
 .import-data-button-container {
@@ -87,6 +75,7 @@ form {
   border-radius: 5px;
   margin-bottom: 0px;
   text-align: center;
+  color: #333;
 }
 
 .information {
@@ -107,7 +96,7 @@ form {
   flex-direction: column;
   align-items: center; /* Center the text horizontally */
   justify-content: center; /* Center the text vertically */
-  background-color: #28cf44b4;
+  background-color: #4d6d9a;
   padding: 10px;
   border-radius: 1%;
   border: 1px solid rgba(168, 158, 158, 0.76);

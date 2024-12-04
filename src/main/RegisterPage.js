@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import './RegisterPage.css';
 import MenuBar from '../components/MenuBar';
 import NotificationToast from '../components/NotificationToast';
@@ -15,6 +15,7 @@ function RegisterPage() {
     const [surname, setSurname] = useState('');
     const [birthday, setBirthday] = useState('');
     const [toast, setToast] = useState({ show: false, message: '', type: '' });
+    const baseUrl = `${window.location.protocol}//${window.location.hostname}`;
 
     const maxDate = new Date();
     maxDate.setFullYear(maxDate.getFullYear() - 18);
@@ -37,7 +38,7 @@ function RegisterPage() {
         }
 
         try {
-            const response = await axios.post('http://192.168.100.8/katalog/beta/api/register.php', {
+            const response = await axios.post(`${baseUrl}/katalog/beta/api/register.php`, {
                 username,
                 email,
                 password,
@@ -101,8 +102,10 @@ function RegisterPage() {
                     onChange={(e) => setSurname(e.target.value)}
                     required
                 />
+                <label htmlFor="birthday">Birthday:</label>
                 <input
                     type="date"
+                    id="birthday"
                     placeholder="Birthday"
                     value={birthday}
                     onChange={(e) => setBirthday(e.target.value)}
@@ -123,6 +126,9 @@ function RegisterPage() {
                     required
                 />
                 <button type="submit">Register</button>
+                <p className="login-link">
+                    Already have an account? <Link to="/login">Log in</Link>
+                </p>
             </form>
         </div>
     );

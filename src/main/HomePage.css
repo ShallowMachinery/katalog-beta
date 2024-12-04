@@ -16,20 +16,7 @@
 
 .home-page-container header h1 {
     font-size: 2.5em;
-    color: #343a40; /* Darker text color for the heading */
-}
-
-.home-page-container header .search-input {
-    width: 300px;
-    padding: 10px;
-    margin-top: 10px;
-    border: 1px solid #ced4da; /* Light border */
-    border-radius: 5px; /* Rounded corners */
-    outline: none;
-}
-
-.home-page-container header .search-input:focus {
-    border-color: #80bdff; /* Change border color on focus */
+    color: #495057; /* Darker text color for the heading */
 }
 
 .home-page-container header .auth-links {
@@ -48,62 +35,6 @@
 
 .home-page-container header .auth-links .auth-separator {
     color: #868e96;
-}
-
-.home-page-container .search-results {
-    margin-top: 20px;
-    padding: 20px; /* Add padding for better spacing */
-    border: 1px solid #e0e0e0; /* Light border around search results */
-    border-radius: 10px; /* Rounded corners for the search results container */
-    background-color: rgba(255, 255, 255, 0.8); /* Slight transparency */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
-}
-
-.home-page-container .search-results h2 {
-    font-size: 2em;
-    color: #495057;
-    margin-bottom: 10px; /* Reduced margin for better spacing */
-}
-
-.home-page-container .search-results .search-results-list {
-    width: 100%; /* Full width of the container */
-    list-style-type: none;
-    padding: 0;
-    display: flex;
-    flex-direction: column; /* Stack items vertically */
-    gap: 10px; /* Space between search items */
-}
-
-.home-page-container .search-results .search-results-list .search-result-item {
-    display: flex;
-    align-items: center; /* Center items vertically */
-    padding: 10px; /* Padding inside each item */
-    border: 1px solid #ced4da; /* Light border for each item */
-    border-radius: 10px; /* Rounded corners */
-    background-color: #f8f9fa; /* Light background color for items */
-    transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition for effects */
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-}
-
-.home-page-container .search-results .search-results-list .search-result-item:hover {
-    transform: translateY(-5px); /* Lift effect on hover */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
-}
-
-.home-page-container .search-results .search-results-list .search-item-picture {
-    width: 80px; /* Adjusted size */
-    height: 80px; /* Adjusted size */
-    border-radius: 10px; /* Slightly less rounding for image */
-    border: 2px solid #6c757d; /* Light border around image */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    margin-right: 10px; /* Space between image and text */
-}
-
-.home-page-container .search-results .search-results-list .search-item-name {
-    font-size: 1em; /* Font size for item name */
-    color: #212529; /* Darker text color */
-    overflow-wrap: break-word; /* Allow line wrapping */
-    flex: 1; /* Allow text to take available space */
 }
 
 .home-page-container .featured-artists-section {
@@ -157,7 +88,7 @@
 }
 
 .home-page-container .recent-contributions-section h1 {
-    color: #333;
+    color: #495057;
     font-size: 2em;
     text-align: center;
     margin-bottom: 15px;
@@ -173,6 +104,10 @@
 .home-page-container .recent-contributions-section li {
     padding: 10px;
     border-bottom: 1px solid #e0e0e0;
+}
+
+.home-page-container .recent-contributions-section li:last-of-type {
+    border-bottom: 0px;
 }
 
 .home-page-container .recent-contributions-section .contribution-item {
@@ -212,6 +147,7 @@
 }
 
 .home-page-container .recent-contributions-section .pagination-controls button {
+    font-family: "Hind Siliguri", sans-serif;
     background-color: #007bff; /* Button background color */
     color: white; /* Button text color */
     border: none; /* No border */

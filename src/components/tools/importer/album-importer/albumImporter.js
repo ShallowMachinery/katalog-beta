@@ -14,11 +14,13 @@ function AlbumImporter() {
     const [timer, setTimer] = useState(0);
     const intervalRef = useRef(null);
 
+    const baseUrl = `${window.location.protocol}//${window.location.hostname}`;
+
     useEffect(() => {
         // Fetch the timer details from the server when the component mounts
         const fetchTimer = async () => {
             try {
-                const response = await axios.get('http://192.168.100.8/katalog/beta/api/timer.php?type=album');
+                const response = await axios.get(`${baseUrl}/katalog/beta/api/timer.php?type=album`);
                 const expiryTime = response.data.expiryTime;
                 const currentTime = Math.floor(Date.now() / 1000);
 
@@ -66,7 +68,7 @@ function AlbumImporter() {
 
         // Store the expiry time in the backend
         try {
-            await axios.post('http://192.168.100.8/katalog/beta/api/timer.php', {
+            await axios.post(`${baseUrl}/katalog/beta/api/timer.php`, {
                 type: 'album',
                 expiryTime: expiryTime
             }, {
@@ -283,7 +285,7 @@ function AlbumImporter() {
         console.log("data: ", data);
 
         try {
-            const response = await fetch('http://192.168.100.8/katalog/beta/api/importAlbum.php', {
+            const response = await fetch(`${baseUrl}/katalog/beta/api/importAlbum.php`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

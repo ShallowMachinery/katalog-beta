@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AlbumImporter from './album-importer/albumImporter';
 import ArtistImporter from './artist-importer/artistImporter';
 import './Importer.css';
+import { checkSession } from '../../SessionChecker';
 import MenuBar from '../../MenuBar';
 
 function Importer() {
   const [activeTab, setActiveTab] = useState('album');
+  const userToken = localStorage.getItem('access_token');
 
   const renderContent = () => {
     if (activeTab === 'album') {
@@ -15,11 +17,26 @@ function Importer() {
     }
   };
 
+
+  useEffect(() => {
+    const verifySession = async () => {
+      const sessionExpired = await checkSession(); // Assuming checkSession is async
+      const userToken = localStorage.getItem('access_token'); // Retrieve user token again in case of any changes
+
+      if (sessionExpired && userToken) {
+        localStorage.clear();
+        window.location.reload();
+      }
+    };
+
+    verifySession();
+  }, []);
+
   return (
     <div className="App">
       <MenuBar />
       <div className="import-box">
-        <h2>Importer</h2>
+        <h2>Album and Artist Data Importer</h2>
         <div className="importer-div">
           <div className="tabs">
             <button onClick={() => setActiveTab('album')} className={activeTab === 'album' ? 'active' : ''}>Album Import</button>

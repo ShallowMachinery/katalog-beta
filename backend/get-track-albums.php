@@ -9,7 +9,8 @@ FROM `katalog1`.`track_albums` ta
 JOIN `katalog1`.`albums` a ON ta.`album_id` = a.`album_id` 
 JOIN `katalog1`.`album_artists` ar ON a.`album_id` = ar.`album_id` 
 JOIN `katalog1`.`artists` art ON ar.`artist_id` = art.`artist_id`
-WHERE ta.`track_id` = ?";
+WHERE ta.`track_id` = ?
+ORDER BY a.`release_date` ASC";
 
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $trackId);

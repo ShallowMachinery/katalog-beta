@@ -8,6 +8,7 @@
     width: 100%;
     z-index: 1000;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    height: 36px;
 }
 
 .menu-bar h1 {
@@ -20,6 +21,99 @@
 .menu-bar a {
     text-decoration: none;
     color: white;
+}
+
+.menu-bar .search-input {
+    font-family: "Hind Siliguri", sans-serif;
+    position: absolute;
+    right: 12rem;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 8px 12px;
+    font-size: 16px;
+    border-radius: 4px;
+    border: none;
+    width: 300px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.menu-bar .search-input:focus {
+    outline: none;
+}
+
+.menu-bar .search-input-container .close-button {
+    display: none;
+}
+
+.menu-bar .overlay {
+    position: absolute;
+    top: 60px;
+    right: 12rem;
+    background-color: white;
+    width: 320px;
+    max-height: 400px;
+    overflow-y: auto;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.menu-bar .overlay .no-results {
+    color: black;
+    text-align: center;
+}
+
+/* Overlay Content Styling */
+.menu-bar .overlay-content {
+    padding: 10px;
+}
+
+.menu-bar .category-container {
+    margin-bottom: 10px;
+}
+
+/* Title and Item Styling */
+.menu-bar .search-results-title {
+    font-size: 14px;
+    color: #4d6d9a;
+    font-weight: bold;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.menu-bar .search-results-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-bar .search-result-item {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    justify-content: flex-start; /* Center the content horizontally */
+}
+
+.menu-bar .search-result-item:hover {
+    background-color: #f1f1f1;
+}
+
+/* Search Item Image and Name */
+.menu-bar .search-item-picture {
+    width: 50px;
+    height: 50px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.menu-bar .search-item-name {
+    font-size: 14px;
+    color: #333;
+    display: inline-block; /* Ensure the name stays inline with the image */
+    text-align: left; /* Center the text horizontally */
 }
 
 .menu-bar .menu-links {
@@ -82,3 +176,56 @@
 .menu-bar .menu-links a:hover {
     text-decoration: underline;
 } */
+
+@media (max-width: 768px) {
+    .menu-bar .search-button {
+        background-color: transparent;
+        color: white;
+        border-radius: 50%;
+        padding: 8px 10px;
+        border: 2px solid #ffffff; /* Increase the border width and set it to white for contrast */
+        font-size: 18px;
+        cursor: pointer;
+        margin-left: 12px;
+    }
+
+    .menu-bar .search-input {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -15px;
+        transform: translate(-50%, -50%); /* Center the input */
+        padding: 8px 12px;
+        font-size: 16px;
+        width: 5rem;
+        display: none; /* Initially hidden */
+    }
+
+    .menu-bar .search-input.active {
+        display: block;
+        padding: 10px;
+        border-radius: 5px;
+        width: 20rem;
+    }
+
+    .menu-bar .overlay {
+        left: 50%;
+        width: 21rem;
+        margin-left: -15px;
+        transform: translateX(-50%); /* Center the input */
+    }
+
+    .menu-bar .search-input-container .close-button {
+        position: absolute;
+        background: transparent;
+        border: none;
+        color: black;
+        cursor: pointer;
+        font-size: 20px;
+        z-index: 1000;
+        top: 50%;
+        right: 13%;
+        margin-left: -15px;
+        transform: translate(-50%, -50%); /* Center the input */
+    }
+}

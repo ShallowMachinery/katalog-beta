@@ -1,5 +1,5 @@
 <?php
-require 'config.php'; 
+require 'config.php';
 
 $artistVanity = $_GET['artistVanity'] ?? '';
 
@@ -32,12 +32,21 @@ $stmt = $conn->prepare("
     FROM 
         `katalog1`.`Track_Artists` ta1
     JOIN 
-        `katalog1`.`Track_Artists` ta2 ON ta1.`track_id` = ta2.`track_id` AND ta1.`artist_id` != ta2.`artist_id`
+        `katalog1`.`Track_Artists` ta2 
+        ON ta1.`track_id` = ta2.`track_id` AND ta1.`artist_id` != ta2.`artist_id`
     JOIN 
-        `katalog1`.`Artists` a ON ta2.`artist_id` = a.`artist_id`
+        `katalog1`.`Artists` a 
+        ON ta2.`artist_id` = a.`artist_id`
+    JOIN 
+        `katalog1`.`Tracks` t 
+        ON t.`track_id` = ta1.`track_id`
     WHERE 
         ta1.`artist_id` = ?
         AND a.`artist_name` NOT LIKE CONCAT('%', (SELECT `artist_name` FROM `katalog1`.`Artists` WHERE `artist_id` = ? ), '%')
+    GROUP BY 
+        a.`artist_id`
+    ORDER BY 
+        COUNT(DISTINCT t.`track_id`) DESC
     LIMIT 8;
 ");
 

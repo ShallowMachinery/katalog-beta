@@ -24,6 +24,8 @@ function LyricsPage() {
     const [albums, setAlbums] = useState([]);
     const [fontSize, setFontSize] = useState('small');
     const [showMoreOptions, setShowMoreOptions] = useState(false);
+    const [trackHasMultipleArtists, setTrackHasMultipleArtists] = useState(false);
+    const [trackArtists, setTrackArtists] = useState([]);
     const optionsRef = useRef(null);
     const location = useLocation();
     const navigate = useNavigate();
@@ -35,8 +37,14 @@ function LyricsPage() {
     const [showInstrumentalModal, setShowInstrumentalModal] = useState(false);
     const [showVerifyModal, setShowVerifyModal] = useState(false);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showTagSuggestions, setShowTagSuggestions] = useState(false);
+    const [cursorPosition, setCursorPosition] = useState(null);
+    const textareaRef = useRef(null);
+    const baseUrl = `${window.location.protocol}//${window.location.hostname}`;
 
     const userToken = localStorage.getItem('access_token');
+
+    const tagSuggestions = ['@intro', '@verse', '@pre-chorus', '@chorus', '@instrumental', '@hook', '@refrain', '@post-chorus', '@bridge', '@outro'];
 
     useEffect(() => {
         // Decode the user token to get the user hierarchy
@@ -70,7 +78,7 @@ function LyricsPage() {
         'ceb': 'Cebuano',
         'ko': 'Korean',
         'war': 'Waray',
-        'null': 'Not available'
+        '': 'Unknown'
     };
 
     const showToast = (message, type) => {
@@ -78,9 +86,16 @@ function LyricsPage() {
     };
 
     useEffect(() => {
+        setLoading(true);
+        window.scrollTo(0, 0);
+        setIsEditing(false);
+        setTrackInfo({}); // Reset track info
+        setTrackArtists({}); // Reset artist data
+        setTrackHasMultipleArtists(false); // Reset the artists' status
+
         const fetchAlbums = async (trackId) => {
             try {
-                const response = await axios.get(`http://192.168.100.8/katalog/beta/api/get-track-albums.php`, {
+                const response = await axios.get(`${baseUrl}/katalog/beta/api/get-track-albums.php`, {
                     params: { trackId },
                 });
                 if (response.data.success) {
@@ -95,7 +110,7 @@ function LyricsPage() {
 
         const fetchVerifierInfo = async (trackId, artistId) => {
             try {
-                const verifierInfoResponse = await axios.get(`http://192.168.100.8/katalog/beta/api/verified-lyrics-info.php`, {
+                const verifierInfoResponse = await axios.get(`${baseUrl}/katalog/beta/api/verified-lyrics-info.php`, {
                     params: { artistId, trackId },
                 });
                 const fetchedVerifierInfo = verifierInfoResponse.data;
@@ -107,11 +122,12 @@ function LyricsPage() {
 
         const fetchTrackInfo = async () => {
             try {
-                const response = await axios.get(`http://192.168.100.8/katalog/beta/api/track-info.php`, {
+                const trackResponse = await axios.get(`${baseUrl}/katalog/beta/api/track-info.php`, {
                     params: { artistVanity, trackVanity },
                 });
-                const trackData = response.data;
+                const trackData = trackResponse.data;
                 setTrackInfo(trackData);
+                console.log(trackData);
 
                 if (trackData) {
                     document.title = `${trackData.artistName} - ${trackData.trackName} lyrics | Katalog`;
@@ -119,7 +135,7 @@ function LyricsPage() {
                     setIsrcs(trackData.isrc.split(', '));
 
                     // Fetch lyrics for the track
-                    const lyricsResponse = await axios.get(`http://192.168.100.8/katalog/beta/api/track-lyrics.php`, {
+                    const lyricsResponse = await axios.get(`${baseUrl}/katalog/beta/api/track-lyrics.php`, {
                         params: { artistId: trackData.trackMainArtistId, trackId: trackData.trackId },
                     });
 
@@ -138,6 +154,17 @@ function LyricsPage() {
 
                     await fetchAlbums(trackData.trackId);
                 }
+
+                if (trackData.artistType === 'Multiple') {
+                    const trackId = trackData.trackId;
+                    const trackMainArtistId = trackData.trackMainArtistId;
+                    const artistsResponse = await axios.get(`${baseUrl}/katalog/beta/api/get-track-artists.php`, {
+                        params: { trackMainArtistId, trackId },
+                    });
+                    console.log(artistsResponse.data);
+                    setTrackHasMultipleArtists(true);
+                    setTrackArtists(artistsResponse.data);
+                }
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching track info or lyrics:', error);
@@ -154,7 +181,54 @@ function LyricsPage() {
     };
 
     const handleLyricsChange = (event) => {
-        setNewLyrics(event.target.value); // Update newLyrics state as the user types
+        const lyricsVal = event.target.value;
+        setNewLyrics(lyricsVal);
+        const cursorPos = event.target.selectionStart;
+        const textBeforeCursor = lyricsVal.slice(0, cursorPos);
+        if (textBeforeCursor.endsWith('@')) {
+            setShowTagSuggestions(true);
+            setCursorPosition(cursorPos);
+        } else {
+            setShowTagSuggestions(false);
+        }
+    };
+
+    const handleSuggestionClick = (suggestion) => {
+        if (!textareaRef.current) return;
+
+        const textarea = textareaRef.current;
+        const mainScrollTop = window.scrollY || document.documentElement.scrollTop;
+        const beforeCursor = newLyrics.slice(0, cursorPosition - 1);
+        const afterCursor = newLyrics.slice(cursorPosition);
+
+        const updatedLyrics = `${beforeCursor}${suggestion}${afterCursor}`;
+        setNewLyrics(updatedLyrics);
+
+        // Move the cursor to the end of the inserted suggestion
+        const newCursorPos = beforeCursor.length + suggestion.length;
+        setCursorPosition(newCursorPos);
+
+        // Close the suggestions overlay
+        setShowTagSuggestions(false);
+
+        setTimeout(() => {
+            textarea.focus();
+            textarea.setSelectionRange(newCursorPos, newCursorPos);
+        
+            // Scroll the cursor into view
+            const lineHeight = parseInt(window.getComputedStyle(textarea).lineHeight, 10) || 16; // Approximate line height
+            const cursorPositionTop = Math.floor(newCursorPos / textarea.cols) * lineHeight; // Line number * line height
+        
+            if (
+                cursorPositionTop > textarea.scrollTop + textarea.offsetHeight || 
+                cursorPositionTop < textarea.scrollTop
+            ) {
+                textarea.scrollTop = cursorPositionTop - textarea.offsetHeight / 2;
+            }
+        
+            // Restore the main page's scroll position
+            window.scrollTo(0, mainScrollTop);
+        }, 0);
     };
 
     const handleInstrumentalChange = () => {
@@ -200,7 +274,7 @@ function LyricsPage() {
     const confirmVerifyLyrics = async () => {
         try {
             // Make an API call to save the updated lyrics
-            await axios.post(`http://192.168.100.8/katalog/beta/api/verify-lyrics.php`, {
+            await axios.post(`${baseUrl}/katalog/beta/api/verify-lyrics.php`, {
                 trackId: trackInfo.trackId,
                 lyricsId: lyricsInfo.lyricsId,
                 submitterId: lyricsInfo.lastContributorId
@@ -209,14 +283,15 @@ function LyricsPage() {
                     Authorization: `Bearer ${userToken}` // Set the Authorization header
                 }
             });
+            setIsEditing(false);
+            showToast('Lyrics successfully verified!', 'success');
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000); // Wait 2 seconds to allow the user to see the toast
         } catch (error) {
             console.error('Error verifying lyrics:', error);
             showToast('There was an error verifying these lyrics. Please try again.', 'error');
         }
-        showToast('Lyrics successfully verified!', 'success');
-        setTimeout(() => {
-            window.location.reload();
-        }, 2000); // Wait 2 seconds to allow the user to see the toast
     }
 
     const handleDeleteClick = () => {
@@ -225,7 +300,7 @@ function LyricsPage() {
 
     const confirmDeleteLyrics = async () => {
         try {
-            await axios.post(`http://192.168.100.8/katalog/beta/api/delete-lyrics.php`, {
+            await axios.post(`${baseUrl}/katalog/beta/api/delete-lyrics.php`, {
                 trackId: trackInfo.trackId,
                 lyricsId: lyricsInfo.lyricsId,
                 submitterId: lyricsInfo.lastContributorId
@@ -234,14 +309,15 @@ function LyricsPage() {
                     Authorization: `Bearer ${userToken}` // Set the Authorization header
                 }
             });
+            setIsEditing(false);
+            showToast('Lyrics successfully deleted!', 'success');
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000); // Wait 2 seconds to allow the user to see the toast
         } catch (error) {
             console.error('Error deleting lyrics:', error);
             showToast('There was an error deleting these lyrics. Please try again.', 'error');
         }
-        showToast('Lyrics successfully deleted!', 'success');
-        setTimeout(() => {
-            window.location.reload();
-        }, 2000); // Wait 2 seconds to allow the user to see the toast
     }
 
     const handleSaveClick = () => {
@@ -259,7 +335,7 @@ function LyricsPage() {
         }
         try {
             // Make an API call to save the updated lyrics
-            await axios.post(`http://192.168.100.8/katalog/beta/api/update-lyrics.php`, {
+            await axios.post(`${baseUrl}/katalog/beta/api/update-lyrics.php`, {
                 trackId: trackInfo.trackId,
                 newLyrics,
                 languageResult
@@ -292,6 +368,31 @@ function LyricsPage() {
         setShowCancelModal(false);
     };
 
+    useEffect(() => {
+        const handleBeforeUnload = (event) => {
+            if (isEditing) {
+                event.preventDefault();
+                event.returnValue = 'You have unsaved changes. Are you sure you want to leave?';
+            }
+        };
+
+        const handleNavigation = (e) => {
+            if (isEditing && !window.confirm('You have unsaved changes. Are you sure you want to leave?')) {
+                e.preventDefault();
+            }
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        const links = document.querySelectorAll('a');
+        links.forEach(link => link.addEventListener('click', handleNavigation));
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+            links.forEach(link => link.removeEventListener('click', handleNavigation));
+        };
+    }, [isEditing]);
+
     const formattedLyrics = lyrics.replace(/@(.*?)(\n|$)/g, (_, tag) => `<span class="lyrics-tag">${tag.trim().toUpperCase()}</span>\n`);
     const filteredIsrcs = isrcs.filter(isrc => isrc !== "N/A" || isrcs.length === 1);
 
@@ -304,8 +405,16 @@ function LyricsPage() {
         return `${datePart}, ${timePart}`;
     };
 
+    useEffect(() => {
+        const savedFontSize = localStorage.getItem('lyrics_font_size');
+        if (savedFontSize) {
+            setFontSize(savedFontSize);
+        }
+    }, []);
+
     const handleFontSizeChange = (size) => {
-        setFontSize(size); // Set the font size based on the button clicked
+        setFontSize(size);
+        localStorage.setItem('lyrics_font_size', size);
     };
 
     const fontSizeClass = `lyrics ${fontSize}`;
@@ -315,7 +424,7 @@ function LyricsPage() {
             <div>
                 <MenuBar />
                 <div className="lyrics-page-container">
-                    <p>Working on it!</p>
+                    <div className="loading-spinner"></div>
                 </div>
             </div>
         );
@@ -335,7 +444,7 @@ function LyricsPage() {
     const isUserAdmin = userHierarchy === 1;
     const isUserMember = userHierarchy === 3;
     const hasLyrics = lyricsInfo.lyrics;
-    const isLyricsAdminLocked = lyricsInfo.userHierarchy === 1;
+    const isLyricsAdminLocked = lyricsInfo.verified === 1;
     // const isLyricsMemberDone = lyricsInfo.userHierarchy === 3;
     // const isLyricsEditableByAdmin = userHierarchy === lyricsInfo.userHierarchy && userHierarchy === 1;
     // const isLyricsEditableByUser = userHierarchy === lyricsInfo.userHierarchy && userHierarchy === 3;
@@ -344,6 +453,7 @@ function LyricsPage() {
         <div>
             <MenuBar />
             <div className="lyrics-page-container">
+                <div className="dynamic-background" style={{ backgroundImage: `url(${trackInfo.albumCoverUrl})` }}></div>
                 {toast.show && <NotificationToast message={toast.message} type={toast.type} onClose={() => setToast({ show: false })} />}
                 <div className="album-info">
                     <img src={trackInfo.albumCoverUrl} alt="cover" className="album-cover" />
@@ -358,32 +468,45 @@ function LyricsPage() {
                     </div>
                 </div>
                 <iframe
-                    className="spotify-embed"
-                    style={{ borderRadius: "12px", width: "100%", height: "100", marginBottom: "0px", marginTop: "-10px" }}
+                    className="spotify-embed-fixed"
                     src={`https://open.spotify.com/embed/track/${trackInfo.trackSpotifyId}?utm_source=generator&theme=1`}
                     frameBorder="0"
                     allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
                     loading="lazy">
                 </iframe>
 
-                {/* <div className="font-size-toggle">
-                    <h3>Font size:</h3>
-                    <button onClick={() => handleFontSizeChange('small')}>Small</button>
-                    <button onClick={() => handleFontSizeChange('normal')}>Normal</button>
-                    <button onClick={() => handleFontSizeChange('big')}>Big</button>
-                </div> */}
-
                 <div className="lyrics-section">
                     <strong className="lyrics-header">Lyrics</strong>
+                    {!isEditing && (<div className="font-size-toggle">
+                        {!isMobile && <h3>Font size:</h3>}
+                        <button onClick={() => handleFontSizeChange('small')} style={{ fontSize: "9px" }} className={fontSize === 'small' ? 'active' : ''}>{isMobile ? 'S' : 'Small'}</button>
+                        <button onClick={() => handleFontSizeChange('normal')} style={{ fontSize: "10px" }} className={fontSize === 'normal' ? 'active' : ''}>{isMobile ? 'M' : 'Normal'}</button>
+                        <button onClick={() => handleFontSizeChange('big')} style={{ fontSize: "11px" }} className={fontSize === 'big' ? 'active' : ''}>{isMobile ? 'B' : 'Big'}</button>
+                    </div>)}
+
                     {isEditing ? (
                         <div>
                             <textarea
+                                ref={textareaRef}
                                 className="lyrics-textarea"
                                 value={newLyrics} // Use newLyrics state for textarea value
                                 onChange={handleLyricsChange}
                                 rows="10"
                                 disabled={isInstrumental}
                             />
+                            {showTagSuggestions && (
+                                <div className="suggestions-overlay">
+                                    {tagSuggestions.map((suggestion) => (
+                                        <div
+                                            key={suggestion}
+                                            className="suggestion-item"
+                                            onClick={() => handleSuggestionClick(suggestion)}
+                                        >
+                                            {suggestion}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
                             <div className="lyrics-options">
                                 <label className="instrumental-label">
                                     <input
@@ -460,12 +583,47 @@ function LyricsPage() {
 
                 <div className="additional-info">
                     <div className="more-information">
-                        <strong className="info-header">More information</strong>
+                        <div className="info-header">
+                            <strong>More information</strong>
+                            {isUserAdmin && <div className="edit-info-button-container">
+                                <Link to={`/katalog-admin/catalogue-editor/track/${trackInfo.trackId}`} style={{ textDecoration: 'none' }}>
+                                    <button className="edit-info-button">Edit</button>
+                                </Link>
+                            </div>}
+                        </div>
                         <table className="info-table">
                             <tbody>
                                 <tr>
-                                    <td>Language</td>
+                                    <td>{trackHasMultipleArtists ? `Track artists` : `Track artist`}</td>
+                                    <td>
+                                        {!trackHasMultipleArtists ? (
+                                            <Link className="artist-name" style={{ textDecoration: 'none', color: 'inherit' }} to={`/artist/${trackInfo.artistVanity}`}>
+                                                {trackInfo.artistName}
+                                            </Link>
+                                        ) : (
+                                            <>
+                                                {trackArtists.artists.map((artist, index) => (
+                                                    <React.Fragment key={artist.artist_id}>
+                                                        <Link className="artist-name" style={{ textDecoration: 'none', color: 'inherit' }} to={`/artist/${artist.artist_vanity}`}>
+                                                            {artist.artist_name}
+                                                        </Link>
+                                                        {index < trackArtists.artists.length - 1 && '; '}
+                                                    </React.Fragment>
+                                                ))} <Link className="artist-name" style={{ textDecoration: 'none', color: 'inherit' }} to={`/artist/${trackInfo.artistVanity}`}><br /><small>Go to combined artist page</small></Link>
+                                            </>
+                                        )}</td>
+                                </tr>
+                                <tr>
+                                    <td>{trackInfo.writerCount > 1 ? `Writers` : `Writer`}</td>
+                                    <td>{trackInfo.writers ? trackInfo.writers : "Unknown"}</td>
+                                </tr>
+                                <tr>
+                                    <td>Lyrics language</td>
                                     <td>{lyricsInfo.language ? languageMap[lyricsInfo.language] || lyricsInfo.language : 'Unknown'}</td>
+                                </tr>
+                                <tr>
+                                    <td>Genre</td>
+                                    <td>{trackInfo.trackGenre ? trackInfo.trackGenre : "Unknown"}</td>
                                 </tr>
                                 <tr>
                                     <td>Duration</td>
@@ -518,7 +676,7 @@ function LyricsPage() {
                                     <td>Last modified by</td>
                                     <td>
                                         {lyricsInfo ? (
-                                            <Link to={`/user/${lyricsInfo.userName}`} style={{ textDecoration: 'none', color: 'gray' }}>
+                                            <Link to={`/user/${lyricsInfo.userName}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                                                 {`${lyricsInfo.userName} ${userToken ? `(${lyricsInfo.firstName} ${lyricsInfo.lastName})` : ''} [${lyricsInfo.userType}]`}
                                             </Link>
                                         ) : 'Unknown'}
@@ -529,7 +687,7 @@ function LyricsPage() {
                                         <td>Verified by</td>
                                         <td>
                                             {verifierInfo ? (
-                                                <Link to={`/user/${verifierInfo.verifierUserName}`} style={{ textDecoration: 'none', color: 'gray' }}>
+                                                <Link to={`/user/${verifierInfo.verifierUserName}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                                                     {`${verifierInfo.verifierUserName} ${userToken ? `(${verifierInfo.verifierFirstName} ${verifierInfo.verifierLastName})` : ''} [${verifierInfo.verifierUserType}]`}
                                                 </Link>
                                             ) : 'Unknown'}
@@ -563,7 +721,6 @@ function LyricsPage() {
                             <p>No albums found for this track.</p>
                         )}
                     </div>
-
                 </div>
             </div>
             <Modal

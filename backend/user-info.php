@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 
         if (isset($decoded->data) && isset($decoded->data->user_id)) {
             $stmt = $conn->prepare("
-                SELECT u.`first_name`, u.`last_name`, u.`user_picture_link`, u.`user_name`, u.`user_type_name`, p.`user_points` FROM `katalog1`.`Accounts` u
+                SELECT u.`user_id`, u.`first_name`, u.`last_name`, u.`user_picture_link`, u.`user_name`, u.`user_type_name`, p.`user_points` FROM `katalog1`.`Accounts` u
                 JOIN `katalog1`.`User_Points` p ON u.`user_id` = p.`user_id`
                 WHERE `user_name` = ?");
             $stmt->bind_param('s', $username);
@@ -30,11 +30,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $stmt->store_result();
 
             if ($stmt->num_rows > 0) {
-                $stmt->bind_result($first_name, $last_name, $user_picture_link, $user_name, $user_type_name, $user_points);
+                $stmt->bind_result($user_id, $first_name, $last_name, $user_picture_link, $user_name, $user_type_name, $user_points);
                 $stmt->fetch();
 
                 $response['success'] = true;
                 $response['userInfo'] = array(
+                    'user_id' => $user_id,
                     'first_name' => $first_name,
                     'last_name' => $last_name,
                     'user_picture_url' => $user_picture_link,

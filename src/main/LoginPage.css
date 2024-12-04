@@ -35,18 +35,18 @@
 
 .login-container button {
     font-family: "Hind Siliguri", sans-serif;
-    padding: 10px;
+    padding: 10px 20px;
     font-size: 1em;
     border: none;
     border-radius: 5px;
-    background-color: #007bff;
+    background-color: #4c93af;
     color: white;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
 .login-container button:hover {
-    background-color: #0056b3;
+    background-color: #457fa0;
 }
 
 .login-container .register-link {
@@ -64,4 +64,10 @@
 
 .login-container .register-link a:hover {
     text-decoration: underline;
+}
+
+@media (max-width: 768px) { 
+    .login-container {
+        margin-top: 60px;
+    }
 }

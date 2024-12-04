@@ -79,19 +79,25 @@ try {
     $stmtActivity->execute();
     $stmtActivity->close();
 
-    
     $stmtContribution = $conn->prepare("INSERT INTO `katalog1`.`User_Contributions` (`user_id`, `contribution_id`, `contribution_type`, `points_given`, `track_id`, `lyrics_id`) VALUES (?, ?, ?, ?, ?, ?)");
     $contributionId = $conn->insert_id;
     $stmtContribution->bind_param("iisiii", $userId, $contributionId, $activityType, $pointsToVerifier, $trackId, $lyricsId);
     $stmtContribution->execute();
     $stmtContribution->close();
 
-    if ($decoded->data->user_hierarchy != '1') {
-        $stmtSubmitterPoints = $conn->prepare("UPDATE `katalog1`.`User_Points` SET `user_points` = `user_points` - ? WHERE `user_id` = ?");
-        $stmtSubmitterPoints->bind_param("ii", $pointsToDeduct, $submitterId);
-        $stmtSubmitterPoints->execute();
-        $stmtSubmitterPoints->close();
-    }
+    $stmtFetchPoints = $conn->prepare("SELECT `user_points` FROM `katalog1`.`User_Points` WHERE `user_id` = ?");
+    $stmtFetchPoints->bind_param("i", $submitterId);
+    $stmtFetchPoints->execute();
+    $stmtFetchPoints->bind_result($currentPoints);
+    $stmtFetchPoints->fetch();
+    $stmtFetchPoints->close();
+
+    $newPoints = max(0, $currentPoints - $pointsToDeduct);
+
+    $stmtSubmitterPoints = $conn->prepare("UPDATE `katalog1`.`User_Points` SET `user_points` = ? WHERE `user_id` = ?");
+    $stmtSubmitterPoints->bind_param("ii", $newPoints, $submitterId);
+    $stmtSubmitterPoints->execute();
+    $stmtSubmitterPoints->close();
 
     $conn->commit();
     echo json_encode(['status' => 'success', 'message' => 'Lyrics deleted successfully.']);

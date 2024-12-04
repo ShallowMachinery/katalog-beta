@@ -1,5 +1,4 @@
 .App {
-  background-color: #add8e6;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -8,15 +7,10 @@
   overflow-y: visible;
 }
 
-h1 {
-  color: white;
-}
-
 .import-box {
   position: relative;
-  margin: 100px auto 50px auto;
   width: auto;
-  background-color: #5a6875;
+  background-color: rgba(255, 255, 255, 0.9);
   color: white;
   display: flex;
   flex-direction: column;
@@ -29,6 +23,13 @@ h1 {
   max-height: none;
   height: auto;
   overflow-y: visible;
+  margin-top: 100px;
+}
+
+.App .import-box h2 {
+  color: #333;
+  width: 90%;
+  text-align: center;
 }
 
 .importer-div {
@@ -44,28 +45,25 @@ h1 {
 }
 
 .tabs button {
+  font-family: "Hind Siliguri", sans-serif;
   flex: 1;
   padding: 10px;
-  background-color: #63cc75;
+  background-color: #4c93af;
   color: white;
   border: none;
   cursor: pointer;
-  font-weight: bold;
   border-radius: 5px;
+  font-size: medium;
 }
 
 .tabs button:hover {
-  background-color: #45a049;
+  background-color: #457fa0;
 }
 
 .tabs button.active {
-  background-color: #28cf44b4;
+  background-color: #457fa0;
   color: white;
   cursor: default;
-}
-
-.tab-content {
-  margin-top: 20px;
 }
 
 .album-import-component {
@@ -75,4 +73,10 @@ h1 {
   height: 100vh;
   background-color: #b4c4d4;
   box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .import-box {
+      margin-top: 60px;
+  }
 }

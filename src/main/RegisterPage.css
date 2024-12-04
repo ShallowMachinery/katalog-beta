@@ -36,10 +36,10 @@
 
 .register-container form button {
     font-family: "Hind Siliguri", sans-serif;
-    padding: 10px;
+    padding: 10px 20px;
     font-size: 1em;
     color: #fff;
-    background-color: #007bff;
+    background-color: #4c93af;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -47,9 +47,32 @@
 }
 
 .register-container form button:hover {
-    background-color: #0056b3;
+    background-color: #457fa0;
 }
 
 .register-container form input[type="date"] {
     color: #495057; /* Text color for the date input */
+}
+
+.register-container .login-link {
+    margin-top: 15px;
+    text-align: center;
+    font-size: 0.9em;
+    color: #4d6d9a;
+}
+
+.register-container .login-link a {
+    color: #4d6d9a;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.register-container .login-link a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 768px) { 
+    .register-container {
+        margin-top: 60px;
+    }
 }

@@ -1,5 +1,5 @@
 .album-page-container {
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 100px auto 50px auto;
     padding: 20px;
     background-color: rgba(255, 255, 255, 0.9);
@@ -89,6 +89,16 @@
     padding: 0;
 }
 
+.album-page-container .tracks-section .track-list a {
+    text-decoration: none;
+    color: #4d6d9a;
+}
+
+.album-page-container .tracks-section .track-list a:hover {
+    text-decoration: none;
+    color: #2c4870;
+}
+
 .album-page-container .tracks-section .track-list-item {
     display: flex;
     justify-content: space-between;
@@ -96,19 +106,10 @@
     border-bottom: 1px solid #ccc;
 }
 
-.album-page-container .tracks-section .track-list-item a {
-    text-decoration: none;
-    color: #4d6d9a;
-}
-
-.album-page-container .tracks-section .track-list-item a:hover {
-    text-decoration: none;
-    color: #2c4870;
-}
-
 .album-page-container .tracks-section .track-list-item .track-number {
     padding: 5px;
     font-size: larger;
+    color: #333;
 }
 
 .album-page-container .tracks-section .track-list-item .track-info {
@@ -116,6 +117,10 @@
     display: flex;
     flex-direction: column;
     line-height: 75%;
+}
+
+.album-page-container .tracks-section .track-list-item .track-info .track-title{
+    line-height: 150%;
 }
 
 .album-page-container .tracks-section .track-list-item .track-duration {

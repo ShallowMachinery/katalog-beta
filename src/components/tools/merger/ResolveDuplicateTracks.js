@@ -12,10 +12,12 @@ function ResolveDuplicateTracks() {
     const [selectedTracks, setSelectedTracks] = useState({});
     const userToken = localStorage.getItem('access_token');
 
+    const baseUrl = `${window.location.protocol}//${window.location.hostname}`;
+
     useEffect(() => {
         const fetchDuplicateTracks = async () => {
             try {
-                const response = await axios.get('http://192.168.100.8/katalog/beta/api/get-duplicate-tracks.php', {
+                const response = await axios.get(`${baseUrl}/katalog/beta/api/get-duplicate-tracks.php`, {
                     headers: {
                         Authorization: `Bearer ${userToken}`
                     }
@@ -51,7 +53,7 @@ function ResolveDuplicateTracks() {
 
         const primaryTrackId = trackIds[0];
         try {
-            const response = await axios.post('http://192.168.100.8/katalog/beta/api/merge-tracks.php', {
+            const response = await axios.post(`${baseUrl}/katalog/beta/api/merge-tracks.php`, {
                 primaryTrackId,
                 duplicateTrackIds: trackIds.slice(1)
             }, {

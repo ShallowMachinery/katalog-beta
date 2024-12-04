@@ -72,3 +72,10 @@ Note: OV denotes old or former version.
 - User Contribution Visibility: Recent user contributions can now be seen on the user page, while all member contributions are visible on the home page for logged-in users.
 - Album Categorization: Implemented proper categorization of albums, allowing users to filter by Singles, EPs, Albums, or view all options to enhance the user interface.
 - Track Pagination: Added pagination for an artist's tracks in the track section, improving navigation and organization of content.
+
+## v0.2.0a
+- Artist Page Rearrangement: Will show the songs first before the album. Added users' recent activities for that artist
+- Lyric Page Layout Rearrangement: Made the Spotify embed floating at the bottom of the screen, added the writers info to more information section, added font size toggler.
+- Can change profile pictures now, for localhost devices.
+- Added tag suggestions when @ is inputted in text area.
+- Can edit track information.

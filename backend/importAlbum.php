@@ -38,8 +38,6 @@ try {
     exit;
 }
 
-
-
 function generateArtistVanityUrl($conn, $name)
 {
     $count = 0;

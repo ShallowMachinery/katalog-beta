@@ -11,11 +11,12 @@ function AlbumPage() {
     const [moreAlbums, setMoreAlbums] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isMultiDisc, setIsMultiDisc] = useState(false);
+    const baseUrl = `${window.location.protocol}//${window.location.hostname}`;
 
     useEffect(() => {
         const fetchAlbumInfo = async () => {
             try {
-                const response = await axios.get(`http://192.168.100.8/katalog/beta/api/album-info.php`, {
+                const response = await axios.get(`${baseUrl}/katalog/beta/api/album-info.php`, {
                     params: { albumVanity, artistVanity },
                 });
 
@@ -28,7 +29,7 @@ function AlbumPage() {
                 }
 
                 // Fetch tracks in the album
-                const tracksResponse = await axios.get(`http://192.168.100.8/katalog/beta/api/album-tracks.php`, {
+                const tracksResponse = await axios.get(`${baseUrl}/katalog/beta/api/album-tracks.php`, {
                     params: { albumVanity, artistVanity },
                 });
                 setTracks(tracksResponse.data.tracks);
@@ -37,7 +38,7 @@ function AlbumPage() {
                 const multiDisc = tracksResponse.data.tracks.some(track => track.discNumber !== 1);
                 setIsMultiDisc(multiDisc);
 
-                const moreAlbumsResponse = await axios.get(`http://192.168.100.8/katalog/beta/api/artist-albums.php`, {
+                const moreAlbumsResponse = await axios.get(`${baseUrl}/katalog/beta/api/artist-albums.php`, {
                     params: { artistVanity },
                 });
                 setMoreAlbums(moreAlbumsResponse.data.albums);
@@ -74,7 +75,7 @@ function AlbumPage() {
             <div>
                 <MenuBar />
                 <div className="album-page-container">
-                    <p>Working on it!</p>
+                <div className="loading-spinner"></div>
                 </div>
             </div>
         );
@@ -123,16 +124,16 @@ function AlbumPage() {
                             {isMultiDisc && <h3>Disc {discNumber}</h3>}
                             <ul className="track-list">
                                 {groupedTracks[discNumber].map(track => (
-                                    <div key={track.trackId} className="track-list-item">
-                                        <span className="track-number">{track.trackNumber}</span>
-                                        <div className="track-info">
-                                            <Link to={`/lyrics/${track.artistVanity}/${track.trackVanity}`}>
-                                                {track.trackName}
-                                            </Link><br />
-                                            <small>{track.artistName}</small>
+                                    <a href={`/lyrics/${track.artistVanity}/${track.trackVanity}`}>
+                                        <div key={track.trackId} className="track-list-item">
+                                            <span className="track-number">{track.trackNumber}</span>
+                                            <div className="track-info">
+                                                <span className="track-title">{track.trackName}</span><br />
+                                                <small>{track.artistName}</small>
+                                            </div>
+                                            <span className="track-duration">{track.trackDuration}</span>
                                         </div>
-                                        <span className="track-duration">{track.trackDuration}</span>
-                                    </div>
+                                    </a>
                                 ))}
                             </ul>
                         </div>

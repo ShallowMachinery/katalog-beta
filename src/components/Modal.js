@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './Modal.css';
 
-const Modal = ({ isOpen, title, message, onClose, onConfirm }) => {
+const Modal = ({ isOpen, title, message, onClose, onConfirm, confirmLabel = "Yes", hideCloseButton = false }) => {
     useEffect(() => {
         const handleKeyDown = (event) => {
             if (event.key === 'Escape') {
@@ -30,8 +30,10 @@ const Modal = ({ isOpen, title, message, onClose, onConfirm }) => {
                 <h2 id="modal-title">{title}</h2>
                 <p id="modal-description">{message}</p>
                 <div className="modal-actions">
-                    <button onClick={onConfirm}>Yes</button>
-                    <button onClick={onClose}>No</button>
+                    <button onClick={onConfirm}>{confirmLabel}</button>
+                    {!hideCloseButton && (
+                        <button onClick={onClose}>No</button>
+                    )}
                 </div>
             </div>
         </div>

@@ -13,6 +13,7 @@ function LoginPage() {
     const navigate = useNavigate();
     const location = useLocation();
     const [toast, setToast] = useState({ show: false, message: '', type: '' });
+    const baseUrl = `${window.location.protocol}//${window.location.hostname}`;
 
     const showToast = (message, type) => {
         setToast({ show: true, message, type });
@@ -34,9 +35,10 @@ function LoginPage() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        setToast({ show: false, message: '', type: '' });
     
         try {
-            const response = await axios.post('http://192.168.100.8/katalog/beta/api/login.php', {
+            const response = await axios.post(`${baseUrl}/katalog/beta/api/login.php`, {
                 username,
                 password
             });

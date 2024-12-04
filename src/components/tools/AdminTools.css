@@ -40,3 +40,9 @@
     font-size: 14px; /* Smaller font for descriptions */
     color: #666; /* Lighter color for descriptions */
 }
+
+@media (max-width: 768px) {
+    .admin-tools-container {
+        margin-top: 60px;
+    }
+}

@@ -5,6 +5,7 @@ import AdminTools from './components/tools/AdminTools';
 import Importer from './components/tools/importer/Importer';
 import ResolveDuplicateArtists from './components/tools/merger/ResolveDuplicateArtists';
 import ResolveDuplicateTracks from './components/tools/merger/ResolveDuplicateTracks';
+import TrackEditor from './components/tools/catalogue-editor/trackEditor';
 import ArtistPage from './pages/ArtistPage';
 import AlbumPage from './pages/AlbumPage';
 import LyricsPage from './pages/LyricsPage';
@@ -40,6 +41,10 @@ function App() {
         <Route
           path="/katalog-admin/tools/track-merger"
           element={<ProtectedRoute element={<ResolveDuplicateTracks />} allowedHierarchy={1} />}
+        />
+        <Route
+          path="/katalog-admin/catalogue-editor/track/:trackId"
+          element={<ProtectedRoute element={<TrackEditor />} allowedHierarchy={1} />}
         />
 
         {/* Public routes */}

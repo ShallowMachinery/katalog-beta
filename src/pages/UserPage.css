@@ -1,10 +1,3 @@
-body {
-    margin: 0;
-    font-family: "Hind Siliguri", sans-serif;
-    background-color: #add8e6; /* Light blue background */
-    color: #333;
-}
-
 .user-page-container {
     max-width: 800px;
     margin: 100px auto 50px auto;
@@ -22,19 +15,58 @@ body {
     background: rgba(255, 255, 255, 0.8); /* Slightly opaque background for contrast */
 }
 
-.user-page-container .user-info .user-picture {
+.user-page-container .user-info .user-picture-container {
+    position: relative; /* Enable positioning for the overlay */
     width: 120px; /* Adjust size */
     height: 120px; /* Adjust size */
+}
+
+.user-page-container .user-info .user-picture {
+    width: 100%; /* Make the image fill the container */
+    height: 100%; /* Ensure the image fits the container */
     border-radius: 50%; /* Circular image */
-    margin-right: 20px; /* Space between image and text */
     border: 3px solid #fff; /* White border around the picture */
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Stronger shadow */
+    object-fit: cover; /* Cover the container area with the image */
+}
+
+.user-page-container .user-info .edit-profile-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent dark background */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0; /* Initially hidden */
+    font-size: 16px; /* Font size for the label */
+    font-weight: bold; /* Make label bold */
+    transition: opacity 0.3s ease; /* Smooth transition for hover effect */
+    border-radius: 50%; /* Circular image */
+    border: 3px solid #fff; /* White border around the picture */
+}
+
+.user-page-container .user-info .user-picture-container:hover .edit-profile-overlay {
+    opacity: 1; /* Show the label when hovered */
+}
+
+/* Optional: Style the "Edit Profile Picture" label */
+.user-page-container .user-info .edit-profile-overlay span {
+    cursor: pointer;
+    color: #007bff; /* Blue color for the text */
+    text-decoration: underline; /* Underline to indicate it's clickable */
 }
 
 .user-page-container .user-info .user-details {
     text-align: left;
     flex-grow: 1; /* Allow this section to take up remaining space */
     line-height: 1rem;
+    margin-left: 30px;
 }
 
 .user-page-container .user-info .user-details .type {
@@ -169,6 +201,8 @@ body {
 
     .user-page-container .user-info .user-details {
         text-align: center;
+        margin-left: 0px;
+        margin-top: 20px;
     }
 
     .user-page-container .recent-contributions {

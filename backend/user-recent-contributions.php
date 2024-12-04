@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                     a.`artist_id` AS `artistId`, 
                     a.`artist_name` AS `artistName`,
                     a.`artist_vanity` AS `artistVanity`, 
-                    MAX(al.`album_cover_url`) AS `albumCoverUrl`,  
+                    MIN(al.`album_cover_url`) AS `albumCoverUrl`,  
                     c.`points_given` AS `pointsGiven`,
                     c.`created_at` AS `createdAt`
                 FROM `katalog1`.`User_Contributions` c

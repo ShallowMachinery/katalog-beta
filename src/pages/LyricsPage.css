@@ -1,25 +1,36 @@
-body {
-    margin: 0;
-    font-family: "Hind Siliguri", sans-serif;
-    background-color: #add8e6;
-    /* Light blue background */
-    color: #333;
-}
+
 
 .lyrics-page-container {
-    max-width: 800px;
+    max-width: 70%;
     margin: 100px auto 50px auto;
     padding: 20px;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.9);
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+    margin-bottom: 100px;
+}
+
+.lyrics-page-container .dynamic-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    filter: blur(10px);
+    z-index: -1;
+    opacity: 0.2;
 }
 
 .lyrics-page-container .album-info {
     display: flex;
     align-items: center;
-    /* Vertically centers all children */
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    background-color: #ffffff7c;
+    border-radius: 10px;
 }
 
 .lyrics-page-container .album-info .album-cover {
@@ -33,11 +44,11 @@ body {
 .lyrics-page-container .album-info .album-details {
     flex: 1;
     display: flex;
-    /* Ensure album-details uses Flexbox */
     flex-direction: column;
-    /* Stack content vertically */
     justify-content: center;
-    /* Vertically center the content */
+    padding-top: 4px;
+    padding-right: 4px;
+    padding-bottom: 4px;
 }
 
 .lyrics-page-container .album-info .album-details .track-name {
@@ -45,6 +56,15 @@ body {
     margin: 0;
     color: #333;
     gap: 5px;
+    line-height: 1.4em;
+    max-height: 2.8em;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    white-space: normal;
 }
 
 .lyrics-page-container .album-info .album-details .track-explicit {
@@ -61,6 +81,16 @@ body {
     font-size: 21px;
     color: #333;
     font-weight: bold;
+    line-height: 1.4em;
+    max-height: 2.8em;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    white-space: normal;
+    color: #333;
     transition: color 0.2s ease;
 }
 
@@ -88,59 +118,86 @@ body {
 .lyrics-page-container .font-size-toggle {
     display: flex;
     justify-content: center;
-    /* Center items horizontally */
     align-items: center;
-    /* Center items vertically */
+    position: relative;
+    top: -40px;
+    margin-bottom: -40px;
 }
 
 .lyrics-page-container .font-size-toggle h3 {
     margin-right: 10px;
-    /* Space between the header and buttons */
     margin-bottom: 0;
-    /* No bottom margin */
     font-size: 16px;
-    /* Set a specific font size */
     font-weight: bold;
-    /* Bold text */
 }
 
 .lyrics-page-container .font-size-toggle button {
     font-family: "Hind Siliguri", sans-serif;
     height: 30px;
-    /* Fixed height */
     margin-top: 10px;
     border-radius: 10px;
     margin-right: 10px;
-    /* Space between buttons */
     padding: 5px 10px;
-    /* Adjusted padding for better fit */
     cursor: pointer;
     text-align: center;
     background-color: #f0f0f0;
-    /* Background color for buttons */
     border: 1px solid #ccc;
-    /* Border for buttons */
     transition: background-color 0.3s;
-    /* Smooth transition for hover effect */
 }
 
-/* Optional: Hover effect for buttons */
 .lyrics-page-container .font-size-toggle button:hover {
     background-color: #e0e0e0;
-    /* Darker shade on hover */
+}
+
+.lyrics-page-container .font-size-toggle button.active {
+    background-color: #e0e0e0;
 }
 
 .lyrics-section {
-    margin-top: -60px;
     position: relative;
-    background-color: #f9f9f9;
+    background-color: #f9f9f98f;
     padding: 20px;
     border-radius: 10px;
     white-space: pre-wrap;
-    /* Keeps line breaks in lyrics */
     font-size: 16px;
     line-height: 1.5;
     color: #333;
+}
+
+.lyrics-section .suggestions-overlay {
+    position: absolute;
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    margin-top: -26.9rem;
+    margin-left: -9.15rem;
+    width: 9rem;
+    max-height: 150px;
+    overflow-y: auto;
+    border-radius: 5px;
+}
+
+.lyrics-section .suggestions-overlay .suggestion-item {
+    padding: 8px 10px;
+    cursor: pointer;
+}
+
+.lyrics-section .suggestions-overlay .suggestion-item:hover {
+    background: #f0f0f0;
+}
+
+
+.lyrics-page-container .spotify-embed-fixed {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;                /* Center horizontally */
+    transform: translateX(-50%);  /* Adjust for true centering */
+    width: 61%;               /* Adjust width as needed */
+    height: 80px;             /* Adjust height as needed */
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;            /* Ensures it stays on top */
 }
 
 .lyrics-section .lyrics-header {
@@ -149,14 +206,10 @@ body {
 
 .lyrics-section .edit-lyrics-button-container {
     position: absolute;
-    /* Change to absolute */
     top: 10px;
-    /* Adjust the value as needed */
     right: 10px;
-    /* Adjust the value as needed */
 }
 
-/* Default button styling */
 .lyrics-section .edit-lyrics-button-container .edit-lyrics-button {
     font-family: "Hind Siliguri", sans-serif;
     background-color: #4c93af;
@@ -173,14 +226,13 @@ body {
     transition: background-color 0.3s ease;
 }
 
-/* Button hover effect */
 .lyrics-section .edit-lyrics-button-container .edit-lyrics-button:hover {
     background-color: #457fa0;
 }
 
 .lyrics-section .edit-lyrics-button-container .edit-lyrics-button:disabled {
-    background-color: gray; /* Background color for disabled state */
-    cursor: not-allowed; /* Change cursor to indicate the button is disabled */
+    background-color: gray;
+    cursor: not-allowed;
 }
 
 .lyrics-section .lyrics {
@@ -190,17 +242,14 @@ body {
 
 .lyrics-section .lyrics.small {
     font-size: 16px
-        /* Small font size */
 }
 
 .lyrics-section .lyrics.normal {
     font-size: 22px
-        /* Normal font size */
 }
 
 .lyrics-section .lyrics.big {
     font-size: 28px
-        /* Big font size */
 }
 
 .lyrics-section .lyrics .lyrics-tag {
@@ -216,6 +265,12 @@ body {
     border: 1px solid #ccc;
     border-radius: 5px;
     font-family: "Hind Siliguri", sans-serif;
+    resize: vertical;
+    min-height: 400px;
+}
+
+.lyrics-section .lyrics-textarea:focus {
+    outline: 0.2px solid #4d6d9a;
 }
 
 .lyrics-section .lyrics-options {
@@ -224,74 +279,51 @@ body {
     gap: 10px;
     margin-top: 10px;
     justify-content: space-between;
-    /* Keeps elements spaced evenly */
 }
 
 .lyrics-section .lyrics-options .instrumental-label {
     display: flex;
-    /* Use flex for alignment */
     align-items: center;
     font-size: 18px;
-    /* Increase font size for the label */
     cursor: pointer;
 }
 
 .lyrics-section .lyrics-options .instrumental-label input[type="checkbox"] {
     display: none;
-    /* Hide the default checkbox */
 }
 
 .lyrics-section .lyrics-options .instrumental-label .custom-checkbox {
     width: 18px;
-    /* Custom checkbox width */
     height: 18px;
-    /* Custom checkbox height */
     border: 2px solid #3e6094;
-    /* Border color */
     border-radius: 4px;
-    /* Slightly rounded corners */
     position: relative;
-    /* Positioning for the checkmark */
     background-color: white;
-    /* Background color */
     transition: background-color 0.3s, border-color 0.3s;
-    /* Smooth transition for hover effect */
     margin-right: 8px;
-    /* Space between checkbox and label text */
 }
 
 .lyrics-section .lyrics-options .instrumental-label input[type="checkbox"]:checked+.custom-checkbox {
     background-color: #4C74af;
-    /* Background color when checked */
     border-color: #3e6094;
-    /* Change border color when checked */
 }
 
 .lyrics-section .lyrics-options .instrumental-label .custom-checkbox:before {
     content: '';
     position: absolute;
     left: 5px;
-    /* Positioning the checkmark */
     top: 1px;
     width: 6px;
-    /* Width of the checkmark */
     height: 10px;
-    /* Height of the checkmark */
     border: solid white;
-    /* Checkmark color */
     border-width: 0 2px 2px 0;
-    /* Checkmark shape */
     transform: rotate(45deg);
-    /* Rotate to create checkmark */
     opacity: 0;
-    /* Initially hidden */
     transition: opacity 0.2s;
-    /* Smooth transition for checkmark appearance */
 }
 
 .lyrics-section .lyrics-options .instrumental-label input[type="checkbox"]:checked+.custom-checkbox:before {
     opacity: 1;
-    /* Show checkmark when checked */
 }
 
 .lyrics-section .lyrics-options .custom-checkbox:hover {
@@ -299,7 +331,6 @@ body {
     border-color: #38488e;
 }
 
-/* Button Styles */
 .lyrics-section .lyrics-options .more-options-lyrics-button,
 .lyrics-section .lyrics-options .save-lyrics-button,
 .lyrics-section .lyrics-options .cancel-lyrics-button {
@@ -326,26 +357,25 @@ body {
     font-family: "Hind Siliguri", sans-serif;
     color: white;
     position: absolute;
-    top: 93.5%; /* Position just below the button */
+    top: 93.5%;
     right: 50;
     background-color: #597fb4;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a slight shadow */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 4px;
-    margin-top: 6px; /* Space between button and menu */
+    margin-top: 6px;
     z-index: 100;
-    min-width: 113px; /* Ensure a minimum width */
-    padding: 8px 0; /* Vertical padding */
+    min-width: 113px;
+    padding: 8px 0;
 }
 
-/* Style each option within the overlay */
 .lyrics-section .lyrics-options .options-overlay ul {
-    list-style: none; /* Remove default list styling */
+    list-style: none;
     padding: 8px 12px;
     margin: 0;
     cursor: pointer;
     font-size: 14px;
     transition: background-color 0.2s ease, color 0.2s ease;
-    color: #f4ecff; /* Red color for delete option */
+    color: #f4ecff;
 }
 
 .lyrics-section .lyrics-options .options-overlay ul.disabled {
@@ -358,7 +388,7 @@ body {
 }
 
 .lyrics-section .lyrics-options .options-overlay ul:hover {
-    background-color: #2d405a; /* Light background on hover */
+    background-color: #2d405a;
 }
 
 .lyrics-section .lyrics-options .options-overlay ul:nth-child(2) {
@@ -366,7 +396,7 @@ body {
 }
 
 .lyrics-section .lyrics-options .options-overlay ul:nth-child(2):hover {
-    background-color: #f9e0e0; /* Light red background on hover */
+    background-color: #f9e0e0;
     color: red;
 }
 
@@ -405,46 +435,62 @@ body {
     color: #333;
     margin-top: 20px;
     display: flex;
+    background-color: #ffffff7c;
+    border-radius: 8px;
+    gap: 15px;
 }
 
 .additional-info .more-information .info-header {
+    display: flex;
     font-size: 20px;
-    margin-bottom: 15px;
+    justify-content: space-between;
+}
+
+.additional-info .more-information .info-header .edit-info-button-container {
+    margin-left: auto;
+}
+
+.additional-info .more-information .info-header .edit-info-button-container .edit-info-button {
+    font-family: "Hind Siliguri", sans-serif;
+    background-color: #4c93af;
+    border: none;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.additional-info .more-information .info-header .edit-info-button-container .edit-info-button:hover {
+    background-color: #457fa0;
 }
 
 .additional-info .more-information .info-table {
     margin-top: 10px;
     margin-left: 0;
-    width: 100%;
-    /* Ensures the table takes full width */
+    width: auto;
     font-size: 15px;
-    /* Slightly bigger font for clarity */
 }
 
 .additional-info .more-information .info-table tr .isrc-buttons {
     font-family: "Hind Siliguri", sans-serif;
     border: none;
-    /* Remove the border */
-    background: none;
-    /* Remove the background */
-    color: #716d9b;
-    /* Set text color to blue */
+    background: none;    color: #716d9b;
     cursor: pointer;
-    /* Change cursor to pointer */
     padding: 0;
-    /* Remove default padding */
 }
 
 .additional-info .more-information .info-table tr .isrc-buttons:hover {
     text-decoration: underline;
-    /* Optional: underline on hover */
 }
 
 .additional-info .more-information .info-table td {
     padding: 8px 0;
-    /* Adds vertical space between rows */
     vertical-align: top;
-    /* Ensures consistent text alignment */
 }
 
 .additional-info .more-information .info-table td:first-child {
@@ -462,7 +508,10 @@ body {
 .additional-info .more-information .info-table td:last-child {
     text-align: left;
     color: #666;
-    /* Lighter shade for the info */
+}
+
+.additional-info .track-albums {
+    margin-left: 30px;
 }
 
 .additional-info .track-albums .track-album-header {
@@ -472,77 +521,54 @@ body {
 
 .additional-info .track-albums .album-entry {
     display: flex;
-    /* Aligns items in a row */
     align-items: center;
-    /* Vertically centers the items */
-    margin-bottom: 15px;
-    /* Space between album entries */
+    margin-bottom: 8px;
+    background-color: #ffffff;
     border: 1px solid #ddd;
-    /* Light gray border for separation */
     border-radius: 8px;
-    /* Rounded corners */
     padding: 10px;
-    /* Padding around each album entry */
-    transition: transform 0.5s;
-    /* Animation effect for hover */
+    transition: box-shadow 0.2s ease;
 }
 
 .additional-info .track-albums .album-entry:hover {
     border-color: #cde5ff;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    /* Adds shadow effect on hover */
 }
 
 .additional-info .track-albums .album-link {
     text-decoration: none;
-    /* Removes underline from links */
     color: inherit;
-    /* Inherits the text color */
     display: flex;
-    /* Allows for easy layout */
     align-items: center;
-    /* Vertically centers the content */
 }
 
 .additional-info .track-albums .album-cover {
     width: 50px;
-    /* Fixed width for album cover */
     height: 50px;
-    /* Fixed height for album cover */
     border-radius: 5px;
-    /* Rounded corners for album cover */
     object-fit: cover;
-    /* Ensures the image covers the container */
     margin-right: 10px;
-    /* Space between image and text */
 }
 
 .additional-info .track-albums .album-details {
     display: flex;
     flex-direction: column;
-    /* Stacks album name and track number vertically */
 }
 
 .additional-info .track-albums .album-name {
     font-weight: bold;
-    /* Makes the album name bold */
     margin: 0;
-    /* Removes default margin */
 }
 
 .additional-info .track-albums .track-number {
     color: #555;
-    /* Darker gray for track number */
     margin: 0;
-    /* Removes default margin */
     font-size: 0.9em;
-    /* Smaller font size for track number */
 }
 
 @media (max-width: 768px) {
-
-    /* You can adjust the max-width as needed */
     .lyrics-page-container {
+        max-width: 800px;
         margin-top: 60px;
     }
 
@@ -552,7 +578,7 @@ body {
     }
 
     .lyrics-page-container .album-info .album-details .track-name {
-        font-size: 20px;
+        font-size: 16px;
     }
 
     .lyrics-page-container .album-info .album-details .track-explicit {
@@ -560,11 +586,19 @@ body {
     }
 
     .lyrics-page-container .album-info .album-details .artist-name {
-        font-size: 16px;
+        font-size: 14px;
     }
 
     .lyrics-page-container .album-info .album-details .album-name {
-        font-size: 14px;
+        font-size: 12px;
+    }
+
+    .lyrics-page-container .font-size-toggle button {
+        margin-right: 5px;
+    }
+
+    .lyrics-page-container .spotify-embed-fixed {
+        width: 90%;               /* Adjust width as needed */
     }
 
     .lyrics-section .lyrics-header {
@@ -590,12 +624,9 @@ body {
 
     .lyrics-section .lyrics-options .instrumental-label .custom-checkbox {
         width: 14px;
-        /* Custom checkbox width */
         height: 14px;
-        /* Custom checkbox height */
     }
 
-    /* Button Styles */
     .lyrics-section .lyrics-options .more-options-lyrics-button,
     .lyrics-section .lyrics-options .save-lyrics-button,
     .lyrics-section .lyrics-options .cancel-lyrics-button {
@@ -611,6 +642,7 @@ body {
         color: #333;
         margin-top: 20px;
         display: flex;
+        gap: 0px;
     }
 
     .additional-info .more-information .info-header {
@@ -619,6 +651,7 @@ body {
 
     .additional-info .more-information .info-table {
         margin-top: 5px;
+        width: auto;
     }
 
     .additional-info .more-information .info-table td {
@@ -645,8 +678,10 @@ body {
 
     .additional-info .track-albums .album-cover {
         width: 45px;
-        /* Fixed width for album cover */
         height: 45px;
-        /* Fixed height for album cover */
+    }
+
+    .additional-info .track-albums {
+        margin-left: 0px;
     }
 }

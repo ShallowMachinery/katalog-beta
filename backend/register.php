@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $userPictureLink = '';
     $userHierarchy = 3;
-    $userTypeName = "Member";
+    $userTypeName = "Contributor";
 
     // Insert new user
     $stmt = $conn->prepare("INSERT INTO `katalog1`.`Accounts` (`last_name`, `first_name`, `middle_name`, `user_picture_link`, `user_hierarchy`, `user_type_name`, `user_email`, `user_password`, `user_name`, `birthday`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
