@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import './MenuBar.css';
 import Modal from './Modal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass, faTimes, faCog, faSignInAlt, faMoon, faSun } from '@fortawesome/free-solid-svg-icons';
 import packageJson from '../../package.json';
 import { checkSession } from './SessionChecker';
+import { ThemeContext } from '../ThemeContext';
 
 function MenuBar() {
     const isMobile = window.innerWidth <= 768;
@@ -26,8 +27,13 @@ function MenuBar() {
     const [showOverlaySearch, setShowOverlaySearch] = useState(false);
     const [isSearchActive, setIsSearchActive] = useState(false);
     const [sessionData, setSessionData] = useState({ isLoggedIn: false, username: '' });
+    const [selectedFilter, setSelectedFilter] = useState('all');
+    const [userData, setUserData] = useState(null);
+    const { isDarkTheme, toggleTheme } = useContext(ThemeContext);
 
-    const baseUrl = `${window.location.protocol}//${window.location.hostname}`;
+    useEffect(() => {
+        document.body.classList.toggle('dark-theme', isDarkTheme);
+    }, [isDarkTheme]);
 
     useEffect(() => {
         const fetchSession = async () => {
@@ -40,6 +46,29 @@ function MenuBar() {
         };
         fetchSession();
     }, []);
+
+    useEffect(() => {
+        if (sessionData.isLoggedIn) {
+            const fetchUserInfo = async () => {
+                try {
+                    const userToken = localStorage.getItem('access_token');
+                    const response = await axios.get(`/backend/user-info.php`, {
+                        headers: {
+                            'Authorization': `Bearer ${userToken}`,
+                        },
+                        params: {
+                            username: sessionData.username,
+                        },
+                    });
+                    const userInfo = response.data;
+                    setUserData(userInfo.userInfo);
+                } catch (error) {
+                    console.error('Error fetching user info or data:', error);
+                }
+            };
+            fetchUserInfo();
+        }
+    }, [sessionData.isLoggedIn, sessionData.username]);
 
     useEffect(() => {
         setSearchTerm('');
@@ -61,8 +90,8 @@ function MenuBar() {
     };
 
     const handleCloseSearch = () => {
-        setIsSearchActive(false);  // Close the search and revert the layout
-        setSearchTerm('');          // Optionally clear the search term
+        setIsSearchActive(false);
+        setSearchTerm('');
     };
 
     const handleClickOutside = (event) => {
@@ -88,7 +117,11 @@ function MenuBar() {
     };
 
     const confirmLogout = () => {
+        const isDarkTheme = localStorage.getItem('isDarkTheme');
         localStorage.clear();
+        if (isDarkTheme) {
+            localStorage.setItem('isDarkTheme', isDarkTheme);
+        }
         navigate('/home');
         window.location.reload();
     };
@@ -99,16 +132,17 @@ function MenuBar() {
 
         if (value.length >= 3) {
             try {
-                const response = await axios.get(`${baseUrl}/katalog/beta/api/search.php`, {
+                const response = await axios.get(`/backend/search.php`, {
                     params: { term: value }
                 });
+                setShowOverlaySearch(true);
                 setSearchResults({
                     artists: response.data.artists || [],
                     albums: response.data.albums || [],
                     tracks: response.data.tracks || [],
                     lyrics: response.data.lyrics || [],
                 });
-                setShowOverlaySearch(true);
+                setSelectedFilter('all');
             } catch (error) {
                 console.error('Error fetching search results:', error);
                 setSearchResults({ artists: [], albums: [], tracks: [], lyrics: [] });
@@ -121,147 +155,228 @@ function MenuBar() {
 
     return (
         <div className="menu-bar">
-            {!isSearchActive && (<h1>
-                <a href='/home'>Katalog {isMobile ? <small>beta</small> : <small>v{packageJson.version}-beta</small>}</a>
-            </h1>)}
+            <div className="menu-left-div">
+                {!isSearchActive && (<h1>
+                    <a href='/home'>Katalog {isMobile ? <small>beta</small> : <small>v{packageJson.version}-beta</small>}</a>
+                </h1>)}
+            </div>
+            <div className="menu-center-div">
 
-            {isMobile && !isSearchActive ? (
-                <button onClick={handleSearchButtonClick} className="search-button"><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
-            ) : (
-                <div className="search-input-container">
-                    <input
-                        type="text"
-                        placeholder="Search for an artist, album, track, or lyrics..."
-                        value={searchTerm}
-                        onChange={handleSearch}
-                        onBlur={handleSearchBlur} // Reset layout when input loses focus
-                        className={`search-input ${isMobile && isSearchActive ? 'active' : ''}`}
-                    />
-                    <button className="close-button" onClick={handleCloseSearch}>
-                        <FontAwesomeIcon icon={faTimes} />
-                    </button>
-                </div>
-            )}
-
-            <div className="menu-right-side">
-                {showOverlaySearch && (
-                    (searchResults.artists.length > 0 ||
-                        searchResults.albums.length > 0 ||
-                        searchResults.tracks.length > 0 ||
-                        searchResults.lyrics.length > 0) ? (
-                        <div ref={searchResultsRef} className="overlay" onClick={handleClickOutside}>
-                            <div className="overlay-content">
-                                <div className="category-container">
-                                    {searchResults.tracks.length > 0 && (
+            </div>
+            <div className="menu-right-div">
+                {isMobile && !isSearchActive ? (
+                    <button onClick={handleSearchButtonClick} className="search-button"><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
+                ) : (
+                    <div className="search-input-container">
+                        <input
+                            type="text"
+                            placeholder={isMobile ? "Search..." : "Search for an artist, album, track, or lyrics..."}
+                            value={searchTerm}
+                            onClick={() => {
+                                if (searchTerm.length > 4) {
+                                    setShowOverlaySearch(true);
+                                }
+                            }}
+                            onChange={handleSearch}
+                            onBlur={handleSearchBlur}
+                            className={`search-input ${isMobile && isSearchActive ? 'active' : ''}`}
+                        />
+                        {isSearchActive && (<button className="close-button" onClick={handleCloseSearch}>
+                            <FontAwesomeIcon icon={faTimes} />
+                        </button>)}
+                    </div>
+                )}
+                {!isSearchActive && (
+                    <div className="menu-links">
+                        {sessionData.isLoggedIn ? (
+                            <>
+                                <span className="profile-menu" onClick={handleMenuLinksClick}>
+                                    {sessionData.isLoggedIn ? <FontAwesomeIcon icon={faCog} /> : "Log in"}
+                                </span>
+                                {showMenuLinks && (
+                                    <div ref={menuLinksRef} className="overlay-container">
+                                        <ul>
+                                            {userData && (
+                                                <a href={`/user/${userData.user_name}`} className="profile-link">
+                                                    <li>
+                                                        <div className="profile-item">
+                                                            <img src={userData.user_picture_url} alt={userData.user_name} className="profile-picture" loading="lazy" />
+                                                            <div className="profile-info">
+                                                                {userData.user_name}
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </a>
+                                            )}
+                                            <li onClick={toggleTheme}>
+                                                {isDarkTheme ? 'Dark mode enabled' : 'Dark mode disabled'}
+                                            </li>
+                                            <li className="logout-li" onClick={handleLogout}>Log out</li>
+                                        </ul>
+                                    </div>
+                                )}
+                            </>
+                        ) : (<div className="not-logged-in-links">
+                            <span className="link"><Link to="/login" style={{ textDecoration: "none", color: "#fff" }}><FontAwesomeIcon icon={faSignInAlt} /></Link></span>
+                            <span className="link" onClick={toggleTheme} style={{ cursor: "pointer" }}><FontAwesomeIcon icon={isDarkTheme ? faSun : faMoon} /></span>
+                        </div>)}
+                    </div>
+                )}
+            </div>
+            {showOverlaySearch && (
+                <div ref={searchResultsRef} className="search-overlay" onClick={handleClickOutside}>
+                    <div className="overlay-content">
+                        <div className="filter-buttons">
+                            {(searchResults.artists.length > 0 ||
+                                searchResults.albums.length > 0 ||
+                                searchResults.tracks.length > 0 ||
+                                searchResults.lyrics.length > 0) && (<button
+                                    className={`filter-button ${selectedFilter === 'all' ? 'active' : ''}`}
+                                    onClick={() => { setSelectedFilter('all'); if (isMobile) setIsSearchActive(true); }}
+                                >
+                                    All
+                                </button>)
+                            }
+                            {searchResults.tracks.length > 0 &&
+                                (<button
+                                    className={`filter-button ${selectedFilter === 'tracks' ? 'active' : ''}`}
+                                    onClick={() => { setSelectedFilter('tracks'); if (isMobile) setIsSearchActive(true); }}
+                                >
+                                    Tracks
+                                </button>)
+                            }
+                            {searchResults.artists.length > 0 &&
+                                (<button
+                                    className={`filter-button ${selectedFilter === 'artists' ? 'active' : ''}`}
+                                    onClick={() => { setSelectedFilter('artists'); if (isMobile) setIsSearchActive(true); }}
+                                >
+                                    Artists
+                                </button>)
+                            }
+                            {searchResults.albums.length > 0 &&
+                                (<button
+                                    className={`filter-button ${selectedFilter === 'albums' ? 'active' : ''}`}
+                                    onClick={() => { setSelectedFilter('albums'); if (isMobile) setIsSearchActive(true); }}
+                                >
+                                    Albums
+                                </button>)
+                            }
+                            {searchResults.lyrics.length > 0 &&
+                                (<button
+                                    className={`filter-button ${selectedFilter === 'lyrics' ? 'active' : ''}`}
+                                    onClick={() => { setSelectedFilter('lyrics'); if (isMobile) setIsSearchActive(true); }}
+                                >
+                                    Lyrics
+                                </button>)
+                            }
+                        </div>
+                        {(searchResults.artists.length > 0 ||
+                            searchResults.albums.length > 0 ||
+                            searchResults.tracks.length > 0 ||
+                            searchResults.lyrics.length > 0) ? (
+                            <div className="category-container">
+                                {selectedFilter === 'all' || selectedFilter === 'tracks' ? (
+                                    searchResults.tracks.length > 0 && (
                                         <div>
                                             <h2 className="search-results-title">Tracks</h2>
-                                            <ul className="search-results-list">
+                                            <div className="search-results-list">
                                                 {searchResults.tracks.map((track) => (
-                                                    <li key={track.trackId} className="search-result-item">
+                                                    <div key={track.trackId} className="search-result-item">
                                                         <Link to={`/lyrics/${track.mainArtistVanity}/${track.trackVanity}`} style={{ textDecoration: 'none' }}>
                                                             <img
                                                                 src={track.albumCoverUrl || '/assets_public/music-artist.svg'}
                                                                 alt={track.albumName}
                                                                 className="search-item-picture"
                                                             />
-                                                            <span className="search-item-name">{track.trackName}<br />{track.mainArtistName}</span>
+                                                            <div className="search-item-name">
+                                                                <span>{track.trackName}</span>
+                                                                <span>{track.mainArtistName}</span>
+                                                            </div>
                                                         </Link>
-                                                    </li>
+                                                    </div>
                                                 ))}
-                                            </ul>
+                                            </div>
                                         </div>
-                                    )}
-                                    {searchResults.artists.length > 0 && (
+                                    )
+                                ) : null}
+                                {selectedFilter === 'all' || selectedFilter === 'artists' ? (
+                                    searchResults.artists.length > 0 && (
                                         <div>
                                             <h2 className="search-results-title">Artists</h2>
                                             <ul className="search-results-list">
                                                 {searchResults.artists.map((artist) => (
-                                                    <li key={artist.artistId} className="search-result-item">
+                                                    <div key={artist.artistId} className="search-result-item">
                                                         <Link to={`/artist/${artist.artistVanity}`} style={{ textDecoration: 'none' }}>
                                                             <img
                                                                 src={artist.artistPictureUrl || '/assets_public/person.svg'}
                                                                 alt={artist.artistName}
                                                                 className="search-item-picture"
                                                             />
-                                                            <span className="search-item-name">{artist.artistName}</span>
+                                                            <div className="search-item-name">
+                                                                <span style={{ fontSize: "14px" }}>{artist.artistName}</span>
+                                                            </div>
                                                         </Link>
-                                                    </li>
+                                                    </div>
                                                 ))}
                                             </ul>
                                         </div>
-                                    )}
-                                    {searchResults.albums.length > 0 && (
+                                    )
+                                ) : null}
+                                {selectedFilter === 'all' || selectedFilter === 'albums' ? (
+                                    searchResults.albums.length > 0 && (
                                         <div>
                                             <h2 className="search-results-title">Albums</h2>
                                             <ul className="search-results-list">
                                                 {searchResults.albums.map((album) => (
-                                                    <li key={album.albumId} className="search-result-item">
+                                                    <div key={album.albumId} className="search-result-item">
                                                         <Link to={`/album/${album.artistVanity}/${album.albumVanity}`} style={{ textDecoration: 'none' }}>
                                                             <img
                                                                 src={album.coverUrl || '/assets_public/music-artist.svg'}
                                                                 alt={album.albumName}
                                                                 className="search-item-picture"
                                                             />
-                                                            <span className="search-item-name">{album.albumName}<br />{album.artistName}</span>
+                                                            <div className="search-item-name">
+                                                                <span>{album.albumName}</span>
+                                                                <span>{album.artistName}</span>
+                                                            </div>
                                                         </Link>
-                                                    </li>
+                                                    </div>
                                                 ))}
                                             </ul>
                                         </div>
-                                    )}
-                                    {searchResults.lyrics.length > 0 && (
+                                    )
+                                ) : null}
+                                {selectedFilter === 'all' || selectedFilter === 'lyrics' ? (
+                                    searchResults.lyrics.length > 0 && (
                                         <div>
                                             <h2 className="search-results-title">Lyrics</h2>
                                             <ul className="search-results-list">
                                                 {searchResults.lyrics.map((lyric) => (
-                                                    <li key={lyric.lyricId} className="search-result-item">
+                                                    <div key={lyric.lyricId} className="search-result-item">
                                                         <Link to={`/lyrics/${lyric.mainArtistVanity}/${lyric.trackVanity}`} style={{ textDecoration: 'none' }}>
                                                             <img
                                                                 src={lyric.albumCoverUrl || '/assets_public/music-artist.svg'}
                                                                 alt={lyric.albumName}
                                                                 className="search-item-picture"
                                                             />
-                                                            <span className="search-item-name">{lyric.trackName}<br />{lyric.mainArtistName}</span>
+                                                            <div className="search-item-name">
+                                                                <span>{lyric.trackName}</span>
+                                                                <span>{lyric.mainArtistName}</span>
+                                                            </div>
                                                         </Link>
-                                                    </li>
+                                                    </div>
                                                 ))}
                                             </ul>
                                         </div>
-                                    )}
-                                </div>
+                                    )
+                                ) : null}
                             </div>
-                        </div>
-                    ) : (<div ref={searchResultsRef} className="overlay" onClick={handleClickOutside}>
-                        <div className="overlay-content">
+                        ) : (
                             <p className="no-results">No results found for this search query.</p>
-                        </div></div>
-                    )
-                )}
-
-                {!isSearchActive && (
-                        <div className="menu-links">
-                            {sessionData.isLoggedIn ? (
-                                <>
-                                    <span className="profile-menu" onClick={handleMenuLinksClick}>{sessionData.isLoggedIn ? sessionData.username : "Log in"}</span>
-                                    {showMenuLinks && (
-                                        <div ref={menuLinksRef} className="overlay-container">
-                                            <ul>
-                                                <a href={`/user/${sessionData.username}`} className="profile-link">
-                                                    <li>Profile</li>
-                                                </a>
-                                                <li onClick={handleLogout}>Logout</li>
-                                            </ul>
-                                        </div>
-                                    )}
-                                </>
-                            ) : (
-                                <span className="links"><Link to="/login">Login</Link></span>
-                            )}
-                        </div>
-                    )
-                }
-            </div >
-
+                        )}
+                    </div>
+                </div>
+            )}
             <Modal
                 isOpen={isModalOpen}
                 title="Confirm Logout"

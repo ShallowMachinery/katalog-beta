@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { jwtDecode } from 'jwt-decode';
 import MenuBar from '../../MenuBar';
-import Modal from '../../Modal';
 import NotificationToast from '../../NotificationToast';
 import './trackEditor.css';
 import { getSpotifyAccessToken } from '../../spotifyAuth';
@@ -20,9 +18,9 @@ function TrackEditor() {
     const [isISRCValid, setIsISRCValid] = useState(true);
     const [loading, setLoading] = useState(true);
     const [showSuggestions, setShowSuggestions] = useState(null);
+    const suggestionsOverlayRef = useRef(null);
     const [filteredSuggestions, setFilteredSuggestions] = useState([]);
     const navigate = useNavigate();
-    const [userHierarchy, setUserHierarchy] = useState(0);
 
     const languages = {
         'tl': 'Tagalog',
@@ -42,20 +40,12 @@ function TrackEditor() {
         '': 'Unknown'
     };
 
-    const baseUrl = `${window.location.protocol}//${window.location.hostname}`;
     const userToken = localStorage.getItem('access_token');
-
-    useEffect(() => {
-        if (userToken) {
-            const decodedToken = jwtDecode(userToken);
-            setUserHierarchy(decodedToken.data.user_hierarchy || 0);
-        }
-    }, [userToken]);
 
     useEffect(() => {
         const fetchTrackInfo = async () => {
             try {
-                const trackInfoResponse = await axios.get(`${baseUrl}/katalog/beta/api/editor-get-track-info.php`, {
+                const trackInfoResponse = await axios.get(`/backend/editor-get-track-info.php`, {
                     params: { trackId },
                 });
                 const trackData = trackInfoResponse.data;
@@ -66,22 +56,22 @@ function TrackEditor() {
                     genre_name: trackData.trackGenre != null ? trackData.trackGenre : "Pop"
                 });
 
-                const trackWritersResponse = await axios.get(`${baseUrl}/katalog/beta/api/editor-get-track-composers.php`, {
+                const trackWritersResponse = await axios.get(`/backend/editor-get-track-composers.php`, {
                     params: { trackId },
                 });
                 const trackWritersData = trackWritersResponse.data;
                 setTrackWriters(trackWritersData);
 
-                const trackISRCsResponse = await axios.get(`${baseUrl}/katalog/beta/api/editor-get-track-isrcs.php`, {
+                const trackISRCsResponse = await axios.get(`/backend/editor-get-track-isrcs.php`, {
                     params: { trackId },
                 });
                 const trackISRCsData = trackISRCsResponse.data;
                 setTrackISRCs(trackISRCsData);
 
-                const genreResponse = await axios.get(`${baseUrl}/katalog/beta/api/editor-get-genres.php`);
+                const genreResponse = await axios.get(`/backend/editor-get-genres.php`);
                 setGenres(genreResponse.data);
 
-                const writersResponse = await axios.get(`${baseUrl}/katalog/beta/api/editor-get-composers.php`);
+                const writersResponse = await axios.get(`/backend/editor-get-composers.php`);
                 setWriters(writersResponse.data);
 
                 if (trackData) {
@@ -166,12 +156,11 @@ function TrackEditor() {
         );
         setTrackWriters(updatedTrackWriters);
 
-        // Update filtered suggestions based on current input value
         const suggestions = writers.filter((writer) =>
             writer.composer_name && writer.composer_name.toLowerCase().includes(value.toLowerCase())
         );
         setFilteredSuggestions(suggestions);
-        setShowSuggestions(index);  // Show suggestions for the current field
+        setShowSuggestions(index);
     };
 
     const handleSuggestionClick = (suggestion, index) => {
@@ -179,11 +168,27 @@ function TrackEditor() {
             i === index ? { ...writer, composerName: suggestion.composer_name } : writer
         );
         setTrackWriters(updatedTrackWriters);
-        setShowSuggestions(null);  // Hide suggestions after selecting
+        setShowSuggestions(null);
     };
 
+    const handleClickOutside = (event) => {
+        if (suggestionsOverlayRef.current && !suggestionsOverlayRef.current.contains(event.target)) {
+            setShowSuggestions(null);
+        }
+    };
+
+    useEffect(() => {
+        if (showSuggestions !== null) {
+            document.addEventListener("click", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, [showSuggestions]);
+
     const removeISRC = (index) => {
-        const updatedTrackISRCs = trackISRCs.filter((_, i) => i !== index); // Remove the ISRC at the specified index
+        const updatedTrackISRCs = trackISRCs.filter((_, i) => i !== index);
         setTrackISRCs(updatedTrackISRCs);
     };
 
@@ -197,18 +202,17 @@ function TrackEditor() {
             );
             setTrackISRCs(updatedTrackISRCs);
         } else {
-            console.log("Invalid ISRC. Only alphanumeric characters and 12 characters long are allowed.");
+            setToast({ show: true, message: 'Invalid ISRC. Only alphanumeric characters and 12 characters long are allowed.', type: 'error' });
         }
     };
 
     const handleSave = async () => {
         const finalTrackInfo = {
             ...trackInfo,
-            trackGenreId: trackInfo.trackGenreId ?? 1,  // Default to 1 if null
-            trackGenre: trackInfo.trackGenre ?? "Pop",  // Default to "Pop" if null
+            trackGenreId: trackInfo.trackGenreId ?? 1,
+            trackGenre: trackInfo.trackGenre ?? "Pop",
         };
 
-        // Consolidate all data for logging
         const dataToSend = {
             trackId: finalTrackInfo.trackId,
             trackName: finalTrackInfo.trackName,
@@ -220,9 +224,8 @@ function TrackEditor() {
             trackLanguage: finalTrackInfo.language
         };
 
-        console.log('Final data to be sent to API:', dataToSend);
         try {
-            const response = await axios.post(`${baseUrl}/katalog/beta/api/editor-update-track-info.php`,
+            const response = await axios.post(`/backend/editor-update-track-info.php`,
                 dataToSend,
                 {
                     headers: {
@@ -241,7 +244,6 @@ function TrackEditor() {
             }
 
         } catch (error) {
-            console.error('Error saving track:', error);
             setToast({ show: true, message: 'Error saving track.', type: 'error' });
         }
     };
@@ -342,8 +344,8 @@ function TrackEditor() {
                                 <label htmlFor="genre">Genre</label>
                                 <select
                                     id="genre"
-                                    value={trackGenre.genre_id} // Set value based on trackGenre state
-                                    onChange={handleGenreChange} // Handle change with the function
+                                    value={trackGenre.genre_id}
+                                    onChange={handleGenreChange}
                                 >
                                     {genres && genres.map((genre) => (
                                         <option key={genre.genre_id} value={genre.genre_id}>
@@ -382,7 +384,7 @@ function TrackEditor() {
                                         />
                                         <button type="button" onClick={() => removeTrackWriter(index)} className="remove-writer">Remove</button>
                                         {showSuggestions === index && filteredSuggestions.length > 0 && (
-                                            <div className="suggestions-overlay">
+                                            <div ref={suggestionsOverlayRef} className="suggestions-overlay">
                                                 {filteredSuggestions.map((suggestion) => (
                                                     <div
                                                         key={suggestion.composer_id}
@@ -406,7 +408,7 @@ function TrackEditor() {
                                             <input
                                                 type="text"
                                                 id={`isrc-${index + 1}`}
-                                                value={trackISRC.isrc || trackISRC} // Check if trackISRC is an object or string
+                                                value={trackISRC.isrc || trackISRC}
                                                 onChange={(e) => handleISRCChange(e, index)}
                                                 placeholder={`ISRC ${index + 1}`}
                                                 className={!isISRCValid ? 'invalid' : ''}

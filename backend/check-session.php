@@ -10,8 +10,8 @@ $response = array('success' => false, 'message' => '');
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $headers = apache_request_headers();
-    $accessToken = $headers['Authorization'] ?? '';
-
+    $accessToken = $headers['authorization'] ?? '';
+    
     try {
         if (strpos($accessToken, 'Bearer ') === 0) {
             $accessToken = substr($accessToken, 7);

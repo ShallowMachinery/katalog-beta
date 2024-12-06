@@ -11,34 +11,30 @@ function AlbumPage() {
     const [moreAlbums, setMoreAlbums] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isMultiDisc, setIsMultiDisc] = useState(false);
-    const baseUrl = `${window.location.protocol}//${window.location.hostname}`;
 
     useEffect(() => {
         const fetchAlbumInfo = async () => {
             try {
-                const response = await axios.get(`${baseUrl}/katalog/beta/api/album-info.php`, {
+                const response = await axios.get(`/backend/album-info.php`, {
                     params: { albumVanity, artistVanity },
                 });
 
                 const albumData = response.data;
-                console.log(albumData);
                 setAlbumInfo(albumData);
 
                 if (albumData && albumData.status !== 'error') {
                     document.title = `${albumData.albumName} album by ${albumData.artistName} | Katalog`;
                 }
 
-                // Fetch tracks in the album
-                const tracksResponse = await axios.get(`${baseUrl}/katalog/beta/api/album-tracks.php`, {
+                const tracksResponse = await axios.get(`/backend/album-tracks.php`, {
                     params: { albumVanity, artistVanity },
                 });
                 setTracks(tracksResponse.data.tracks);
-                console.log(tracks);
 
                 const multiDisc = tracksResponse.data.tracks.some(track => track.discNumber !== 1);
                 setIsMultiDisc(multiDisc);
 
-                const moreAlbumsResponse = await axios.get(`${baseUrl}/katalog/beta/api/artist-albums.php`, {
+                const moreAlbumsResponse = await axios.get(`/backend/artist-albums.php`, {
                     params: { artistVanity },
                 });
                 setMoreAlbums(moreAlbumsResponse.data.albums);
@@ -141,14 +137,13 @@ function AlbumPage() {
                 </div>
 
                 <div className="more-albums-section">
-                    {/* Check if the artist has more than one album */}
                     {moreAlbums.length > 1 && (
                         <>
-                            <h2 className="more-albums-header">More Albums by {albumInfo.artistName}</h2>
+                            <h2 className="more-albums-header">More albums by {albumInfo.artistName}</h2>
                             <ul className="more-albums-list">
                                 {shuffleArray(moreAlbums)
-                                    .filter(album => album.albumId !== albumInfo.albumId) // Exclude the current album
-                                    .slice(0, 6) // Limit to 6 albums
+                                    .filter(album => album.albumId !== albumInfo.albumId)
+                                    .slice(0, 5)
                                     .map(album => (
                                         <li key={album.albumId} className="more-album-item">
                                             <Link to={`/album/${artistVanity}/${album.albumVanity}`}>

@@ -10,7 +10,7 @@ $response = array('success' => false, 'message' => '', 'userInfo' => null);
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $headers = apache_request_headers();
-    $accessToken = $headers['Authorization'] ?? '';
+    $accessToken = $headers['authorization'] ?? '';
     $username = $_GET['username'] ?? null;
 
     try {

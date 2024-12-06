@@ -1,7 +1,7 @@
 {
-  "proxy": "http://localhost:3000",
+  "proxy": "http://localhost",
   "name": "katalog-beta",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
   "dependencies": {
     "@fortawesome/free-brands-svg-icons": "^6.6.0",

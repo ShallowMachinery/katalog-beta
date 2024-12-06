@@ -9,30 +9,30 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
-    opacity: 0; /* Start hidden */
-    transition: opacity 0.3s ease; /* Fade effect */
-    visibility: hidden; /* Prevent interaction when hidden */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    visibility: hidden;
 }
 
 .modal-overlay.show {
-    opacity: 1; /* Fully visible when shown */
-    visibility: visible; /* Make it interactable */
+    opacity: 1;
+    visibility: visible;
 }
 
 .modal-overlay.show .modal-content {
     font-size: large;
-    color: black;
-    background: white;
+    color: var(--modal-text-color);
+    background: var(--modal-bg-color);
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
-    transform: translateY(-30px); /* Start slightly above */
-    transition: transform 0.3s ease, opacity 0.3s ease; /* Smooth entrance */
-    opacity: 0; /* Start hidden */
+    transform: translateY(-30px);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
     width: 20rem;
-    transform: translateY(0); /* Slide in */
-    opacity: 1; /* Fully visible */
+    transform: translateY(0);
+    opacity: 1;
 }
 
 .modal-overlay.show .modal-content .modal-actions {
@@ -45,18 +45,18 @@
     margin: 0 10px;
     border: none;
     border-radius: 4px;
-    background: #007BFF; /* Primary color */
-    color: white;
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
     font-size: 16px;
     cursor: pointer;
-    transition: background 0.3s ease; /* Smooth background change */
+    transition: background-color 0.3s ease;
 }
 
 .modal-overlay.show .modal-content .modal-actions button:hover {
-    background: #0056b3; /* Darker shade on hover */
+    background-color: var(--button-hover-active-bg-color);
 }
 
 .modal-overlay.show .modal-content .modal-actions button:focus {
-    outline: none; /* Remove default focus outline */
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5); /* Custom focus outline */
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5);
 }

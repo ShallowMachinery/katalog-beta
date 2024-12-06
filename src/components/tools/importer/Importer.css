@@ -10,8 +10,8 @@
 .import-box {
   position: relative;
   width: auto;
-  background-color: rgba(255, 255, 255, 0.9);
-  color: white;
+  background-color: var(--container-bg-color);
+  color: var(--title-text-color);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -27,8 +27,9 @@
 }
 
 .App .import-box h2 {
-  color: #333;
-  width: 90%;
+  color: var(--title-text-color);
+  padding-left: 10px;
+  padding-right: 10px;
   text-align: center;
 }
 
@@ -48,31 +49,23 @@
   font-family: "Hind Siliguri", sans-serif;
   flex: 1;
   padding: 10px;
-  background-color: #4c93af;
-  color: white;
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
   border: none;
   cursor: pointer;
   border-radius: 5px;
   font-size: medium;
+  transition: background-color 0.2s ease;
 }
 
 .tabs button:hover {
-  background-color: #457fa0;
+  background-color: var(--button-hover-active-bg-color);
 }
 
 .tabs button.active {
-  background-color: #457fa0;
-  color: white;
+  background-color: var(--button-hover-active-bg-color);
+  color: var(--button-text-color);
   cursor: default;
-}
-
-.album-import-component {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #b4c4d4;
-  box-sizing: border-box;
 }
 
 @media (max-width: 768px) {

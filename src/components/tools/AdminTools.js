@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import MenuBar from '../MenuBar';
-import './AdminTools.css'; // Add CSS for styling
+import './AdminTools.css';
 
 function AdminTools() {
     return (

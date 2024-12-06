@@ -10,7 +10,7 @@ $response = array('success' => false, 'message' => '', 'contributions' => null);
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $headers = apache_request_headers();
-    $accessToken = $headers['Authorization'] ?? '';
+    $accessToken = $headers['authorization'] ?? '';
     $username = $_GET['username'] ?? null;
 
     try {
@@ -48,7 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
                 LIMIT 50
             ");
 
-            // Bind the userId parameter and execute the statement
             $stmt->bind_param("s", $username);
             $stmt->execute();
             $result = $stmt->get_result();
@@ -61,7 +60,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
             $response['success'] = true;
             $response['contributions'] = $contributions;
 
-            // Close the statement and connection
             $stmt->close();
         } else {
             $response['message'] = 'Invalid token structure.';
@@ -75,9 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $response['message'] = 'Invalid request method.';
 }
 
-// Output the response as JSON
 echo json_encode($response);
 
-// Close the connection
 $conn->close();
 ?>

@@ -7,7 +7,7 @@ use Firebase\JWT\Key;
 use Firebase\JWT\ExpiredException;
 
 $headers = apache_request_headers();
-$accessToken = $headers['Authorization'] ?? '';
+$accessToken = $headers['authorization'] ?? '';
 
 try {
     if (strpos($accessToken, 'Bearer ') === 0) {

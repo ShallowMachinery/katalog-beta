@@ -1,205 +1,317 @@
 .home-page-container {
     padding: 20px;
-    max-width: 1000px;
-    margin: 100px auto 50px auto;
-    background-color: rgba(255, 255, 255, 0.9); /* Slight transparency */
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    margin: 80px auto 50px auto;
+    background-color: var(--container-bg-color);
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     position: relative;
-    z-index: 1; /* Ensure this is in front of the background */
+    z-index: 1;
 }
 
-.home-page-container header {
+.home-page-container .intro-section {
     text-align: center;
-    margin-bottom: 20px;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, var(--home-page-gradient-one-color) 0%, var(--home-page-gradient-two-color) 100%);
+    margin: -20px -20px 30px -20px;
+    border-radius: 15px 15px 0 0;
+    color: white;
 }
 
-.home-page-container header h1 {
-    font-size: 2.5em;
-    color: #495057; /* Darker text color for the heading */
+.home-page-container .intro-section h1 {
+    font-size: 2.8em;
+    margin-bottom: 15px;
+    font-weight: 700;
 }
 
-.home-page-container header .auth-links {
+.home-page-container .intro-section p {
+    font-size: 1.2em;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.home-page-container .stats-section {
     display: flex;
     justify-content: center;
-    margin-top: 10px;
+    gap: 40px;
+    margin: 30px 0;
+    padding: 20px;
+    background: #4d6d9a1a;
+    border-radius: 12px;
 }
 
-.home-page-container header .auth-links .auth-link {
-    color: #495057;
+.home-page-container .stats-section .stat-item {
+    text-align: center;
+    padding: 15px;
+}
+
+.home-page-container .stats-section .stat-item .stat-number {
+    font-size: 2em;
+    font-weight: bold;
+    color: var(--link-text-color);
+    margin-bottom: 5px;
+}
+
+.home-page-container .stats-section .stat-item .stat-label {
+    color: var(--info-text-color);
     font-size: 0.9em;
-    text-decoration: none;
-    padding: 0 8px;
-    transition: color 0.3s;
-}
-
-.home-page-container header .auth-links .auth-separator {
-    color: #868e96;
 }
 
 .home-page-container .featured-artists-section {
-    margin-top: 20px;
+    margin-top: 40px;
+    padding: 20px;
+    background: var(--home-page-container-bg-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
 }
 
 .home-page-container .featured-artists-section h2 {
     font-size: 2em;
     text-align: center;
-    color: #495057; /* Slightly lighter than h1 */
-    margin-bottom: 20px;
+    color: var(--container-h2-text-color);
+    margin-bottom: 30px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.home-page-container .featured-artists-section h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--home-page-after-color);
+    border-radius: 2px;
 }
 
 .home-page-container .featured-artists-section .artist-list {
-    width: 100%; /* Full width of the container */
+    width: 100%;
     list-style-type: none;
     padding: 0;
-    display: flex;
-    flex-wrap: wrap; /* Allow wrapping for the tiles */
-    gap: 20px; /* Space between artist items */
-    justify-content: center; /* Center the tiles horizontally */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 25px;
+    justify-content: center;
 }
 
 .home-page-container .featured-artists-section .artist-list .artist-item {
     display: flex;
-    flex-direction: column; /* Stack icon and name vertically */
-    align-items: center; /* Center align items */
-    margin: 10px;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    width: 120px; /* Fixed width for tiles */
 }
 
-.home-page-container .featured-artists-section .artist-list .artist-picture {
-    width: 100px;
-    height: 100px;
-    border-radius: 10px;
-    border: 3px solid #6c757d; /* Add border around image */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Add subtle shadow */
+.home-page-container .featured-artists-section .artist-list .artist-item .artist-picture {
+    width: 120px;
+    height: 120px;
+    border-radius: 15px;
+    border: 3px solid #4d6d9a;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    object-fit: cover;
 }
 
-.home-page-container .featured-artists-section .artist-list .artist-name {
-    margin-top: 10px;
-    font-size: 1em; /* Font size for artist name */
-    color: #212529; /* Darker text color */
-    overflow-wrap: break-word; /* Allow line wrapping */
+.home-page-container .featured-artists-section .artist-list .artist-item:hover .artist-picture {
+    border-color: #2c3e50;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.home-page-container .featured-artists-section .artist-list .artist-item .artist-name {
+    margin-top: 12px;
+    font-size: 1em;
+    font-weight: 500;
+    color: var(--link-text-color);
+    transition: color 0.3s ease;
+}
+
+.home-page-container .featured-artists-section .artist-list .artist-item:hover .artist-name {
+    color: var(--link-hover-text-color);
 }
 
 .home-page-container .recent-contributions-section {
-    padding: 20px;
-    margin: 20px 0;
+    margin: 40px 0;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background: var(--home-page-container-bg-color);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.home-page-container .recent-contributions-section .loading-spinner {
+    padding-left: 10px;
+    justify-content: center;
 }
 
 .home-page-container .recent-contributions-section h1 {
-    color: #495057;
+    color: var(--container-h2-text-color);
     font-size: 2em;
     text-align: center;
-    margin-bottom: 15px;
-    margin-top: 0px;
+    margin-bottom: 25px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.home-page-container .recent-contributions-section h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--home-page-after-color);
+    border-radius: 2px;
 }
 
 .home-page-container .recent-contributions-section ul {
-    list-style-type: none;
     padding: 0;
-    margin: 0;
-}
-
-.home-page-container .recent-contributions-section li {
-    padding: 10px;
-    border-bottom: 1px solid #e0e0e0;
-}
-
-.home-page-container .recent-contributions-section li:last-of-type {
-    border-bottom: 0px;
+    padding-left: 25px;
+    padding-right: 25px;
+    list-style-type: none;
 }
 
 .home-page-container .recent-contributions-section .contribution-item {
-    display: flex;             /* Use flexbox for alignment */
-    align-items: center;      /* Center items vertically */
-    justify-content: space-between; /* Space items evenly */
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border-bottom: 1px solid #ccc;
+}
+
+.home-page-container .recent-contributions-section .contribution-item:hover {
+    background: rgba(77, 109, 154, 0.1);
 }
 
 .home-page-container .recent-contributions-section .contribution-item .album-cover {
-    width: 50px;              /* Set width for the album cover */
-    height: 50px;             /* Set height for the album cover */
-    border-radius: 8px;       /* Rounded corners */
-    margin-right: 15px;       /* Space between cover and text */
-    object-fit: cover;        /* Cover the image nicely */
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    margin-right: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.home-page-container .recent-contributions-section .text-container {
-    flex: 1;                           /* Allow text to take up remaining space */
+.home-page-container .recent-contributions-section .contribution-item .text-container {
+    flex: 1;
+    line-height: 1.4;
 }
 
-.home-page-container .recent-contributions-section a {
+.home-page-container .recent-contributions-section .contribution-item .text-container span {
+    font-size: 1.1em;
+    font-weight: 500;
+    color: var(--link-text-color);
+}
+
+.home-page-container .recent-contributions-section .contribution-item .text-container .artist-name {
+    font-size: 0.9em;
+    opacity: 0.8;
+    color: var(--artist-text-color);
+}
+
+.home-page-container .recent-contributions-section .contribution-item .text-container a {
     text-decoration: none;
-    color: #007bff;
-    flex: 1;                  /* Allow the link to take up remaining space */
 }
 
 .home-page-container .recent-contributions-section .contribution-item .updated-at {
     font-size: 0.9em;
-    color: #666;
-    margin-left: 10px;        /* Space between text and date */
+    color: var(--info-text-color);
+    margin-left: 15px;
 }
 
-.home-page-container .recent-contributions-section .pagination-controls {
+.home-page-container .pagination-controls {
     display: flex;
-    justify-content: center; /* Center buttons horizontally */
-    margin: 20px 0; /* Margin for spacing */
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
 }
 
-.home-page-container .recent-contributions-section .pagination-controls button {
+.home-page-container .pagination-controls button {
     font-family: "Hind Siliguri", sans-serif;
-    background-color: #007bff; /* Button background color */
-    color: white; /* Button text color */
-    border: none; /* No border */
-    border-radius: 5px; /* Rounded corners */
-    padding: 10px 15px; /* Padding for buttons */
-    margin: 0 5px; /* Space between buttons */
-    font-size: 16px; /* Font size */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    padding: 10px 20px;
+    background: var(--button-bg-color);
+    color: var(--button-text-color);
+    border: none;
+    border-radius: 8px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
-.home-page-container .recent-contributions-section .pagination-controls button:hover:not(:disabled) {
-    background-color: #0056b3; /* Darker blue on hover */
+.home-page-container .pagination-controls button:hover:not(:disabled) {
+    background-color: var(--button-hover-active-bg-color);
 }
 
-.home-page-container .recent-contributions-section .pagination-controls button:disabled {
-    background-color: #ccc; /* Light grey for disabled state */
-    cursor: not-allowed; /* Not-allowed cursor for disabled button */
+.home-page-container .pagination-controls button:disabled {
+    background: #ccc;
+    color: var(--button-text-color);
+    cursor: not-allowed;
 }
 
+/* Footer */
 .home-page-container footer {
     text-align: center;
-    margin-top: 0px;
-    font-size: 0.9em;
-    line-height: 0rem;
-    margin-bottom: 1rem;
+    margin-top: 40px;
+    border-top: 1px solid #eee;
 }
 
 .home-page-container footer a, .home-page-container footer .common-footer {
+    color: var(--link-text-color);
     text-decoration: none;
-    color: #868e96;
+    transition: color 0.3s ease;
 }
 
-@media (max-width: 768px) { /* You can adjust the max-width as needed */
+.home-page-container footer a:hover {
+    color: var(--link-hover-text-color);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
     .home-page-container {
+        max-width: 90%;
         margin-top: 60px;
+        padding: 15px;
     }
 
-    .home-page-container .featured-artists-section .artist-list .artist-picture {
-        width: 80px;
-        height: 80px;
-        border-radius: 10px;
-        border: 3px solid #6c757d; /* Add border around image */
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); /* Add subtle shadow */
+    .home-page-container .intro-section {
+        padding: 30px 15px;
+    }
+
+    .home-page-container .intro-section h1 {
+        font-size: 2em;
+    }
+
+    .home-page-container .intro-section p {
+        font-size: 1em;
+    }
+
+    .home-page-container .stats-section {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .home-page-container .featured-artists-section .artist-list .artist-item .artist-picture {
+        width: 100px;
+        height: 100px;
     }
 
     .home-page-container .recent-contributions-section {
-        font-size: smaller;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .home-page-container .recent-contributions-section .contribution-item {
+        flex-wrap: wrap;
     }
 
     .home-page-container .recent-contributions-section .contribution-item .updated-at {
-        text-align: end;
-        width: 25%;
+        width: 100%;
+        text-align: right;
+        margin-top: 10px;
+        margin-left: 0;
     }
 }

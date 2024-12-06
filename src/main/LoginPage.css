@@ -1,73 +1,132 @@
-.login-container {
-    padding: 20px;
-    max-width: 400px;
-    margin: 100px auto;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.login-page-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--background-color) 0%, #1a2634 100%);
 }
 
-.login-container h2 {
+.login-page-container .login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 60px);
+    padding: 20px;
+}
+
+.login-page-container .login-wrapper .login-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    transition: transform 0.3s ease;
+}
+
+.login-page-container .login-wrapper .login-container h2 {
     text-align: center;
     font-size: 2em;
-    color: #343a40;
+    color: var(--text-color);
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.login-page-container .login-wrapper .login-container .form-group {
     margin-bottom: 20px;
 }
 
-.login-container form {
+.login-page-container .login-wrapper .login-container .form-group .input-icon-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.login-page-container .login-wrapper .login-container .form-group .input-icon-wrapper .input-icon {
+    position: absolute;
+    left: 15px;
+    color: var(--text-color);
+    opacity: 0.7;
+}
+
+.login-page-container .login-wrapper .login-container form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
 }
 
-.login-container input {
+.login-page-container .login-wrapper .login-container form input {
     font-family: "Hind Siliguri", sans-serif;
-    padding: 10px;
-    border: 1px solid #ced4da;
-    border-radius: 5px;
+    width: 100%;
+    padding: 12px 15px 12px 45px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    font-size: 1em;
+    background: rgba(255, 255, 255, 0.07);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.login-page-container .login-wrapper .login-container form input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.login-page-container .login-wrapper .login-container form input:focus {
     outline: none;
-    font-size: 1em;
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
 }
 
-.login-container input:focus {
-    border-color: #80bdff;
-}
-
-.login-container button {
+.login-page-container .login-wrapper .login-container .login-button {
     font-family: "Hind Siliguri", sans-serif;
-    padding: 10px 20px;
-    font-size: 1em;
+    width: 100%;
+    padding: 14px;
+    margin-top: 10px;
     border: none;
-    border-radius: 5px;
-    background-color: #4c93af;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
     color: white;
+    font-size: 1em;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
 }
 
-.login-container button:hover {
-    background-color: #457fa0;
+.login-page-container .login-wrapper .login-container .login-button:hover {
+    background: linear-gradient(135deg, #357abd 0%, #2868a5 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(53, 122, 189, 0.3);
 }
 
-.login-container .register-link {
-    margin-top: 15px;
+.login-page-container .login-wrapper .login-container .login-button:active {
+    transform: translateY(0);
+}
+
+.login-page-container .login-wrapper .login-container .register-link {
+    margin-top: 20px;
     text-align: center;
+    color: var(--text-color);
     font-size: 0.9em;
-    color: #4d6d9a;
 }
 
-.login-container .register-link a {
-    color: #4d6d9a;
+.login-page-container .login-wrapper .login-container .register-link a {
+    color: #4a90e2;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 600;
+    margin-left: 5px;
+    transition: color 0.3s ease;
 }
 
-.login-container .register-link a:hover {
+.login-page-container .login-wrapper .login-container .register-link a:hover {
+    color: #357abd;
     text-decoration: underline;
 }
 
-@media (max-width: 768px) { 
-    .login-container {
+@media (max-width: 768px) {
+    .login-page-container .login-wrapper .login-container {
         margin-top: 60px;
+    }
+
+    .login-page-container .login-wrapper .login-container h2 {
+        font-size: 1.75em;
     }
 }

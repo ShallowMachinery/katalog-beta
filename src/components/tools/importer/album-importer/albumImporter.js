@@ -14,13 +14,10 @@ function AlbumImporter() {
     const [timer, setTimer] = useState(0);
     const intervalRef = useRef(null);
 
-    const baseUrl = `${window.location.protocol}//${window.location.hostname}`;
-
     useEffect(() => {
-        // Fetch the timer details from the server when the component mounts
         const fetchTimer = async () => {
             try {
-                const response = await axios.get(`${baseUrl}/katalog/beta/api/timer.php?type=album`);
+                const response = await axios.get(`/backend/timer.php?type=album`);
                 const expiryTime = response.data.expiryTime;
                 const currentTime = Math.floor(Date.now() / 1000);
 
@@ -55,8 +52,6 @@ function AlbumImporter() {
                 });
             }, 1000);
         }
-
-        // Cleanup function to clear the interval
         return () => clearInterval(intervalRef.current);
     }, [timer]);
 
@@ -66,9 +61,8 @@ function AlbumImporter() {
         setIsButtonDisabled(true);
         startCountdown(fiveMinutes);
 
-        // Store the expiry time in the backend
         try {
-            await axios.post(`${baseUrl}/katalog/beta/api/timer.php`, {
+            await axios.post(`/backend/timer.php`, {
                 type: 'album',
                 expiryTime: expiryTime
             }, {
@@ -118,7 +112,6 @@ function AlbumImporter() {
                 ean: track.external_ids.ean || 'N/A'
             })));
 
-            // Automatically upload album data after fetching
             await uploadData(albumData, tracksData);
 
         } catch (error) {
@@ -170,14 +163,10 @@ function AlbumImporter() {
         }
         return result;
     };
-    
+
     const fetchArtistsData = async (artistIds, accessToken) => {
         const artistDataLookup = {};
-    
-        // Batch the artist IDs into groups of 50
-        const artistIdBatches = chunkArray(artistIds, 50);
-    
-        // Fetch data for each batch
+        const artistIdBatches = chunkArray(artistIds, 50); // chunk artist to 50 to avoid requesting spotify artist data every time
         await Promise.all(artistIdBatches.map(async (batch) => {
             const response = await axios.get(`https://api.spotify.com/v1/artists?ids=${batch.join(',')}`, {
                 headers: {
@@ -185,8 +174,7 @@ function AlbumImporter() {
                 }
             });
             const artists = response.data.artists;
-    
-            // Process each artist and store in the lookup
+            setAllArtistData(artists);
             artists.forEach(artist => {
                 artistDataLookup[artist.id] = {
                     artist_name: artist.name,
@@ -196,7 +184,7 @@ function AlbumImporter() {
                 };
             });
         }));
-    
+
         return artistDataLookup;
     };
 
@@ -209,7 +197,7 @@ function AlbumImporter() {
 
         const accessToken = await getSpotifyAccessToken();
         const userToken = localStorage.getItem("access_token");
-  
+
         const totalDurationMs = albumData.tracks.items
             .map(track => track.duration_ms)
             .reduce((acc, duration) => acc + duration, 0);
@@ -228,9 +216,7 @@ function AlbumImporter() {
         albumData.tracks.items.forEach(track => {
             track.artists.forEach(artist => artistIds.add(artist.id, artist.name));
         });
-    
-        console.log('Unique artist IDs: ', artistIds);
-        
+
         const artistDataLookup = await fetchArtistsData(Array.from(artistIds), accessToken);
 
         const album_artists = albumData.artists.map(album_artist => ({
@@ -249,8 +235,6 @@ function AlbumImporter() {
                 genres: artistDataLookup[artist.id].genres
             }));
 
-            const externalIDs = getExternalIDsForTrack(track.id);
-
             return {
                 track_id: track.id,
                 track_name: track.name,
@@ -264,9 +248,6 @@ function AlbumImporter() {
                 track_artists: trackArtists
             };
         }));
-
-        console.log("albumData: ", albumData);
-        console.log("tracksData: ", tracksData);
 
         const data = {
             album_id: albumData.id,
@@ -282,10 +263,8 @@ function AlbumImporter() {
             album_tracks: album_tracks
         };
 
-        console.log("data: ", data);
-
         try {
-            const response = await fetch(`${baseUrl}/katalog/beta/api/importAlbum.php`, {
+            const response = await fetch(`/backend/importAlbum.php`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -293,12 +272,9 @@ function AlbumImporter() {
                 },
                 body: JSON.stringify(data)
             });
-            const text = await response.text(); // Get the raw response as text
-            console.log('Raw response:', text);
-
-            const result = JSON.parse(text);
+            const textResponse = await response.text();
+            const result = JSON.parse(textResponse);
             if (response.ok) {
-                console.log('Data passed successfully: ', result);
                 setMessage(
                     result.status === 'success'
                         ? 'This album and its corresponding information has been added successfully to the database.'
@@ -416,17 +392,10 @@ function TrackList({ albumData, getExternalIDsForTrack }) {
                 <table className="tracks-table">
                     <thead>
                         <tr>
-                            <th rowSpan="2">Track #</th>
-                            <th rowSpan="2">Track Name</th>
-                            <th rowSpan="2">Track Artist(s)</th>
-                            <th rowSpan="2">Duration</th>
-                            <th rowSpan="2">Explicit</th>
-                            <th colSpan="3">External IDs</th>
-                        </tr>
-                        <tr>
-                            <th>ISRC</th>
-                            <th>UPC</th>
-                            <th>EAN</th>
+                            <th rowSpan="1">Track #</th>
+                            <th rowSpan="1">Track Name</th>
+                            <th rowSpan="1">Duration</th>
+                            <th rowSpan="1">ISRC</th>
                         </tr>
                     </thead>
                     {Array.from(new Set(albumData.tracks.items.map(track => track.disc_number))).map(discNumber => (
@@ -439,20 +408,18 @@ function TrackList({ albumData, getExternalIDsForTrack }) {
                                 .map((track, index) => (
                                     <tr key={track.id}>
                                         <td>{index + 1}</td>
-                                        <td><span title={`Spotify Track ID: ${track.id}`}>{track.name}</span></td>
-                                        <td>{
-                                            track.artists.map((artist, index) => (
-                                                <span key={artist.id} title={`Spotify ID: ${artist.id}`}>
-                                                    {artist.name}
-                                                    {index < track.artists.length - 1 ? ', ' : ''}
-                                                </span>
-                                            ))}
+                                        <td style={{ textAlign: "left", width: "auto" }}><span title={`Spotify Track ID: ${track.id}`}>{track.name}</span>
+                                            <br />
+                                            <small>{
+                                                track.artists.map((artist, index) => (
+                                                    <span key={artist.id} title={`Spotify ID: ${artist.id}`}>
+                                                        {artist.name}
+                                                        {index < track.artists.length - 1 ? ', ' : ''}
+                                                    </span>
+                                                ))}</small>
                                         </td>
                                         <td>{new Date(track.duration_ms).toISOString().substr(14, 5)}</td>
-                                        <td>{track.explicit ? 'Yes' : 'No'}</td>
                                         <td>{getExternalIDsForTrack(track.id).isrc}</td>
-                                        <td>{getExternalIDsForTrack(track.id).upc}</td>
-                                        <td>{getExternalIDsForTrack(track.id).ean}</td>
                                     </tr>
                                 ))}
                         </tbody>
@@ -464,27 +431,46 @@ function TrackList({ albumData, getExternalIDsForTrack }) {
 }
 
 function ArtistInformation({ allArtistData }) {
+    const [expandedIndex, setExpandedIndex] = useState(null);
+    const toggleExpand = (index) => {
+        setExpandedIndex(expandedIndex === index ? null : index);
+    };
     if (!allArtistData.length) return null;
 
     return (
-        <div className="artist-information">
-            <h3>Artist Information</h3>
-            <div className="artist-data">
-                {allArtistData.map((artistData, index) => (
-                    <div key={index} className="artist-info">
-                        {artistData.images.length > 0 && (
-                            <div>
-                                <img src={artistData.images[0].url} alt="Artist image" className="artist-image" />
-                            </div>
-                        )}
-                        <h3>{artistData.name}</h3>
-                        <p>Genres: {artistData.genres.join(', ')}</p>
-                        <p>Spotify ID: {artistData.id}</p>
+        <div className="artist-information-album">
+            <h3>{allArtistData.length > 1 ? "Artists Information" : "Artist Information"}</h3>
+            {allArtistData.map(({ images, name, genres, id }, index) => (
+                <div key={index} className="artist-item">
+                    <div
+                        className="artist-summary"
+                        onClick={() => toggleExpand(index)}
+                        style={{ cursor: "pointer", display: "flex", marginTop: "8px", marginBottom: "8px", alignItems: "center", paddingLeft: "5px", paddingRight: "5px" }}
+                    >
+                        <img
+                            src={images && images[0]?.url ? images[0].url : "/assets_public/person.svg"}
+                            alt={`${name}`}
+                            className="artist-thumbnail"
+                            style={{
+                                width: "50px",
+                                height: "50px",
+                                borderRadius: "5px",
+                                marginRight: "10px",
+                            }}
+                        />
+                        <p style={{ margin: 0 }}>{name}</p>
                     </div>
-                ))}
-            </div>
+                    {expandedIndex === index && (
+                        <div className="artist-details" style={{ marginLeft: "60px", marginTop: "10px", textAlign: "left" }}>
+                            <p>Genres: {genres.join(", ") || "N/A"}</p>
+                            <p>Spotify ID: {id}</p>
+                        </div>
+                    )}
+                </div>
+            ))}
         </div>
     );
 }
+
 
 export default AlbumImporter;

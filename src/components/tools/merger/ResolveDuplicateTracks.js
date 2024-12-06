@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import MenuBar from '../../MenuBar';
 import axios from 'axios';
 import './ResolveDuplicateTracks.css';
@@ -10,20 +9,23 @@ function ResolveDuplicateTracks() {
     const [error, setError] = useState('');
     const [expandedRows, setExpandedRows] = useState([]);
     const [selectedTracks, setSelectedTracks] = useState({});
-    const userToken = localStorage.getItem('access_token');
-
-    const baseUrl = `${window.location.protocol}//${window.location.hostname}`;
+    const [searchQuery, setSearchQuery] = useState('');
+    const [sortConfig, setSortConfig] = useState({
+        key: 'track_name',
+        direction: 'ascending',
+    });
 
     useEffect(() => {
         const fetchDuplicateTracks = async () => {
+            const userToken = localStorage.getItem('access_token');
             try {
-                const response = await axios.get(`${baseUrl}/katalog/beta/api/get-duplicate-tracks.php`, {
+                const response = await axios.get(`/backend/get-duplicate-tracks.php`, {
                     headers: {
                         Authorization: `Bearer ${userToken}`
                     }
                 });
+                console.log(response.data);
                 setDuplicateTracks(response.data);
-                console.log('Duplicate Tracks API Response:', response.data);
             } catch (error) {
                 console.error('Error fetching duplicates:', error);
                 setError('Error fetching track duplicates');
@@ -31,9 +33,51 @@ function ResolveDuplicateTracks() {
                 setLoading(false);
             }
         };
-
         fetchDuplicateTracks();
     }, []);
+
+    const filteredTracks = duplicateTracks.filter(track => {
+        return track.track_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            track.artist_name.toLowerCase().includes(searchQuery.toLowerCase());
+    });
+
+    const sortTable = (key) => {
+        let direction = 'ascending';
+        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+            direction = 'descending';
+        }
+
+        const sortedData = [...filteredTracks].sort((a, b) => {
+            if (key === 'date_added') {
+                const dateA = a.date_added ? new Date(a.date_added.replace(' ', 'T')) : new Date(0);
+                const dateB = b.date_added ? new Date(b.date_added.replace(' ', 'T')) : new Date(0);
+                
+                if (isNaN(dateA.getTime()) || isNaN(dateB.getTime())) {
+                    return 0;
+                }
+                
+                return direction === 'ascending' ? dateA - dateB : dateB - dateA;
+            }
+
+            if (a[key] < b[key]) {
+                return direction === 'ascending' ? -1 : 1;
+            }
+            if (a[key] > b[key]) {
+                return direction === 'ascending' ? 1 : -1;
+            }
+            return 0;
+        });
+
+        setDuplicateTracks(sortedData);
+        setSortConfig({ key, direction });
+    };
+
+    const getSortArrow = (key) => {
+        if (sortConfig.key === key) {
+            return sortConfig.direction === 'ascending' ? '↑' : '↓';
+        }
+        return '';
+    };
 
     const handleCheckboxChange = (trackName, trackId) => {
         setSelectedTracks((prevSelectedTracks) => ({
@@ -45,6 +89,7 @@ function ResolveDuplicateTracks() {
     };
 
     const handleMergeSelected = async (trackName) => {
+        const userToken = localStorage.getItem('access_token');
         const trackIds = selectedTracks[trackName];
         if (!trackIds || trackIds.length < 2) {
             alert("Please select at least two tracks to merge.");
@@ -53,12 +98,12 @@ function ResolveDuplicateTracks() {
 
         const primaryTrackId = trackIds[0];
         try {
-            const response = await axios.post(`${baseUrl}/katalog/beta/api/merge-tracks.php`, {
+            const response = await axios.post(`/backend/merge-tracks.php`, {
                 primaryTrackId,
                 duplicateTrackIds: trackIds.slice(1)
             }, {
                 headers: {
-                    Authorization: `Bearer ${userToken}` // Set the Authorization header
+                    Authorization: `Bearer ${userToken}`
                 }
             });
 
@@ -134,6 +179,14 @@ function ResolveDuplicateTracks() {
 
             {error && <p className="error-message">{error}</p>}
 
+            <input
+                type="text"
+                placeholder="Search tracks or artists"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="search-input"
+            />
+
             {loading ? (
                 <p>Loading...</p>
             ) : (
@@ -143,21 +196,23 @@ function ResolveDuplicateTracks() {
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Track Name</th>
-                                    <th>Artist Name</th>
+                                    <th onClick={() => sortTable('track_name')}>Track Name {getSortArrow('track_name')}</th>
+                                    <th onClick={() => sortTable('artist_name')}>Artist Name {getSortArrow('artist_name')}</th>
                                     <th>Duplicate Count</th>
                                     <th>Quick Notes</th>
+                                    <th onClick={() => sortTable('date_added')}>Last Duplicate Added {getSortArrow('date_added')}</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {duplicateTracks.map((track) => (
+                                {filteredTracks.map((track) => (
                                     <React.Fragment key={track.track_id}>
                                         <tr>
                                             <td>{track.track_name}</td>
                                             <td>{track.artist_name}</td>
                                             <td>{track.duplicate_count}</td>
                                             <td>{getQuickNotes(track)}</td>
+                                            <td>{track.date_added}</td>
                                             <td>
                                                 <button onClick={() => toggleExpandRow(track.track_name)}>
                                                     {expandedRows.includes(track.track_name) ? 'Hide' : 'Show'} Details
@@ -167,7 +222,7 @@ function ResolveDuplicateTracks() {
 
                                         {expandedRows.includes(track.track_name) && (
                                             <tr>
-                                                <td colSpan="5">
+                                                <td colSpan="6">
                                                     <div className="track-details">
                                                         <h4>Details</h4>
                                                         {track.track_details.length > 0 ? (
@@ -188,6 +243,7 @@ function ResolveDuplicateTracks() {
                                                                         <strong>Duration:</strong> {detail.duration} <br />
                                                                         <strong>ISRC:</strong> {detail.isrc} <br />
                                                                         <iframe
+                                                                            title={detail.track_spotify_id}
                                                                             className="spotify-embed"
                                                                             style={{ borderRadius: "12px", width: "100%", height: "100", marginTop: "5px" }}
                                                                             src={`https://open.spotify.com/embed/track/${detail.track_spotify_id}?utm_source=generator&theme=1`}

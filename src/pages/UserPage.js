@@ -1,52 +1,53 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import MenuBar from '../components/MenuBar';
 import './UserPage.css';
+import NotificationToast from '../components/NotificationToast';
 
 function UserPage() {
     const { username } = useParams();
     const [userInfo, setUserInfo] = useState(null);
     const [recentContributions, setRecentContributions] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [page, setPage] = useState(0); // Current page
-    const [totalContributions, setTotalContributions] = useState(0); // Total contributions count
-    const limit = 10; // Contributions per page
+    const [page, setPage] = useState(0);
+    const limit = 10;
+    const [toast, setToast] = useState({ show: false, message: '', type: '' });
     const userToken = localStorage.getItem('access_token');
-    const baseUrl = `${window.location.protocol}//${window.location.hostname}`;
 
-    useEffect(() => {
-        const fetchUserInfo = async () => {
-            try {
-                // Fetch user information based on userId
-                const response = await axios.get(`${baseUrl}/katalog/beta/api/user-info.php`, {
-                    headers: {
-                        'Authorization': `Bearer ${userToken}`
-                    },
-                    params: {
-                        username, // Send userId as a query parameter if needed
-                    },
-                });
-                const userData = response.data;
+    const showToast = (message, type) => {
+        setToast({ show: true, message, type });
+    };
 
-                if (userData) {
-                    setUserInfo(userData.userInfo);
-                    document.title = `${userData.userInfo.user_name}'s profile | Katalog`;
-                }
-
-                await fetchContributions(userToken, username);
-                setLoading(false);
-            } catch (error) {
-                console.error('Error fetching user info or data:', error);
-                setLoading(false);
-            }
-        };
-        fetchUserInfo();
-    }, [username, page]);
-
-    const fetchContributions = async (userToken, username) => {
+    const fetchUserInfo = useCallback(async () => {
         try {
-            const contributionsResponse = await axios.get(`${baseUrl}/katalog/beta/api/user-recent-contributions.php`, {
+            const userToken = localStorage.getItem('access_token');
+            const response = await axios.get(`/backend/user-info.php`, {
+                headers: {
+                    'Authorization': `Bearer ${userToken}`
+                },
+                params: {
+                    username,
+                },
+            });
+            const userData = response.data;
+
+            if (userData) {
+                setUserInfo(userData.userInfo);
+                document.title = `${userData.userInfo.user_name}'s profile | Katalog`;
+            }
+
+            await fetchContributions(userToken, username);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching user info or data:', error);
+            setLoading(false);
+        }
+    }, [username]);
+
+    const fetchContributions = useCallback(async (userToken, username) => {
+        try {
+            const contributionsResponse = await axios.get(`/backend/user-recent-contributions.php`, {
                 headers: {
                     'Authorization': `Bearer ${userToken}`
                 },
@@ -56,17 +57,21 @@ function UserPage() {
         } catch (error) {
             console.error('Error fetching contributions:', error);
         }
-    };
+    }, []);
 
-    function decodeBase64(str) {
+    useEffect(() => {
+        fetchUserInfo();
+    }, [fetchUserInfo]);
+
+    const decodeBase64 = (str) => {
         str = str.replace(/-/g, '+').replace(/_/g, '/');
         const decodedStr = atob(str);
         return JSON.parse(decodedStr);
-    }
+    };
 
-    function checkUserAndShowOverlay() {
+    const checkUserAndShowOverlay = useCallback(() => {
         const accessToken = userToken;
-        const storedUserId = userInfo.user_id;
+        const storedUserId = userInfo?.user_id;
         if (accessToken && storedUserId) {
             const tokenParts = accessToken.split('.');
             if (tokenParts.length === 3) {
@@ -77,9 +82,10 @@ function UserPage() {
                 }
             }
         }
-    }
+        return false;
+    }, [userToken, userInfo]);
 
-    const handleFileChange = async (e) => {
+    const handleFileChange = useCallback(async (e) => {
         const file = e.target.files[0];
 
         if (!file) return;
@@ -87,7 +93,7 @@ function UserPage() {
             alert('Only JPG files are allowed');
             return;
         }
-        if (file.size > 1024 * 1024) { // 1MB size limit
+        if (file.size > 1024 * 1024) {
             alert('File size should be less than 1MB');
             return;
         }
@@ -96,32 +102,38 @@ function UserPage() {
         formData.append('profilePicture', file);
 
         try {
-            const response = await axios.post(`${baseUrl}/katalog/beta/api/upload-profile-picture.php`, formData, {
+            const response = await axios.post(`/backend/upload-profile-picture.php`, formData, {
                 headers: {
                     'Authorization': `Bearer ${userToken}`,
                     'Content-Type': 'multipart/form-data'
                 }
             });
             
-            alert('Profile picture updated successfully');
-            window.location.reload();
+            if (response.data.status === "error") {
+                showToast(response.data.message, "error");
+            } else {
+                showToast("Profile picture updated successfully!", "success");
+                setTimeout(() => {
+                    window.location.reload();
+                }, 2000);
+            }            
         } catch (error) {
             console.error('Error uploading profile picture:', error);
-            alert('Failed to upload profile picture');
+            showToast("Failed to upload profile picture", "error");
         }
-    };
+    }, [userToken]);
 
-    const handleNextPage = () => {
+    const handleNextPage = useCallback(() => {
         if ((page + 1) * limit < recentContributions.length) {
             setPage(page + 1);
         }
-    };
+    }, [page, recentContributions.length]);
 
-    const handlePreviousPage = () => {
+    const handlePreviousPage = useCallback(() => {
         if (page > 0) {
             setPage(page - 1);
         }
-    };
+    }, [page]);
 
     const paginatedContributions = recentContributions.slice(page * limit, (page + 1) * limit);
 
@@ -133,17 +145,17 @@ function UserPage() {
             return seconds < 10 ? "just now" : seconds + " seconds ago";
         }
 
-        if (seconds < 3600) { // Less than an hour
+        if (seconds < 3600) {
             interval = Math.floor(seconds / 60);
             return interval + " minute" + (interval === 1 ? "" : "s") + " ago";
         }
 
-        if (seconds < 86400) { // Less than a day
+        if (seconds < 86400) {
             interval = Math.floor(seconds / 3600);
             return interval + " hour" + (interval === 1 ? "" : "s") + " ago";
         }
 
-        if (seconds < 31536000) { // Less than a year
+        if (seconds < 31536000) {
             interval = Math.floor(seconds / 86400);
             return interval + " day" + (interval === 1 ? "" : "s") + " ago";
         }
@@ -164,8 +176,8 @@ function UserPage() {
         updated_lyrics: 'Edited',
         added_lyrics: 'Added',
         verified_lyrics: 'Verified',
-        deleted_lyrics: 'Deleted', // Add any other types you want to handle
-        unverified_lyrics: 'Unverified' // Example for another type
+        deleted_lyrics: 'Deleted',
+        unverified_lyrics: 'Unverified'
     };
 
     if (loading) {
@@ -193,6 +205,7 @@ function UserPage() {
     return (
         <div>
             <MenuBar />
+            {toast.show && <NotificationToast message={toast.message} type={toast.type} onClose={() => setToast({ show: false })} />}
             <div className="user-page-container">
                 <div className="dynamic-background" style={{ backgroundImage: `url(${userInfo.user_picture_url})` }}></div>
                 <div className="user-info">
@@ -201,11 +214,11 @@ function UserPage() {
                             src={userInfo.user_picture_url && userInfo.user_picture_url.trim() !== ''
                                 ? userInfo.user_picture_url
                                 : '/assets_public/default_user.png'}
-                            alt="User Profile Picture"
+                            alt={userInfo.user_name}
                             className="user-picture"
                         />
                         {checkUserAndShowOverlay() && <div className="edit-profile-overlay">
-                            <label>Edit Profile Picture
+                            <label>Update Profile Picture
                                 <input
                                     type="file"
                                     accept="image/jpeg"
@@ -237,15 +250,15 @@ function UserPage() {
                                         <div className="contribution-item">
                                             <img
                                                 src={contribution.albumCoverUrl}
-                                                alt={`${contribution.trackName} cover`}  // Fixed string interpolation
+                                                alt={`${contribution.trackName} cover`}
                                                 className="album-cover"
                                             />
                                             <div className="text-container">
-                                                <a href={`/lyrics/${contribution.artistVanity}/${contribution.trackVanity}`}> {/* Fixed href */}
+                                                <a href={`/lyrics/${contribution.artistVanity}/${contribution.trackVanity}`}>
                                                     {contribution.trackName}
                                                 </a>
                                                 <br />
-                                                <a href={`/artist/${contribution.artistVanity}`} className="artist-name"> {/* Fixed href */}
+                                                <a href={`/artist/${contribution.artistVanity}`} className="artist-name">
                                                     <small>{contribution.artistName}</small>
                                                 </a>
                                             </div>

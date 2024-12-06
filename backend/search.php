@@ -1,7 +1,6 @@
 <?php
 require 'config.php'; 
 
-// Get the search term from the query parameters
 $searchTerm = $_GET['term'] ?? '';
 
 if (empty($searchTerm)) {
@@ -9,14 +8,11 @@ if (empty($searchTerm)) {
     exit;
 }
 
-// Initialize arrays to hold results
 $artists = [];
 $albums = [];
 $tracks = [];
 $lyrics = [];
 
-// Prepare SQL statements
-// Search artists
 $artistStmt = $conn->prepare("SELECT `artist_id`, `artist_name`, `artist_vanity`, `artist_picture_link` 
                                FROM `katalog1`.`Artists` 
                                WHERE `artist_name` LIKE ? GROUP BY `artist_id` LIMIT 10");
@@ -24,6 +20,7 @@ $likeTerm = "%$searchTerm%";
 $artistStmt->bind_param("s", $likeTerm);
 $artistStmt->execute();
 $artistResult = $artistStmt->get_result();
+
 while ($row = $artistResult->fetch_assoc()) {
     $artists[] = [
         'artistId' => $row['artist_id'],
@@ -33,7 +30,6 @@ while ($row = $artistResult->fetch_assoc()) {
     ];
 }
 
-// Search albums
 $albumStmt = $conn->prepare("SELECT a.`album_id`, a.`album_name`, a.`album_vanity`, a.`release_date`, a.`album_cover_url`, aa.`artist_id`, ar.`artist_name`, ar.`artist_vanity`
     FROM `katalog1`.`Albums` AS a
     JOIN `katalog1`.`album_artists` AS aa ON a.`album_id` = aa.`album_id`
@@ -50,13 +46,12 @@ while ($row = $albumResult->fetch_assoc()) {
         'albumVanity' => $row['album_vanity'],
         'releaseDate' => $row['release_date'],
         'coverUrl' => $row['album_cover_url'],
-        'artistId' => $row['artist_id'], // Include artist_id
-        'artistName' => $row['artist_name'], // Include artist_name
+        'artistId' => $row['artist_id'],
+        'artistName' => $row['artist_name'],
         'artistVanity' => $row['artist_vanity']
     ];
 }
 
-// Search tracks
 $trackStmt = $conn->prepare("
     SELECT t.`track_id`, t.`track_name`, t.`track_vanity`, t.`track_main_artist_id`, 
            a.`artist_name`, a.`artist_vanity`, al.`album_id`, al. `album_name`, al.`album_cover_url`
@@ -75,16 +70,15 @@ while ($row = $trackResult->fetch_assoc()) {
         'trackId' => $row['track_id'],
         'trackName' => $row['track_name'],
         'trackVanity' => $row['track_vanity'],
-        'mainArtistId' => $row['track_main_artist_id'], // Include main artist ID
-        'mainArtistName' => $row['artist_name'], // Include main artist name
-        'mainArtistVanity' => $row['artist_vanity'], // Include main artist vanity
-        'albumId' => $row['album_id'], // Include album ID
+        'mainArtistId' => $row['track_main_artist_id'],
+        'mainArtistName' => $row['artist_name'],
+        'mainArtistVanity' => $row['artist_vanity'],
+        'albumId' => $row['album_id'],
         'albumName' => $row['album_name'],
-        'albumCoverUrl' => $row['album_cover_url'] // Include album cover URL
+        'albumCoverUrl' => $row['album_cover_url']
     ];
 }
 
-// Search lyrics
 $lyricStmt = $conn->prepare("
     SELECT l.`lyrics_id`, l.`lyrics`, l.`track_id`, 
            t.`track_name`, t.`track_vanity`, t.`duration`, t.`track_main_artist_id`, 
@@ -105,18 +99,17 @@ while ($row = $lyricResult->fetch_assoc()) {
         'lyricId' => $row['lyrics_id'],
         'lyricContent' => $row['lyrics'],
         'trackId' => $row['track_id'],
-        'trackName' => $row['track_name'], // Include track name
-        'trackVanity' => $row['track_vanity'], // Include track vanity
-        'mainArtistId' => $row['track_main_artist_id'], // Include main artist ID
-        'mainArtistName' => $row['artist_name'], // Include main artist name
-        'mainArtistVanity' => $row['artist_vanity'], // Include main artist vanity
-        'albumId' => $row['album_id'], // Include album ID
+        'trackName' => $row['track_name'],
+        'trackVanity' => $row['track_vanity'],
+        'mainArtistId' => $row['track_main_artist_id'],
+        'mainArtistName' => $row['artist_name'],
+        'mainArtistVanity' => $row['artist_vanity'],
+        'albumId' => $row['album_id'],
         'albumName' => $row['album_name'],
-        'albumCoverUrl' => $row['album_cover_url'] // Include album cover URL
+        'albumCoverUrl' => $row['album_cover_url']
     ];
 }
 
-// Return the results as JSON
 echo json_encode([
     'status' => 'success',
     'artists' => $artists,
@@ -125,7 +118,6 @@ echo json_encode([
     'lyrics' => $lyrics
 ]);
 
-// Close the prepared statements and connection
 $artistStmt->close();
 $albumStmt->close();
 $trackStmt->close();

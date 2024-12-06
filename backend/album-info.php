@@ -6,7 +6,7 @@ $artistVanity = $_GET['artistVanity'] ?? '';
 
 if (empty($albumVanity) || empty($artistVanity)) {
     echo json_encode(['status' => 'error', 'message' => 'Missing albumVanity or artistVanity parameters']);
-    http_response_code(400); // Bad request
+    http_response_code(400);
     exit;
 }
 
@@ -34,7 +34,7 @@ $stmt = $conn->prepare("
 
 if (!$stmt) {
     echo json_encode(['status' => 'error', 'message' => 'Prepared statement failed: ' . $conn->error]);
-    http_response_code(500); // Internal server error
+    http_response_code(500);
     exit;
 }
 
@@ -47,7 +47,7 @@ if ($result->num_rows > 0) {
     echo json_encode($albumInfo);
 } else {
     echo json_encode(['status' => 'error', 'message' => 'No album found']);
-    http_response_code(404); // Not found
+    http_response_code(404);
 }
 
 $stmt->close();

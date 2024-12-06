@@ -1,10 +1,8 @@
-
-
 .lyrics-page-container {
     max-width: 70%;
     margin: 100px auto 50px auto;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: var(--container-bg-color);
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     position: relative;
@@ -29,7 +27,7 @@
     display: flex;
     align-items: center;
     margin-bottom: 20px;
-    background-color: #ffffff7c;
+    background-color: var(--lyric-page-container-bg-color);
     border-radius: 10px;
 }
 
@@ -54,7 +52,7 @@
 .lyrics-page-container .album-info .album-details .track-name {
     font-size: 24px;
     margin: 0;
-    color: #333;
+    color: var(--title-text-color);
     gap: 5px;
     line-height: 1.4em;
     max-height: 2.8em;
@@ -79,7 +77,7 @@
 .lyrics-page-container .album-info .album-details .artist-name {
     margin: 0;
     font-size: 21px;
-    color: #333;
+    color: var(--artist-text-color);
     font-weight: bold;
     line-height: 1.4em;
     max-height: 2.8em;
@@ -90,29 +88,22 @@
     -webkit-box-orient: vertical;
     text-overflow: ellipsis;
     white-space: normal;
-    color: #333;
     transition: color 0.2s ease;
 }
 
 .lyrics-page-container .album-info .album-details .artist-name:hover {
-    color: #4d6d9a;
+    color: var(--link-hover-text-color);
 }
 
 .lyrics-page-container .album-info .album-details .album-name {
     font-size: 18px;
     margin: 0;
-    color: #555;
+    color: var(--info-text-color);
     transition: color 0.2s ease;
 }
 
 .lyrics-page-container .album-info .album-details .album-name:hover {
-    color: #6380a8;
-}
-
-.lyrics-page-container .album-info .album-details .release-date {
-    font-size: 14px;
-    margin: 4px 0;
-    color: #777;
+    color: var(--link-hover-text-color);
 }
 
 .lyrics-page-container .font-size-toggle {
@@ -145,23 +136,38 @@
     transition: background-color 0.3s;
 }
 
+.dark-theme .lyrics-page-container .font-size-toggle button {
+    background-color: transparent;
+    color: white;
+}
+
 .lyrics-page-container .font-size-toggle button:hover {
     background-color: #e0e0e0;
+}
+
+.dark-theme .lyrics-page-container .font-size-toggle button:hover {
+    background-color: #dbdbdb;
+    color: black;
 }
 
 .lyrics-page-container .font-size-toggle button.active {
     background-color: #e0e0e0;
 }
 
+.dark-theme .lyrics-page-container .font-size-toggle button.active {
+    background-color: #dbdbdb;
+    color: black;
+}
+
 .lyrics-section {
     position: relative;
-    background-color: #f9f9f98f;
+    background-color: var(--lyric-page-container-bg-color);
     padding: 20px;
     border-radius: 10px;
     white-space: pre-wrap;
     font-size: 16px;
     line-height: 1.5;
-    color: #333;
+    color: var(--container-text-color);
 }
 
 .lyrics-section .suggestions-overlay {
@@ -191,13 +197,13 @@
 .lyrics-page-container .spotify-embed-fixed {
     position: fixed;
     bottom: 10px;
-    left: 50%;                /* Center horizontally */
-    transform: translateX(-50%);  /* Adjust for true centering */
-    width: 61%;               /* Adjust width as needed */
-    height: 80px;             /* Adjust height as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 61%;
+    height: 80px;
     border-radius: 12px 12px 0 0;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
-    z-index: 1000;            /* Ensures it stays on top */
+    z-index: 1000;
 }
 
 .lyrics-section .lyrics-header {
@@ -212,9 +218,9 @@
 
 .lyrics-section .edit-lyrics-button-container .edit-lyrics-button {
     font-family: "Hind Siliguri", sans-serif;
-    background-color: #4c93af;
+    background-color: var(--button-bg-color);
     border: none;
-    color: white;
+    color: var(--button-text-color);
     padding: 8px 16px;
     text-align: center;
     text-decoration: none;
@@ -227,12 +233,16 @@
 }
 
 .lyrics-section .edit-lyrics-button-container .edit-lyrics-button:hover {
-    background-color: #457fa0;
+    background-color: var(--button-hover-active-bg-color);
 }
 
 .lyrics-section .edit-lyrics-button-container .edit-lyrics-button:disabled {
     background-color: gray;
     cursor: not-allowed;
+}
+
+.dark-theme .lyrics-section .edit-lyrics-button-container .edit-lyrics-button:disabled {
+    color: #222;
 }
 
 .lyrics-section .lyrics {
@@ -267,6 +277,8 @@
     font-family: "Hind Siliguri", sans-serif;
     resize: vertical;
     min-height: 400px;
+    background-color: var(--input-bg-color);
+    color: var(--input-text-color);
 }
 
 .lyrics-section .lyrics-textarea:focus {
@@ -295,7 +307,7 @@
 .lyrics-section .lyrics-options .instrumental-label .custom-checkbox {
     width: 18px;
     height: 18px;
-    border: 2px solid #3e6094;
+    border: 2px solid var(--background-color);
     border-radius: 4px;
     position: relative;
     background-color: white;
@@ -304,8 +316,8 @@
 }
 
 .lyrics-section .lyrics-options .instrumental-label input[type="checkbox"]:checked+.custom-checkbox {
-    background-color: #4C74af;
-    border-color: #3e6094;
+    background-color: var(--menu-bar-bg-color);
+    border-color: var(--background-color);
 }
 
 .lyrics-section .lyrics-options .instrumental-label .custom-checkbox:before {
@@ -328,7 +340,7 @@
 
 .lyrics-section .lyrics-options .custom-checkbox:hover {
     background-color: rgba(76, 175, 80, 0.1);
-    border-color: #38488e;
+    border-color: var(--background-color);
 }
 
 .lyrics-section .lyrics-options .more-options-lyrics-button,
@@ -344,13 +356,13 @@
 }
 
 .lyrics-section .lyrics-options .more-options-lyrics-button {
-    background-color: #4d6d9a;
-    color: white;
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
     margin-right: 8px;
 }
 
 .lyrics-section .lyrics-options .more-options-lyrics-button:hover {
-    background-color: #2d405a;
+    background-color: var(--button-hover-active-bg-color);
 }
 
 .lyrics-section .lyrics-options .options-overlay {
@@ -359,7 +371,7 @@
     position: absolute;
     top: 93.5%;
     right: 50;
-    background-color: #597fb4;
+    background-color: var(--overlay-container-bg-color);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 4px;
     margin-top: 6px;
@@ -388,7 +400,7 @@
 }
 
 .lyrics-section .lyrics-options .options-overlay ul:hover {
-    background-color: #2d405a;
+    background-color: var(--lyric-page-verify-button-hover-color);
 }
 
 .lyrics-section .lyrics-options .options-overlay ul:nth-child(2) {
@@ -432,10 +444,10 @@
     padding: 20px;
     font-size: 16px;
     line-height: 1.6;
-    color: #333;
+    color: var(--info-text-color);
     margin-top: 20px;
     display: flex;
-    background-color: #ffffff7c;
+    background-color: var(--container-bg-color);
     border-radius: 8px;
     gap: 15px;
 }
@@ -444,6 +456,7 @@
     display: flex;
     font-size: 20px;
     justify-content: space-between;
+    color: var(--title-text-color);
 }
 
 .additional-info .more-information .info-header .edit-info-button-container {
@@ -452,9 +465,9 @@
 
 .additional-info .more-information .info-header .edit-info-button-container .edit-info-button {
     font-family: "Hind Siliguri", sans-serif;
-    background-color: #4c93af;
+    background-color: var(--button-bg-color);
     border: none;
-    color: white;
+    color: var(--button-text-color);
     padding: 8px 16px;
     text-align: center;
     text-decoration: none;
@@ -466,7 +479,7 @@
 }
 
 .additional-info .more-information .info-header .edit-info-button-container .edit-info-button:hover {
-    background-color: #457fa0;
+    background-color: var(--button-hover-active-bg-color);
 }
 
 .additional-info .more-information .info-table {
@@ -479,7 +492,8 @@
 .additional-info .more-information .info-table tr .isrc-buttons {
     font-family: "Hind Siliguri", sans-serif;
     border: none;
-    background: none;    color: #716d9b;
+    background: none;
+    color: var(--info-text-color);
     cursor: pointer;
     padding: 0;
 }
@@ -495,19 +509,15 @@
 
 .additional-info .more-information .info-table td:first-child {
     font-weight: bold;
-    color: #444;
-    /* Slightly darker text for labels */
+    color: var(--title-text-color);
     padding-right: 50px;
-    /* Reduces the space between label and value */
     width: 1%;
-    /* Ensures the first column is only as wide as its content */
     white-space: nowrap;
-    /* Prevents text from wrapping in the first column */
 }
 
 .additional-info .more-information .info-table td:last-child {
     text-align: left;
-    color: #666;
+    color: var(--artist-text-color);
 }
 
 .additional-info .track-albums {
@@ -517,13 +527,14 @@
 .additional-info .track-albums .track-album-header {
     font-size: 20px;
     margin-bottom: 15px;
+    color: var(--title-text-color);
 }
 
 .additional-info .track-albums .album-entry {
     display: flex;
     align-items: center;
     margin-bottom: 8px;
-    background-color: #ffffff;
+    background-color: var(--container-bg-color);
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 10px;
@@ -535,9 +546,14 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+.dark-theme .additional-info .track-albums .album-entry {
+    border: none;
+    border-bottom: 1px solid #343434;
+}
+
 .additional-info .track-albums .album-link {
     text-decoration: none;
-    color: inherit;
+    color: var(--title-text-color);
     display: flex;
     align-items: center;
 }
@@ -561,7 +577,7 @@
 }
 
 .additional-info .track-albums .track-number {
-    color: #555;
+    color: var(--info-text-color);
     margin: 0;
     font-size: 0.9em;
 }
@@ -598,7 +614,7 @@
     }
 
     .lyrics-page-container .spotify-embed-fixed {
-        width: 90%;               /* Adjust width as needed */
+        width: 90%;
     }
 
     .lyrics-section .lyrics-header {

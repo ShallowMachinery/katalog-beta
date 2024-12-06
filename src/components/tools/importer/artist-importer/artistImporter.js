@@ -9,17 +9,14 @@ function ArtistImporter() {
     const [albumsData, setAlbumsData] = useState([]);
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
-    const [isButtonDisabled, setIsButtonDisabled] = useState(false); // State to control button disable
-    const [timer, setTimer] = useState(0); // State to track the timer
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+    const [timer, setTimer] = useState(0);
     const intervalRef = useRef(null);
 
-    const baseUrl = `${window.location.protocol}//${window.location.hostname}`;
-
     useEffect(() => {
-        // Fetch the timer details from the server when the component mounts
         const fetchTimer = async () => {
             try {
-                const response = await axios.get(`${baseUrl}/katalog/beta/api/timer.php?type=artist`);
+                const response = await axios.get(`/backend/timer.php?type=artist`);
                 const expiryTime = response.data.expiryTime;
                 const currentTime = Math.floor(Date.now() / 1000);
                 
@@ -54,8 +51,6 @@ function ArtistImporter() {
                 });
             }, 1000);
         }
-
-        // Cleanup function to clear the interval
         return () => clearInterval(intervalRef.current);
     }, [timer]);
 
@@ -64,10 +59,8 @@ function ArtistImporter() {
         const expiryTime = Math.floor(Date.now() / 1000) + fifteenMinutes;
         setIsButtonDisabled(true);
         startCountdown(fifteenMinutes);
-
-        // Store the expiry time in the backend
         try {
-            await axios.post(`${baseUrl}/katalog/beta/api/timer.php`, {
+            await axios.post(`/backend/timer.php`, {
                 type: 'artist',
                 expiryTime: expiryTime
             }, {
@@ -107,12 +100,8 @@ function ArtistImporter() {
             });
             const artistData = spotifyArtistResponse.data;
             setArtistData(artistData);
-
-            // Fetch and process all albums
             const allAlbumData = await fetchAndProcessAlbums(filteredSpotifyArtistId, accessToken, artistData.name);
-            setAlbumsData(allAlbumData); // Store the processed album data for display and upload
-
-            // Automatically upload albums data to backend
+            setAlbumsData(allAlbumData);
             await uploadAlbumsData(allAlbumData, artistData);
 
         } catch (error) {
@@ -122,7 +111,6 @@ function ArtistImporter() {
         }
     };
 
-    // Function to fetch and process all albums
     const fetchAndProcessAlbums = async (artistId, accessToken, artistName) => {
         let allAlbumsData = [];
         let nextUrl = `https://api.spotify.com/v1/artists/${artistId}/albums?include_groups=album,single&limit=50`;
@@ -136,27 +124,20 @@ function ArtistImporter() {
                 });
 
                 const albumsData = response.data.items;
-                allAlbumsData = allAlbumsData.concat(albumsData); // Accumulate all albums
-                nextUrl = response.data.next; // Get the URL for the next batch, if any
+                allAlbumsData = allAlbumsData.concat(albumsData);
+                nextUrl = response.data.next;
             }
-
-            console.log(`Total albums fetched for ${artistName}: ${allAlbumsData.length}`);
 
             allAlbumsData = await Promise.all(allAlbumsData.map(async (album) => {
                 try {
-                    // Fetch full album details (including label)
                     const albumDetailsResponse = await axios.get(`https://api.spotify.com/v1/albums/${album.id}`, {
                         headers: {
                             Authorization: `Bearer ${accessToken}`
                         }
                     });
                     const albumDetails = albumDetailsResponse.data;
-
-                    // Fetch ISRCs for tracks in batches
                     const trackIDs = albumDetails.tracks.items.map(track => track.id);
                     const externalIDs = await fetchExternalIDs(trackIDs, accessToken);
-
-                    // Append external IDs to their respective tracks
                     albumDetails.tracks.items.forEach(track => {
                         const externalID = externalIDs.find(id => id.track_id === track.id);
                         track.isrc = externalID ? externalID.isrc : 'N/A';
@@ -164,9 +145,8 @@ function ArtistImporter() {
                         track.ean = externalID ? externalID.ean : 'N/A';
                     });
 
-                    // Append full album details including tracks with ISRCs
                     album.tracks = albumDetails.tracks.items;
-                    album.label = albumDetails.label; // Include the album label
+                    album.label = albumDetails.label;
 
                 } catch (error) {
                     console.error(`Error fetching album details, tracks, or ISRCs for album ${album.name}:`, error);
@@ -174,18 +154,14 @@ function ArtistImporter() {
                 return album;
             }));
 
-            // Sort albums by release date, oldest first
             allAlbumsData.sort((a, b) => new Date(a.release_date) - new Date(b.release_date));
-
-            console.log("Albums with track data, ISRCs, and labels: ", { allAlbumsData });
-            return allAlbumsData; // Return all albums data for later use in upload
+            return allAlbumsData;
 
         } catch (error) {
             console.error('Error fetching and processing albums:', error);
         }
     };
 
-    // Error handling function
     const handleError = (error) => {
         if (error.response) {
             switch (error.response.status) {
@@ -206,7 +182,6 @@ function ArtistImporter() {
         }
     };
 
-    // Upload albums data
     const uploadAlbumsData = async (allAlbumData, artistData) => {
         if (!allAlbumData.length) {
             console.error('No albums data to upload.');
@@ -214,22 +189,20 @@ function ArtistImporter() {
             return;
         }
 
-        let allSuccess = true; // To track if all uploads are successful
-        let messages = []; // To store messages from each upload attempt
+        let allSuccess = true;
+        let messages = [];
 
         try {
             const accessToken = await getSpotifyAccessToken();
             const userToken = localStorage.getItem("access_token");
 
             for (let albumData of allAlbumData) {
-                // Calculate total duration of the album
                 const totalDurationMs = albumData.tracks
                     .map(track => track.duration_ms)
                     .reduce((acc, duration) => acc + duration, 0);
 
                 const albumDuration = new Date(totalDurationMs).toISOString().substr(11, 8);
 
-                // Determine album release type
                 let albumReleaseType = albumData.album_type;
                 const albumTrackCount = albumData.tracks.length;
                 if (albumReleaseType === 'single' && (albumTrackCount > 2 && albumTrackCount < 7) && totalDurationMs >= 600000 && totalDurationMs <= 1800000) {
@@ -239,7 +212,6 @@ function ArtistImporter() {
                 const trackIDs = albumData.tracks.map(track => track.id);
                 const externalIDs = await fetchExternalIDs(trackIDs, accessToken);
 
-                // Prepare album data for upload
                 const data = {
                     album_id: albumData.id,
                     album_name: albumData.name,
@@ -256,8 +228,7 @@ function ArtistImporter() {
                         artist_picture_url: artistData.images && artistData.images.length > 0 ? artistData.images[0].url : null
                     })),
                     album_tracks: albumData.tracks.map(track => {
-                        
-                        // Prepare track artist data
+
                         const trackArtists = track.artists.map(artist => ({
                             track_artist_name: artist.name,
                             track_artist_id: artist.id,
@@ -266,7 +237,6 @@ function ArtistImporter() {
 
                         const externalID = externalIDs.find(id => id.track_id === track.id);
 
-                        // Return track data including ISRC
                         return {
                             track_id: track.id,
                             track_name: track.name,
@@ -282,10 +252,8 @@ function ArtistImporter() {
                     })
                 };
 
-                console.log(data);
-
                 try {
-                    const response = await fetch(`${baseUrl}/katalog/beta/api/importAlbum.php`, {
+                    const response = await fetch(`/backend/importAlbum.php`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -293,17 +261,14 @@ function ArtistImporter() {
                         },
                         body: JSON.stringify(data)
                     });
-                    const text = await response.text(); // Get the raw response as text
-                    console.log('Raw response:', text);
-
-                    const result = JSON.parse(text);
+                    const textResponse = await response.text();
+                    const result = JSON.parse(textResponse);
                     if (response.ok) {
-                        console.log('Data passed successfully: ', result);
                         messages.push(`Album "${albumData.name}" added successfully.`);
                     } else {
                         console.error('Data passing error:', result.error || 'Unexpected error occurred');
                         messages.push(`Failed to add album "${albumData.name}": ${result.error || 'Unexpected error'}`);
-                        allSuccess = false; // Mark as not all successful
+                        allSuccess = false;
                     }
                 } catch (error) {
                     console.error('Fetch error:', error.message || error);
@@ -318,7 +283,7 @@ function ArtistImporter() {
             if (allSuccess) {
                 setMessage('All albums have been uploaded successfully.');
             } else {
-                setMessage(messages.join('\n')); // Show detailed messages for failures
+                setMessage(messages.join('\n'));
             }
         }
     };
@@ -327,7 +292,7 @@ function ArtistImporter() {
         const batchTrackIDs = (ids, batchSize) => {
             const result = [];
             for (let i = 0; i < ids.length; i += batchSize) {
-                result.push(ids.slice(i, i + batchSize).join(',')); // Join IDs within each batch
+                result.push(ids.slice(i, i + batchSize).join(','));
             }
             return result;
         };
@@ -412,7 +377,7 @@ function ArtistInformation({ artistData }) {
                 <div className="artist-info-importer">
                     {artistData.images.length > 0 && (
                         <div>
-                            <img src={artistData.images[0].url} alt="Artist image" className="artist-image" />
+                            <img src={artistData.images[0].url} alt={artistData.name} className="artist-image" />
                         </div>
                     )}
                     <h3>{artistData.name}</h3>

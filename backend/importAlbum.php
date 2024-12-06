@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 $headers = apache_request_headers();
-$accessToken = $headers['Authorization'] ?? '';
+$accessToken = $headers['authorization'] ?? '';
 
 try {
     if (strpos($accessToken, 'Bearer ') === 0) {

@@ -7,7 +7,7 @@ use Firebase\JWT\Key;
 use Firebase\JWT\ExpiredException;
 
 $headers = apache_request_headers();
-$accessToken = $headers['Authorization'] ?? '';
+$accessToken = $headers['authorization'] ?? '';
 
 try {
     if (strpos($accessToken, 'Bearer ') === 0) {
@@ -42,7 +42,6 @@ if (!is_numeric($primaryTrackId) || !is_array($duplicateTrackIds)) {
 
 $duplicateIds = implode(',', array_map('intval', $duplicateTrackIds));
 
-// 1. Update track_albums
 $updateAlbumsSql = "
     UPDATE katalog1.track_albums
     SET track_id = ?
@@ -58,7 +57,6 @@ if ($stmt) {
     exit;
 }
 
-// 2. Delete from track_artists
 $deleteArtistsSql = "
     DELETE FROM katalog1.track_artists
     WHERE track_id IN ($duplicateIds)
@@ -68,7 +66,6 @@ if (!$conn->query($deleteArtistsSql)) {
     exit;
 }
 
-// 3. Update track_external_ids
 $primaryISRCQuery = "SELECT isrc FROM katalog1.track_external_ids WHERE track_id = ?";
 $stmt = $conn->prepare($primaryISRCQuery);
 
@@ -101,9 +98,7 @@ while ($row = $duplicateISRCs->fetch_assoc()) {
     $duplicateId = $row['track_id'];
     $duplicateISRC = $row['isrc'];
 
-    // Check if the ISRCs match
     if ($duplicateISRC === $primaryISRC) {
-        // ISRC matches, delete the duplicate row
         $deleteStmt = $conn->prepare($deleteSql);
         if (!$deleteStmt) {
             echo json_encode(['success' => false, 'error' => 'Failed to prepare delete statement: ' . $conn->error]);
@@ -118,7 +113,6 @@ while ($row = $duplicateISRCs->fetch_assoc()) {
 
         $deleteStmt->close();
     } else {
-        // ISRC does not match, update the duplicate row
         $updateStmt = $conn->prepare($updateSql);
         if (!$updateStmt) {
             echo json_encode(['success' => false, 'error' => 'Failed to prepare update statement: ' . $conn->error]);
@@ -136,9 +130,6 @@ while ($row = $duplicateISRCs->fetch_assoc()) {
 }
 
 $stmt->close();
-
-
-// 4. Update track_lyrics
 $updateLyricsSql = "
     UPDATE katalog1.track_lyrics
     SET track_id = ?
@@ -154,7 +145,6 @@ if ($stmt) {
     exit;
 }
 
-// 5. Update track_spotify_ids
 $updateSpotifyIdsSql = "
     UPDATE katalog1.track_spotify_ids
     SET track_id = ?
@@ -170,7 +160,6 @@ if ($stmt) {
     exit;
 }
 
-// 6. Delete from tracks
 $deleteTracksSql = "
     DELETE FROM katalog1.tracks
     WHERE track_id IN ($duplicateIds)

@@ -5,24 +5,23 @@ import './ResolveDuplicateArtists.css';
 
 function ResolveDuplicateArtists() {
     const [duplicateArtists, setDuplicateArtists] = useState([]);
+    const [filteredArtists, setFilteredArtists] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
-    const [expandedRows, setExpandedRows] = useState([]); // To track expanded rows
-    const userToken = localStorage.getItem('access_token');
+    const [expandedRows, setExpandedRows] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
 
-    const baseUrl = `${window.location.protocol}//${window.location.hostname}`;
-
-    // Fetch duplicate artists when the page loads
     useEffect(() => {
+        const userToken = localStorage.getItem('access_token');
         const fetchDuplicateArtists = async () => {
             try {
-                const response = await axios.get(`${baseUrl}/katalog/beta/api/get-duplicate-artists.php`, {
+                const response = await axios.get(`/backend/get-duplicate-artists.php`, {
                     headers: {
                         Authorization: `Bearer ${userToken}`
                     }
                 });
                 setDuplicateArtists(response.data);
-                console.log('Duplicate Artists API Response:', response.data);
+                setFilteredArtists(response.data);
             } catch (error) {
                 console.error('Error fetching duplicates:', error);
                 setError('Error fetching artist duplicates');
@@ -35,16 +34,17 @@ function ResolveDuplicateArtists() {
     }, []);
 
     const handleMerge = async (artistIds) => {
+        const userToken = localStorage.getItem('access_token');
         const idsArray = artistIds.split(',').map(Number);
-        const primaryArtistId = idsArray[0]; // Use the first artist ID as the primary
+        const primaryArtistId = idsArray[0];
     
         try {
-            const response = await axios.post(`${baseUrl}/katalog/beta/api/merge-artists.php`, {
+            const response = await axios.post(`/backend/merge-artists.php`, {
                 primaryArtistId,
-                duplicateArtistIds: idsArray.slice(1) // Pass the remaining IDs for merging
+                duplicateArtistIds: idsArray.slice(1)
             }, {
                 headers: {
-                    Authorization: `Bearer ${userToken}` // Set the Authorization header
+                    Authorization: `Bearer ${userToken}`
                 }
             });
     
@@ -60,7 +60,6 @@ function ResolveDuplicateArtists() {
         }
     };
 
-    // Toggle expand/collapse row
     const toggleExpandRow = (artistName) => {
         if (expandedRows.includes(artistName)) {
             setExpandedRows(expandedRows.filter(row => row !== artistName));
@@ -69,12 +68,31 @@ function ResolveDuplicateArtists() {
         }
     };
 
+    const handleSearch = (e) => {
+        const query = e.target.value.toLowerCase();
+        setSearchQuery(query);
+
+        // Filter artists based on the query
+        const filtered = duplicateArtists.filter((artist) =>
+            artist.artist_name.toLowerCase().includes(query)
+        );
+        setFilteredArtists(filtered);
+    };
+
     return (
         <div className="resolve-duplicates-page">
             <MenuBar />
             <h2>Resolve Duplicate Artists</h2>
 
             {error && <p className="error-message">{error}</p>}
+
+            <input
+                type="text"
+                className="search-input"
+                placeholder="Search artists..."
+                value={searchQuery}
+                onChange={handleSearch}
+            />
 
             {loading ? (
                 <p>Loading...</p>
@@ -91,9 +109,8 @@ function ResolveDuplicateArtists() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {duplicateArtists.map((artist) => (
+                                {filteredArtists.map((artist) => (
                                     <React.Fragment key={artist.artist_name}>
-                                        {/* Main Row */}
                                         <tr>
                                             <td>
                                                 {artist.artist_name}
@@ -108,8 +125,6 @@ function ResolveDuplicateArtists() {
                                                 </button>
                                             </td>
                                         </tr>
-
-                                        {/* Expanded Row */}
                                         {expandedRows.includes(artist.artist_name) && (
                                             <tr>
                                                 <td colSpan="3">

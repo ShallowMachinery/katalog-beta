@@ -2,13 +2,12 @@
 require 'config.php';
 require 'vendor/autoload.php';
 
-use Dotenv\Repository\Adapter\WriterInterface;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Firebase\JWT\ExpiredException;
 
 $headers = apache_request_headers();
-$accessToken = $headers['Authorization'] ?? '';
+$accessToken = $headers['authorization'] ?? '';
 
 try {
     if (strpos($accessToken, 'Bearer ') === 0) {
@@ -57,7 +56,6 @@ if (!$trackId || !$trackName) {
 $conn->begin_transaction();
 
 try {
-    // Update track info
     $stmt = $conn->prepare("
         UPDATE `katalog1`.`Tracks`
         SET `track_name` = ?, `explicit` = ?
@@ -71,7 +69,6 @@ try {
     }
     $stmt->close();
 
-    // Update or add track genre
     if ($trackGenreId && $trackGenre) {
         $stmt = $conn->prepare("SELECT `genre_id` FROM `katalog1`.`Track_Genres` WHERE `track_id` = ?");
         if (!$stmt) {

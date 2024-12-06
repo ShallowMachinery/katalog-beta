@@ -3,7 +3,6 @@ require 'config.php';
 
 $artistVanity = $_GET['artistVanity'] ?? '';
 
-// Modify the query to retrieve the primary artist's vanity
 $stmt = $conn->prepare("
     SELECT 
         al.`album_id` AS `albumId`,

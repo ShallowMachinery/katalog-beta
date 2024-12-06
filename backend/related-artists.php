@@ -8,7 +8,6 @@ if (!$artistVanity) {
     exit;
 }
 
-// Get the main artist's Spotify ID based on vanity
 $stmt = $conn->prepare("SELECT `artist_id` FROM `katalog1`.`Artists` WHERE `artist_vanity` = ?");
 $stmt->bind_param("s", $artistVanity);
 $stmt->execute();
@@ -23,7 +22,6 @@ if (!$artist) {
 
 $artistId = $artist['artist_id'];
 
-// Fetch related artists based on collaboration in the same tracks
 $stmt = $conn->prepare("
     SELECT DISTINCT 
         a.`artist_name` AS `artistName`, 
@@ -47,7 +45,7 @@ $stmt = $conn->prepare("
         a.`artist_id`
     ORDER BY 
         COUNT(DISTINCT t.`track_id`) DESC
-    LIMIT 8;
+    LIMIT 5;
 ");
 
 $stmt->bind_param("ii", $artistId, $artistId);

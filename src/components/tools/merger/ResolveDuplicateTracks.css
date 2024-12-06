@@ -1,8 +1,10 @@
 .resolve-duplicates-page {
+    display: flex;
+    flex-direction: column;
     padding: 20px;
     max-width: 1000px;
     margin: 100px auto 50px auto;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: var(--container-bg-color);
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -10,22 +12,39 @@
 .resolve-duplicates-page h2 {
     text-align: center;
     font-size: 2.5em;
-    color: #343a40;
+    color: var(--container-h2-text-color);
     margin-bottom: 20px;
+}
+
+.resolve-duplicates-page .search-input {
+    font-family: "Hind Siliguri", sans-serif;
+    padding: 10px;
+    width: 50rem;
+    max-width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    margin-left: auto;
 }
 
 .track-duplicates-list {
     margin-top: 20px;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: var(--container-bg-color);
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.track-duplicates-list h3 {
+    color: var(--container-h3-text-color);
 }
 
 .track-duplicates-list table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
+    background-color: transparent;
 }
 
 .track-duplicates-list table th,
@@ -36,14 +55,13 @@
 }
 
 .track-duplicates-list table th {
-    background-color: #f8f9fa;
+    background-color: var(--lyric-page-container-bg-color);
     font-weight: bold;
-    color: #495057;
+    color: var(--title-text-color);
 }
 
 .track-duplicates-list table td {
-    background-color: #ffffff;
-    color: #212529;
+    color: var(--title-text-color);
 }
 
 .track-duplicates-list table td .details {
@@ -55,23 +73,26 @@
     padding: 5px 10px;
     border: none;
     border-radius: 5px;
-    background-color: #007bff;
-    color: white;
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .track-duplicates-list table td button:hover {
-    background-color: #0056b3;
+    background-color: var(--button-hover-active-bg-color);
 }
 
 /* Styling for the expanded track details */
 .track-duplicates-list .track-details {
-    background-color: #f9f9f9;
+    background-color: var(--home-page-container-bg-color);
     padding: 10px;
     margin-top: 10px;
     border-radius: 5px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
 }
 
 .track-duplicates-list .track-details h4 {
@@ -85,6 +106,10 @@
 
 .track-duplicates-list .track-details li {
     margin-bottom: -60px;
+}
+
+.track-duplicates-list .track-details button {
+    margin-left: auto;
 }
 
 .error-message {

@@ -7,7 +7,7 @@ use Firebase\JWT\Key;
 use Firebase\JWT\ExpiredException;
 
 $headers = apache_request_headers();
-$accessToken = $headers['Authorization'] ?? '';
+$accessToken = $headers['authorization'] ?? '';
 
 try {
     if (strpos($accessToken, 'Bearer ') === 0) {
@@ -32,12 +32,12 @@ try {
 }
 
 $sql = "
-    SELECT t.track_name, a.artist_name, GROUP_CONCAT(t.track_id) AS track_ids, COUNT(*) AS duplicate_count
+    SELECT t.track_name, a.artist_name, GROUP_CONCAT(t.track_id) AS track_ids, COUNT(*) AS duplicate_count, t.creation_date AS date_added
     FROM katalog1.tracks t
     JOIN katalog1.artists a ON t.track_main_artist_id = a.artist_id
     GROUP BY t.track_name, a.artist_name
     HAVING COUNT(*) > 1
-    ORDER BY t.creation_date DESC, t.track_id ASC;
+    ORDER BY t.track_name ASC;
 ";
 
 $result = $conn->query($sql);
@@ -47,8 +47,6 @@ if ($result) {
 
     while ($row = $result->fetch_assoc()) {
         $track_ids = $row['track_ids'];
-
-        // Fetch additional details for each duplicate track
         $trackDetailsSql = "
             SELECT t.track_id, t.track_name, t.track_vanity, t.track_main_artist_id, ar.artist_name, ar.artist_vanity, ar.artist_id, al.album_name, al.release_date, t.duration, te.isrc, ts.track_spotify_id
             FROM katalog1.tracks t

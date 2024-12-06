@@ -74,8 +74,19 @@ Note: OV denotes old or former version.
 - Track Pagination: Added pagination for an artist's tracks in the track section, improving navigation and organization of content.
 
 ## v0.2.0a
-- Artist Page Rearrangement: Will show the songs first before the album. Added users' recent activities for that artist
-- Lyric Page Layout Rearrangement: Made the Spotify embed floating at the bottom of the screen, added the writers info to more information section, added font size toggler.
-- Can change profile pictures now, for localhost devices.
-- Added tag suggestions when @ is inputted in text area.
-- Can edit track information.
+- Artist Page Rearrangement: Songs are now displayed before albums, and users' recent activities for that artist are shown.
+- Lyric Page Layout Rearrangement: The Spotify embed is now floating at the bottom of the screen, writers' information has been added to the more information section, and a font size toggler has been implemented.
+- Profile Picture Update: Users can now change their profile pictures on localhost devices.
+- Tag Suggestions: Tag suggestions are now provided when '@' is inputted in the text area.
+- Track Information Editing: Users can now edit track information.
+
+## v0.2.1
+- Enhanced profile picture update functionality for non-localhost devices with clear documentation.
+- Implemented robust search filtering for artist song discography and duplicates resolver pages.
+- Introduced app-wide dark mode for improved user experience.
+- Redesigned home page for better user engagement.
+- Updated log in and register pages with modern layout.
+- Conducted thorough code cleanup for improved maintainability.
+- Improved version history documentation for better readability and organization.
+- Added clear headings and sections for each version.
+- Reformatted version history for consistency and clarity.

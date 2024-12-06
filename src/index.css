@@ -1,14 +1,87 @@
+:root {
+  --text-color: white;
+  --background-color: #334764;
+  --hover-color: #f1f1f1;
+  --container-hover-color: #f1f1f1;
+  --hover-text-color: black;
+  --input-bg-color: white;
+  --input-text-color: black;
+  --input-placeholder-text-color: #8f8f8f;
+  --modal-bg-color: white;
+  --modal-text-color: black;
+  --container-bg-color: #ffffffe6;
+  --container-h2-text-color: #343a40;
+  --container-h3-text-color: #343a40;
+  --container-text-color: black;
+  --button-bg-color: #4d6d9a;
+  --button-text-color: white;
+  --button-hover-active-bg-color: #2d405a;
+  --overlay-container-bg-color: #597fb4;
+  --overlay-container-plain-bg-color: white;
+  --menu-bar-bg-color: #4d6d9a;
+  --link-text-color: #4d6d9a;
+  --link-hover-text-color: #2c3e50;
+  --title-text-color: #333;
+  --artist-text-color: #666;
+  --info-text-color: #666;
+  --lyric-page-container-bg-color: #f9f9f98f;
+  --lyric-page-verify-button-hover-color: #2d405a;
+  --user-page-container-bg-color: #fcfbfb8f;
+  --track-editor-explicit-checkbox-bg-color: #e0e0e0;
+  --home-page-gradient-one-color: #4d6d9a;
+  --home-page-gradient-two-color: #2c3e50;
+  --home-page-container-bg-color: white;
+  --home-page-after-color: #4d6d9a;
+}
+
+.dark-theme {
+  --text-color: white;
+  --background-color: #131313;
+  --hover-color: #2a2a2a;
+  --container-hover-color: #575757;
+  --hover-text-color: white;
+  --input-bg-color: transparent;
+  --input-text-color: white;
+  --input-placeholder-text-color: #757575;
+  --modal-bg-color: #272727;
+  --modal-text-color: white;
+  --container-bg-color: #1f1f1fe6;
+  --container-h2-text-color: white;
+  --container-h3-text-color: white;
+  --container-text-color: white;
+  --button-bg-color: #f5f5f5;
+  --button-text-color: black;
+  --button-hover-active-bg-color: #cfcfcf;
+  --overlay-container-bg-color: #1e1e1e;
+  --overlay-container-plain-bg-color: #1e1e1e;
+  --menu-bar-bg-color: #1f1f1f;
+  --link-text-color: white;
+  --link-hover-text-color: #dadada;
+  --title-text-color: white;
+  --artist-text-color: #e7e7e7;
+  --info-text-color: #e7e7e7;
+  --lyric-page-container-bg-color: #1313138f;
+  --lyric-page-verify-button-hover-color: #575757;
+  --user-page-container-bg-color: #1313138f;
+  --track-editor-explicit-checkbox-bg-color: #303030;
+  --home-page-gradient-one-color: #121e2b;
+  --home-page-gradient-two-color: #2c3e50;
+  --home-page-container-bg-color: #4d6d9a1a;
+  --home-page-after-color: #f5f5f5;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 'Hind Siliguri',
-    sans-serif;
+  font-family: 'Hind Siliguri', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', 
+      sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #334764;
+  background-color: var(--background-color);
+  color: var(--text-color);
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+      monospace;
 }

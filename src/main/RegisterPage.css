@@ -1,78 +1,132 @@
-.register-container {
-    padding: 20px;
-    max-width: 500px;
-    margin: 100px auto 50px auto;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.register-page-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--background-color) 0%, #1a2634 100%);
 }
 
-.register-container h2 {
+.register-page-container .register-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 60px);
+}
+
+.register-page-container .register-wrapper .register-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    transition: transform 0.3s ease;
+    margin: 100px auto 50px auto;
+}
+
+.register-page-container .register-wrapper .register-container h2 {
     text-align: center;
     font-size: 2em;
-    color: #343a40;
+    color: var(--text-color);
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.register-page-container .register-wrapper .register-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.register-page-container .register-wrapper .register-container .form-group {
     margin-bottom: 20px;
 }
 
-.register-container form {
+.register-page-container .register-wrapper .register-container .form-group .input-icon-wrapper {
+    position: relative;
     display: flex;
-    flex-direction: column;
-    gap: 15px; /* Space between form inputs */
+    align-items: center;
 }
 
-.register-container form input {
+.register-page-container .register-wrapper .register-container .form-group .input-icon-wrapper .input-icon {
+    position: absolute;
+    left: 15px;
+    color: var(--text-color);
+    opacity: 0.7;
+}
+
+.register-page-container .register-wrapper .register-container form input {
     font-family: "Hind Siliguri", sans-serif;
-    padding: 10px;
+    width: 100%;
+    padding: 12px 15px 12px 45px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
     font-size: 1em;
-    border: 1px solid #ced4da;
-    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.07);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.register-page-container .register-wrapper .register-container form input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.register-page-container .register-wrapper .register-container form input:focus {
     outline: none;
-    transition: border-color 0.3s ease;
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
 }
 
-.register-container form input:focus {
-    border-color: #80bdff;
-}
-
-.register-container form button {
+.register-page-container .register-wrapper .register-container .register-button {
     font-family: "Hind Siliguri", sans-serif;
-    padding: 10px 20px;
-    font-size: 1em;
-    color: #fff;
-    background-color: #4c93af;
+    width: 100%;
+    padding: 14px;
+    margin-top: 10px;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+    color: white;
+    font-size: 1em;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
 }
 
-.register-container form button:hover {
-    background-color: #457fa0;
+.register-page-container .register-wrapper .register-container .register-button:hover {
+    background: linear-gradient(135deg, #357abd 0%, #2868a5 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(53, 122, 189, 0.3);
 }
 
-.register-container form input[type="date"] {
-    color: #495057; /* Text color for the date input */
+.register-page-container .register-wrapper .register-container .register-button:active {
+    transform: translateY(0);
 }
 
-.register-container .login-link {
-    margin-top: 15px;
+.register-page-container .register-wrapper .register-container .login-link {
+    margin-top: 20px;
     text-align: center;
+    color: var(--text-color);
     font-size: 0.9em;
-    color: #4d6d9a;
 }
 
-.register-container .login-link a {
-    color: #4d6d9a;
+.register-page-container .register-wrapper .register-container .login-link a {
+    color: #4a90e2;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 600;
+    margin-left: 5px;
+    transition: color 0.3s ease;
 }
 
-.register-container .login-link a:hover {
+.register-page-container .register-wrapper .register-container .login-link a:hover {
+    color: #357abd;
     text-decoration: underline;
 }
 
-@media (max-width: 768px) { 
-    .register-container {
+@media (max-width: 768px) {
+    .register-page-container .register-wrapper .register-container {
         margin-top: 60px;
+    }
+
+    .register-container h2 {
+        font-size: 1.75em;
     }
 }

@@ -7,7 +7,7 @@ use Firebase\JWT\Key;
 use Firebase\JWT\ExpiredException;
 
 $headers = apache_request_headers();
-$accessToken = $headers['Authorization'] ?? '';
+$accessToken = $headers['authorization'] ?? '';
 
 try {
     if (strpos($accessToken, 'Bearer ') === 0) {
@@ -31,22 +31,18 @@ try {
     exit;
 }
 
-// Get the JSON input
 $data = json_decode(file_get_contents("php://input"), true);
 
 $primaryArtistId = $data['primaryArtistId'];
 $duplicateArtistIds = $data['duplicateArtistIds'];
 
-// Validate input
 if (!is_numeric($primaryArtistId) || !is_array($duplicateArtistIds)) {
     echo json_encode(['success' => false, 'error' => 'Invalid input']);
     exit;
 }
 
-// Convert duplicate IDs to a comma-separated string
 $duplicateIds = implode(',', array_map('intval', $duplicateArtistIds));
 
-// Update album_artists table to replace duplicate artist IDs with the primary artist ID
 $updateAlbumsSql = "
     UPDATE `album_artists`
     SET `artist_id` = ?
@@ -56,9 +52,7 @@ $stmt = $conn->prepare($updateAlbumsSql);
 $stmt->bind_param("i", $primaryArtistId);
 $stmt->execute();
 
-// Check if update was successful
 if ($stmt->affected_rows > 0) {
-    // Optionally, delete duplicate artists from the Artists table
     $deleteArtistsSql = "
         DELETE FROM `Artists`
         WHERE `artist_id` IN ($duplicateIds)
@@ -70,6 +64,5 @@ if ($stmt->affected_rows > 0) {
     echo json_encode(['success' => false, 'error' => 'No albums updated']);
 }
 
-// Close the database connection
 $conn->close();
 ?>

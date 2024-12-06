@@ -36,21 +36,27 @@ form {
   margin-right: 20px;
   border-radius: 4px;
   border: none;
+  outline: none;
+}
+
+.inputField:focus {
+  outline: none;
 }
 
 .submitButton {
   font-family: "Hind Siliguri", sans-serif;
   padding: 10px 20px;
-  background-color: #4c93af;
-  color: white;
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
   border: none;
   border-radius: 4px;
   cursor: pointer;
   margin-right: 10px;
+  transition: all 0.2s ease;
 }
 
 .submitButton:hover {
-  background-color: #457fa0;
+  background-color: var(--button-hover-active-bg-color);
 }
 
 .import-data-button-container {
@@ -75,7 +81,7 @@ form {
   border-radius: 5px;
   margin-bottom: 0px;
   text-align: center;
-  color: #333;
+  color: var(--title-text-color);
 }
 
 .information {
@@ -83,33 +89,53 @@ form {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-start; /* Align items to the start of the flex container */
-  gap: 10px; /* Add a gap between the columns */
-  width: 100%; /* Ensure the information div takes up the full width */
-  padding: 10px; /* Optional: Add padding around the information container */
-  box-sizing: border-box; /* Ensure padding and border are included in the element's width and height */
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
-.album-information, .tracks-information, .artist-information {
-  flex: 1; /* Each section will take up equal space */
+.import-component h3 {
+  color: var(--container-h3-text-color);
+}
+
+.album-information, .tracks-information {
+  flex: 1;
+  width: auto;
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center the text horizontally */
-  justify-content: center; /* Center the text vertically */
-  background-color: #4d6d9a;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--container-bg-color);
   padding: 10px;
-  border-radius: 1%;
-  border: 1px solid rgba(168, 158, 158, 0.76);
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Optional: Adds a shadow to the sections */
-  text-align: center; /* Ensure text inside is centered */
+  border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.artist-information-album {
+  flex: 1;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: var(--container-bg-color);
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.artist-information-album .artist-item .artist-summary .artist-thumbnail {
+  background-color: white;
 }
 
 .album-information .album-data .album-info, .artist-info, .tracks-table {
-  width: 100%;
   margin: 0;
   padding: 0;
-  color: white;
-  text-align: center; /* Center text within these elements */
+  color: var(--title-text-color);
+  text-align: center;
 }
 
 .album-name-type {
@@ -122,6 +148,7 @@ form {
   padding: 10px;
   font-size: 20px;
   text-transform: uppercase;
+  color: white;
 }
 
 .tracks-table {
@@ -144,9 +171,23 @@ form {
 }
 
 .artist-image {
-  width: 100%; /* Adjust the width as needed */
-  height: auto; /* Maintains the aspect ratio of the image */
-  max-width: 200px; /* Optional: Set a maximum width if needed */
+  width: 100%;
+  height: auto;
+  max-width: 200px;
   border-radius: 8px;
-  object-fit: contain; /* Ensures the image is not stretched or cropped */
+  object-fit: contain;
+}
+
+.artist-info {
+  margin-bottom: 50px;
+  margin-top: 10px;
+}
+
+.artist-information-album .artist-item {
+  transition: 0.2s ease;
+}
+
+.artist-information-album .artist-item:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
 }

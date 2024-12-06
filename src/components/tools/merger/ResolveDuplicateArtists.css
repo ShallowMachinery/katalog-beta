@@ -1,8 +1,10 @@
 .resolve-duplicates-page {
+    display: flex;
+    flex-direction: column;
     padding: 20px;
     max-width: 1000px;
     margin: 100px auto 50px auto;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: var(--container-bg-color);
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -10,22 +12,39 @@
 .resolve-duplicates-page h2 {
     text-align: center;
     font-size: 2.5em;
-    color: #343a40;
+    color: var(--container-h2-text-color);
     margin-bottom: 20px;
+}
+
+.resolve-duplicates-page .search-input {
+    font-family: "Hind Siliguri", sans-serif;
+    padding: 10px;
+    width: 50rem;
+    max-width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    margin-left: auto;
 }
 
 .resolve-duplicates-page .artist-duplicates-list {
     margin-top: 20px;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: var(--container-bg-color);
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+.artist-duplicates-list h3 {
+    color: var(--container-h3-text-color);
+}
+
 .resolve-duplicates-page .artist-duplicates-list table {
-    width: 100%; /* Ensure table takes full width */
-    border-collapse: collapse; /* Remove gaps between table cells */
+    width: 100%;
+    border-collapse: collapse;
     margin-top: 20px;
+    background-color: transparent;
 }
 
 .resolve-duplicates-page .artist-duplicates-list table th, 
@@ -36,48 +55,52 @@
 }
 
 .resolve-duplicates-page .artist-duplicates-list table th {
-    background-color: #f8f9fa;
+    background-color: var(--lyric-page-container-bg-color);
     font-weight: bold;
-    color: #495057;
+    color: var(--title-text-color);
 }
 
 .resolve-duplicates-page .artist-duplicates-list table td {
-    background-color: #ffffff;
-    color: #212529;
+    color: var(--title-text-color);
 }
 
 .resolve-duplicates-page .artist-duplicates-list table td .artist-details-button {
+    font-family: "Hind Siliguri", sans-serif;
     padding: 5px 10px;
     border: none;
     border-radius: 5px;
-    background-color: #007bff;
-    color: white;
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-left: 8px;
+    margin-left: 1rem;
 }
 
 .resolve-duplicates-page .artist-duplicates-list table td .merge-button {
+    font-family: "Hind Siliguri", sans-serif;
     padding: 5px 10px;
     border: none;
     border-radius: 5px;
-    background-color: #007bff;
-    color: white;
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
 .resolve-duplicates-page .artist-duplicates-list table td button:hover {
-    background-color: #0056b3;
+    background-color: var(--button-hover-active-bg-color);
 }
 
 /* Styling for the expanded artist details */
 .resolve-duplicates-page .artist-duplicates-list table .artist-details {
-    background-color: #f9f9f9;
+    background-color: var(--home-page-container-bg-color);
     padding: 10px;
     margin-top: 10px;
     border-radius: 5px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
 }
 
 .resolve-duplicates-page .artist-duplicates-list table .artist-details h4 {
@@ -98,8 +121,8 @@
     text-align: center;
 }
 
-.resolve-duplicates-page p {
+.resolve-duplicates-page .artist-details p {
     text-align: center;
-    color: #495057;
+    color: var(--info-text-color);
     font-size: 1.2em;
 }

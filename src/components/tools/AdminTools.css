@@ -2,43 +2,51 @@
     padding: 20px;
     max-width: 1000px;
     margin: 100px auto 50px auto;
-    background-color: rgba(255, 255, 255, 0.9); /* Slight transparency */
+    background-color: var(--container-bg-color);
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     position: relative;
-    z-index: 1; /* Ensure this is in front of the background */
+    z-index: 1;
 }
 
-.admin-tools-title {
-    font-size: 28px; /* Larger font for the title */
-    margin-bottom: 20px; /* Space below the title */
-    text-align: center; /* Center-align the title */
+.admin-tools-container .admin-tools-title {
+    font-size: 28px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: var(--container-h2-text-color);
 }
 
-.tool-list {
-    display: flex; /* Flexbox layout for tool entries */
-    flex-direction: column; /* Stack items vertically */
-    gap: 15px; /* Space between tool entries */
+.admin-tools-container .tool-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
-.tool-entry {
-    background-color: #f8f9fa; /* Light background for each entry */
-    padding: 15px; /* Padding for better click area */
-    border-radius: 5px; /* Rounded corners */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    text-decoration: none; /* Remove underline */
-    color: #333; /* Dark text color */
-    transition: transform 0.2s; /* Smooth hover effect */
+.admin-tools-container .tool-entry {
+    background-color: var(--container-bg-color);
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    color: var(--title-text-color);
+    transition: box-shadow 0.2s ease;
 }
 
-.tool-entry:hover {
-    transform: translateY(-2px); /* Lift effect on hover */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Slightly increase shadow on hover */
+.dark-theme .admin-tools-container .tool-entry {
+    border-bottom: 1px solid #343434;
 }
 
-.tool-description {
-    font-size: 14px; /* Smaller font for descriptions */
-    color: #666; /* Lighter color for descriptions */
+.admin-tools-container .tool-entry:hover {
+    box-shadow: 0 4px 8px #00000026;
+}
+
+.dark-theme .admin-tools-container .tool-entry:hover {
+    box-shadow: 0 4px 8px #ffffff26;
+}
+
+.admin-tools-container .tool-entry .tool-description {
+    font-size: 14px;
+    color: var(--info-text-color);
 }
 
 @media (max-width: 768px) {

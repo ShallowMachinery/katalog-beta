@@ -7,7 +7,7 @@ use Firebase\JWT\Key;
 use Firebase\JWT\ExpiredException;
 
 $headers = apache_request_headers();
-$accessToken = $headers['Authorization'] ?? '';
+$accessToken = $headers['authorization'] ?? '';
 
 try {
     if (strpos($accessToken, 'Bearer ') === 0) {
@@ -48,7 +48,6 @@ $activityType = 'deleted_lyrics';
 
 $conn->begin_transaction();
 
-// Make sure we won't delete the lyric row if there's only one row left
 try {
     $stmtCheckIfOnlyOneLyrics = $conn->prepare("SELECT COUNT(*) AS `lyrics_count` FROM `katalog1`.`track_lyrics` WHERE `track_id` = ?");
     $stmtCheckIfOnlyOneLyrics->bind_param("i", $trackId);
@@ -60,9 +59,7 @@ try {
 
     $stmtCheckIfOnlyOneLyrics->close();
 
-    // Check if there's more than one lyric entry
     if ($lyricsCount > 1) {
-        // Proceed with the deletion if there's more than one lyric row
         $stmtDeleteLyrics = $conn->prepare("DELETE FROM `katalog1`.`track_lyrics` WHERE `lyrics_id` = ?");
         $stmtDeleteLyrics->bind_param("i", $lyricsId);
         $stmtDeleteLyrics->execute();

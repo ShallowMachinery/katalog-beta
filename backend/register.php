@@ -6,7 +6,6 @@ $response = ['success' => false, 'message' => ''];
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents("php://input"), true);
 
-    // Extract and sanitize input
     $username = $conn->real_escape_string(trim($data['username'] ?? ''));
     $email = $conn->real_escape_string(trim($data['email'] ?? ''));
     $password = $data['password'] ?? '';
@@ -15,17 +14,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $surname = $conn->real_escape_string(trim($data['surname'] ?? ''));
     $birthday = $conn->real_escape_string(trim($data['birthday'] ?? ''));
 
-    // Validate mandatory fields
     if (empty($username) || empty($email) || empty($password) || empty($firstName) || empty($surname) || empty($birthday)) {
         $response['message'] = 'All fields except middle name are required.';
         echo json_encode($response);
         exit;
     }
 
-    // Hash the password
     $hashedPassword = hash('sha256', $password);
 
-    // Check for existing username or email
     $stmt = $conn->prepare("SELECT COUNT(*) FROM `katalog1`.`Accounts` WHERE `user_name` = ? OR `user_email` = ?");
     $stmt->bind_param("ss", $username, $email);
     $stmt->execute();
@@ -43,14 +39,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userHierarchy = 3;
     $userTypeName = "Contributor";
 
-    // Insert new user
     $stmt = $conn->prepare("INSERT INTO `katalog1`.`Accounts` (`last_name`, `first_name`, `middle_name`, `user_picture_link`, `user_hierarchy`, `user_type_name`, `user_email`, `user_password`, `user_name`, `birthday`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("ssssisssss", $surname, $firstName, $middleName, $userPictureLink, $userHierarchy, $userTypeName, $email, $hashedPassword, $username, $birthday);
 
     if ($stmt->execute()) {
         $userId = $conn->insert_id;
 
-        // Insert into User_Points table
         $stmt = $conn->prepare("INSERT INTO `katalog1`.`User_Points` (`user_id`, `user_points`) VALUES (?, 0)");
         $stmt->bind_param("i", $userId);
 

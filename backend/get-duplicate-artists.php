@@ -7,7 +7,7 @@ use Firebase\JWT\Key;
 use Firebase\JWT\ExpiredException;
 
 $headers = apache_request_headers();
-$accessToken = $headers['Authorization'] ?? '';
+$accessToken = $headers['authorization'] ?? '';
 
 try {
     if (strpos($accessToken, 'Bearer ') === 0) {
@@ -38,18 +38,12 @@ $sql = "
     HAVING COUNT(*) > 1
 ";
 
-// Execute the query
 $result = $conn->query($sql);
 
-// Check if query was successful
 if ($result) {
     $duplicates = [];
-
-    // Fetch all rows
     while ($row = $result->fetch_assoc()) {
         $artist_ids = $row['artist_ids'];
-
-        // Query to get the albums associated with the artist_ids
         $album_sql = "
             SELECT a.`album_id`, a.`album_name`, aa.`artist_id`, ar.`artist_name`, ar.`artist_vanity`, ar.`artist_type`, ar.`artist_spotify_id`
             FROM `katalog1`.`albums` a
@@ -65,8 +59,6 @@ if ($result) {
                 $albums[] = $album_row;
             }
         }
-
-        // Query to get the tracks associated with the artist_ids
         $track_sql = "
             SELECT t.`track_id`, t.`track_name`, ta.`artist_id`, ar.`artist_name`, ar.`artist_vanity`, ar.`artist_type`, ar.`artist_spotify_id`
             FROM `katalog1`.`tracks` t
@@ -82,22 +74,15 @@ if ($result) {
                 $tracks[] = $track_row;
             }
         }
-
-        // Combine artist details with albums and tracks
         $row['albums'] = $albums;
         $row['tracks'] = $tracks;
-
-        // Add the row to the duplicates array
         $duplicates[] = $row;
     }
 
-    // Return the duplicates with associated albums and tracks in JSON format
     echo json_encode($duplicates);
 } else {
-    // Return an error message in case of failure
     echo json_encode(['error' => 'Error fetching duplicate artists']);
 }
 
-// Close the database connection
 $conn->close();
 ?>

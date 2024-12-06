@@ -10,17 +10,15 @@ $response = array('success' => false, 'message' => '', 'contributions' => null);
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $headers = apache_request_headers();
-    $accessToken = $headers['Authorization'] ?? '';
+    $accessToken = $headers['authorization'] ?? '';
 
     try {
-        // Optional: Check for the access token if you want to validate the user session
         if (strpos($accessToken, 'Bearer ') === 0) {
             $accessToken = substr($accessToken, 7);
         }
         $key = new Key($secretKey, 'HS256');
         $decoded = JWT::decode($accessToken, $key);
 
-        // Query to get contributions for all users
         $stmt = $conn->prepare("
         SELECT
             c.`user_id` AS `userId`,
@@ -47,8 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         JOIN `katalog1`.`Albums` al ON ta.`album_id` = al.`album_id`
         WHERE c.`contribution_type` NOT IN ('deleted_lyrics', 'unverified_lyrics')
         GROUP BY c.`lyrics_id`, c.`track_id`, a.`artist_id`, c.`created_at`
-        ORDER BY c.`created_at` DESC
-        LIMIT 100;
+        ORDER BY c.`created_at` DESC;
         ");
 
         $stmt->execute();
@@ -62,7 +59,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $response['success'] = true;
         $response['contributions'] = $contributions;
 
-        // Close the statement and connection
         $stmt->close();
     } catch (ExpiredException $e) {
         $response['message'] = 'Access token has expired.';
@@ -73,9 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $response['message'] = 'Invalid request method.';
 }
 
-// Output the response as JSON
 echo json_encode($response);
 
-// Close the connection
 $conn->close();
 ?>

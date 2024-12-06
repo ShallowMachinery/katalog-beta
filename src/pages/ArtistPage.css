@@ -2,11 +2,11 @@
     max-width: 1000px;
     margin: 100px auto 50px auto;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.9); /* Slight transparency */
+    background-color: var(--container-bg-color);
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     position: relative;
-    z-index: 1; /* Ensure this is in front of the background */
+    z-index: 1;
 }
 
 .artist-page-container .dynamic-background {
@@ -18,8 +18,12 @@
     background-size: cover;
     background-position: center;
     filter: blur(10px);
-    z-index: -1; /* Place it behind the container */
-    opacity: 0.2; /* Optional: Add transparency to the background */
+    z-index: -1;
+    opacity: 0.2;
+}
+
+.artist-page-container p {
+    color: var(--container-text-color);
 }
 
 .artist-page-container .artist-info {
@@ -36,6 +40,7 @@
     margin-right: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     object-fit: cover;
+    background-color: white;
 }
 
 .artist-page-container .artist-info .artist-details {
@@ -45,13 +50,13 @@
 .artist-page-container .artist-info .artist-details .artist-name {
     font-size: 25px;
     margin: 0;
-    color: #333;
+    color: var(--container-h2-text-color);
 }
 
 .artist-page-container .artist-info .artist-details .spotify-icon {
     margin-top: 5px;
-    color: #1DB954; /* Spotify green color */
-    font-size: 20px; /* Adjust size as needed */
+    color: #1DB954;
+    font-size: 20px;
 }
 
 .discography-section {
@@ -62,6 +67,15 @@
     font-size: x-large;
     margin: 0;
     margin-top: 20px;
+    color: var(--container-h2-text-color);
+}
+
+.toggle-header {
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 15px;
+    user-select: none;
+    color: var(--container-h3-text-color);
 }
 
 .albums-section, .tracks-section {
@@ -80,28 +94,19 @@
     font-size: 14px;
     border: none;
     border-radius: 5px;
-    background-color: #4d6d9a;
-    color: white;
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
     cursor: pointer;
     transition: background-color 0.3s ease, color 0.3s ease;
     width: 100%
 }
 
 .artist-page-container .albums-section .album-filters button:hover {
-    background-color: #2d405a;
+    background-color: var(--button-hover-active-bg-color);
 }
 
 .artist-page-container .albums-section .album-filters button.active {
-    background-color: #2d405a;;
-    color: white;
-}
-
-.toggle-header {
-    cursor: pointer;
-    color: #4d6d9a;
-    display: inline-block;
-    margin-bottom: 15px;
-    user-select: none; /* Prevent text selection */
+    background-color: var(--button-hover-active-bg-color);
 }
 
 .artist-page-container .albums-section .album-list {
@@ -118,6 +123,13 @@
     width: 150px;
     text-align: center;
     word-break: break-word;
+    padding: 1rem;
+    transition: background-color 0.2s ease;
+    border-radius: 5px;
+}
+
+.artist-page-container .albums-section .album-list li:hover {
+    background-color: var(--container-hover-color);
 }
 
 .artist-page-container .albums-section .album-list .album-cover {
@@ -129,7 +141,7 @@
 
 .artist-page-container .albums-section .album-list a {
     text-decoration: none;
-    color: #4d6d9a;
+    color: var(--link-text-color);
 }
 
 .artist-page-container .albums-section .album-list a:hover {
@@ -145,18 +157,19 @@
 
 .artist-page-container .tracks-section .track-list a {
     text-decoration: none;
-    color: #4d6d9a;
-}
-
-.artist-page-container .tracks-section .track-list a:hover {
-    text-decoration: none;
-    color: #2c4870;    
+    color: var(--link-text-color);
 }
 
 .artist-page-container .tracks-section .track-list-div {
     display: flex;
     padding: 10px;
     border-bottom: 1px solid #3039463f;
+    transition: background-color 0.2s ease;
+    align-items: center;
+}
+
+.artist-page-container .tracks-section .track-list-div:hover {
+    background-color: var(--container-hover-color);
 }
 
 .artist-page-container .tracks-section .track-list-div .track-album-cover {
@@ -174,34 +187,101 @@
 }
 
 .artist-page-container .tracks-section .track-list-div .track-list-info small {
-    color: #5e6a7a;
+    color: var(--artist-text-color);
+}
+
+.artist-page-container .tracks-section .control-buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+.artist-page-container .tracks-section .control-buttons .free-div {
+    width: 33.3%;
 }
 
 .artist-page-container .tracks-section .pagination-controls {
     display: flex;
-    justify-content: center; /* Center buttons horizontally */
+    width: 33.3%;
+    justify-content: center;
 }
 
 .artist-page-container .tracks-section .pagination-controls button {
     font-family: "Hind Siliguri", sans-serif;
-    background-color: #007bff; /* Button background color */
-    color: white; /* Button text color */
-    border: none; /* No border */
-    border-radius: 5px; /* Rounded corners */
-    padding: 10px 15px; /* Padding for buttons */
-    margin: 0 5px; /* Space between buttons */
-    font-size: 12px; /* Font size */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    margin: 0 5px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .artist-page-container .tracks-section .pagination-controls button:hover:not(:disabled) {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: var(--button-hover-active-bg-color);
 }
 
 .artist-page-container .tracks-section .pagination-controls button:disabled {
-    background-color: #ccc; /* Light grey for disabled state */
-    cursor: not-allowed; /* Not-allowed cursor for disabled button */
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.artist-page-container .tracks-section .control-buttons .search-div {
+    display: flex;
+    width: 33.3%;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+}
+
+.artist-page-container .tracks-section .control-buttons .search-div .search-input {
+    position: absolute;
+    top: 50%;
+    transform: translateY(0%) translateX(-65%);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.5s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.artist-page-container .tracks-section .control-buttons .search-div.show-search .search-input {
+    transform: translateY(-50%) translateX(-65%);
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.artist-page-container .tracks-section .control-buttons .search-div .search-input input {
+    font-family: "Hind Siliguri", sans-serif;
+    padding: 10px;
+    width: auto;
+    max-width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 12px;
+    outline: none;
+    transition: border 0.3s, width 0.3s ease-in-out;
+}
+
+.artist-page-container .tracks-section .control-buttons .search-div .search-input input:focus {
+    border: 1px solid #3a8ad9;
+}
+
+.artist-page-container .tracks-section .control-buttons .search-div button {
+    font-family: "Hind Siliguri", sans-serif;
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    margin: 0 5px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    z-index: 100;
+}
+
+.artist-page-container .tracks-section .control-buttons .search-div button:hover {
+    background-color: var(--button-hover-active-bg-color);
 }
 
 .artist-page-container .related-artists-section {
@@ -210,6 +290,7 @@
 
 .artist-page-container .related-artists-section h3 {
     font-size: x-large;
+    color: var(--container-h3-text-color);
 }
 
 .artist-page-container .related-artists-section .related-artist-list {
@@ -223,30 +304,45 @@
 
 .artist-page-container .related-artists-section .related-artist-list a {
     text-decoration: none;
-    color: #333;
+    color: var(--title-text-color);
     text-align: center;
 }
 
-.artist-page-container .related-artists-section .related-artist-list a:hover {
-    text-decoration: underline;
+.artist-page-container .related-artists-section .related-artist-list li {
+    transition: background-color 0.2s ease;
+    border-radius: 5px;
+    padding: 1rem;
 }
+
+.artist-page-container .related-artists-section .related-artist-list li:hover {
+    background-color: var(--container-hover-color);
+}
+
 
 .artist-page-container .related-artists-section .related-artist-list .related-artist-item {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Ensure the name is centered below the picture */
-    width: 120px; /* Control the width of each artist card */
-    text-align: center; /* Center-align the text */
+    align-items: center;
+    width: 120px;
+    text-align: center;
+}
+
+.artist-page-container .related-artists-section .related-artist-list .related-artist-item span {
+    color: var(--title-text-color);
 }
 
 .artist-page-container .related-artists-section .related-artist-list .related-artist-item .related-artist-picture {
     width: 100px;
     height: 100px;
-    border: 2px solid #ccc;
     border-radius: 50%;
     margin-bottom: 0;
     object-fit: cover;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.artist-page-container .recent-activities-section h3 {
+    font-size: x-large;
+    color: var(--container-h3-text-color);
 }
 
 .artist-page-container .recent-activities-section .recent-activities-list {
@@ -256,21 +352,16 @@
     margin-bottom: 10px;
 }
 
-.artist-page-container .recent-activities-section .recent-activities-list a {
-    text-decoration: none;
-    color: #4d6d9a;
-}
-
-.artist-page-container .recent-activities-section .recent-activities-list a:hover {
-    text-decoration: none;
-    color: #2c4870;    
-}
-
 .artist-page-container .recent-activities-section .recent-activities-list .recent-activity-div {
     display: flex;
     padding: 10px;
     border-bottom: 1px solid #3039463f;
     align-items: center;
+    transition: background-color 0.2s ease;
+}
+
+.artist-page-container .recent-activities-section .recent-activities-list .recent-activity-div:hover {
+    background-color: var(--container-hover-color);
 }
 
 .artist-page-container .recent-activities-section .recent-activities-list .recent-activity-div .recent-activity-album-cover {
@@ -286,45 +377,30 @@
     display: flex;
     flex-direction: column;
     flex: 1;
+    color: var(--title-text-color);
 }
 
 .artist-page-container .recent-activities-section .recent-activities-list .recent-activity-div .recent-activity-info small {
-    color: #5e6a7a;
+    color: var(--artist-text-color);
 }
 
 .artist-page-container .recent-activities-section .recent-activities-list .recent-activity-div .updated-at {
     font-size: 0.9em;
-    color: #666;
-    margin-left: 10px;        /* Space between text and date */
+    color: var(--info-text-color);
+    margin-left: 10px;
     text-align: right;
+}
+
+.artist-page-container .recent-activities-section .recent-activities-list .recent-activity-div .updated-at a {
+    color: var(--info-text-color);
+    text-decoration: none;
 }
 
 .artist-page-container .tracks-section .pagination-controls {
     display: flex;
-    justify-content: center; /* Center buttons horizontally */
+    justify-content: center;
 }
 
-.artist-page-container .tracks-section .pagination-controls button {
-    font-family: "Hind Siliguri", sans-serif;
-    background-color: #007bff; /* Button background color */
-    color: white; /* Button text color */
-    border: none; /* No border */
-    border-radius: 5px; /* Rounded corners */
-    padding: 10px 15px; /* Padding for buttons */
-    margin: 0 5px; /* Space between buttons */
-    font-size: 12px; /* Font size */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
-}
-
-.artist-page-container .tracks-section .pagination-controls button:hover:not(:disabled) {
-    background-color: #0056b3; /* Darker blue on hover */
-}
-
-.artist-page-container .tracks-section .pagination-controls button:disabled {
-    background-color: #ccc; /* Light grey for disabled state */
-    cursor: not-allowed; /* Not-allowed cursor for disabled button */
-}
 
 @media (max-width: 768px) {
     .artist-page-container {

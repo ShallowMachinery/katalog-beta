@@ -4,7 +4,6 @@ require 'config.php';
 $trackId = $_GET['trackId'];
 $artistId = $_GET['trackMainArtistId'];
 
-// Prepare the SQL query to fetch album details
 $sql = "SELECT DISTINCT ta.`artist_id`, a.*
 FROM `katalog1`.`track_artists` ta
 JOIN `katalog1`.`artists` a ON ta.`artist_id` = a.`artist_id`

@@ -7,7 +7,6 @@ import MenuBar from '../../MenuBar';
 
 function Importer() {
   const [activeTab, setActiveTab] = useState('album');
-  const userToken = localStorage.getItem('access_token');
 
   const renderContent = () => {
     if (activeTab === 'album') {
@@ -17,11 +16,10 @@ function Importer() {
     }
   };
 
-
   useEffect(() => {
     const verifySession = async () => {
-      const sessionExpired = await checkSession(); // Assuming checkSession is async
-      const userToken = localStorage.getItem('access_token'); // Retrieve user token again in case of any changes
+      const sessionExpired = await checkSession();
+      const userToken = localStorage.getItem('access_token');
 
       if (sessionExpired && userToken) {
         localStorage.clear();

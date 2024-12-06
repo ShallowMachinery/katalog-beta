@@ -1,5 +1,4 @@
-import axios from 'axios';
-import refreshSpotifyToken from '../tokenRefresher'; // Adjust the path based on where this file is located
+import refreshSpotifyToken from '../tokenRefresher';
 
 export const getSpotifyAccessToken = async () => {
     const accessTokenExpired = () => {        

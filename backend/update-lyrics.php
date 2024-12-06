@@ -7,7 +7,7 @@ use Firebase\JWT\Key;
 use Firebase\JWT\ExpiredException;
 
 $headers = apache_request_headers();
-$accessToken = $headers['Authorization'] ?? '';
+$accessToken = $headers['authorization'] ?? '';
 
 try {
     if (strpos($accessToken, 'Bearer ') === 0) {
@@ -60,8 +60,7 @@ if ($trackId && $newLyrics) {
     $result = $stmt->get_result();
     $existingLyrics = $result->fetch_assoc();
     $stmt->close();
-
-    // Determine points based on content of newLyrics
+    
     if ($existingLyrics && $newLyrics === '@INSTRUMENTAL') {
         $pointsToAdd = 2;
         $activityType = 'added_lyrics';

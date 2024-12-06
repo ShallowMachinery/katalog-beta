@@ -8,7 +8,6 @@ if (!$artistVanity) {
     exit;
 }
 
-// Get the main artist's Spotify ID based on vanity
 $stmt = $conn->prepare("SELECT `artist_id` FROM `katalog1`.`Artists` WHERE `artist_vanity` = ?");
 $stmt->bind_param("s", $artistVanity);
 $stmt->execute();

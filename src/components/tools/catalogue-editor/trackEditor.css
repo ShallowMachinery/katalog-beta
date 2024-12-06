@@ -2,7 +2,7 @@
     max-width: 70%;
     margin: 100px auto 50px auto;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: var(--container-bg-color);
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     position: relative;
@@ -40,7 +40,7 @@
     display: flex;
     align-items: center;
     margin-bottom: 20px;
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: var(--user-page-container-bg-color);
     border-radius: 10px;
 }
 
@@ -80,12 +80,7 @@
 
 .track-info-page-container .track-main-information .track-details .track-name a {
     text-decoration: none;
-    color: #333;
-    transition: color 0.2s ease;
-}
-
-.track-info-page-container .track-main-information .track-details .track-name a:hover {
-    color: #4d6d9a;
+    color: var(--title-text-color);
 }
 
 .track-info-page-container .track-main-information .track-details .track-explicit {
@@ -100,9 +95,8 @@
 .track-info-page-container .track-main-information .track-details .artist-name {
     margin: 0;
     font-size: 21px;
-    color: #333;
+    color: var(--artist-text-color);
     font-weight: bold;
-    transition: color 0.2s ease;
     line-height: 1.4em;
     max-height: 2.8em;
     overflow: hidden;
@@ -114,30 +108,15 @@
     white-space: normal;
 }
 
-.track-info-page-container .track-main-information .track-details .artist-name:hover {
-    color: #4d6d9a;
-}
-
 .track-info-page-container .track-main-information .track-details .album-name {
     font-size: 18px;
     margin: 0;
-    color: #555;
-    transition: color 0.2s ease;
-}
-
-.track-info-page-container .track-main-information .track-details .album-name:hover {
-    color: #6380a8;
-}
-
-.track-info-page-container .track-main-information .track-details .release-date {
-    font-size: 14px;
-    margin: 4px 0;
-    color: #777;
+    color: var(--info-text-color);
 }
 
 .track-info-page-container .track-information-form {
     position: relative;
-    background-color: rgba(249, 249, 249, 0.85);
+    background-color: var(--user-page-container-bg-color);
     padding: 20px;
     border-radius: 10px;
     font-size: 16px;
@@ -151,7 +130,7 @@
     font-size: 22px;
     margin-top: 0px;
     margin-bottom: 15px;
-    color: #333;
+    color: var(--container-h3-text-color);
 }
 
 .track-info-page-container .track-information-form form {
@@ -167,6 +146,29 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 15px;
+}
+
+.track-info-page-container .track-information-form form .form-group-row label {
+    color: var(--title-text-color);
+}
+
+.track-info-page-container .track-information-form form .form-group-row input {
+    background-color: var(--input-bg-color);
+    color: var(--input-text-color);
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.dark-theme .track-info-page-container .track-information-form form .form-group-row input {
+    border: none;
+    border-bottom: 1px solid #ccc;
+}
+
+.track-info-page-container .track-information-form form .form-group-row input:disabled {
+    background-color: var(--input-bg-color);
+    color: gray;
 }
 
 .track-info-page-container .track-information-form form .form-group {
@@ -207,7 +209,7 @@
     appearance: none;
     width: 40px;
     height: 20px;
-    background-color: #ccc;
+    background-color: var(--track-editor-explicit-checkbox-bg-color);
     border-radius: 12px;
     position: relative;
     outline: none;
@@ -235,39 +237,31 @@
     transform: translateX(18px);
 }
 
-.track-info-page-container .track-information-form form .form-group input {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
 .track-info-page-container .track-information-form select {
     font-family: "Hind Siliguri", sans-serif;
     width: auto;
     max-width: 400px;
     padding: 10px;
     font-size: 16px;
-    color: #333;
-    background-color: #fff;
+    color: var(--input-text-color);
+    background-color: var(--input-bg-color);
     border: 1px solid #ccc;
     border-radius: 5px;
     box-sizing: border-box;
     cursor: pointer;
-    transition: border-color 0.2s ease;
 }
 
-.track-info-page-container .track-information-form select:hover {
-    border-color: #007bff;
+.dark-theme .track-info-page-container .track-information-form select {
+    border: none;
+    border-bottom: 1px solid #ccc;
 }
 
 .track-info-page-container .track-information-form select:focus {
     outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.2); /* Adds focus shadow */
 }
 
 .track-info-page-container .track-information-form select option {
+    background-color: var(--overlay-container-plain-bg-color);
     padding: 10px;
     font-size: 16px;
 }
@@ -293,14 +287,25 @@
 
 .track-information-form .form-group .writer-input-container .suggestions-overlay {
     position: absolute;
-    background-color: white;
+    background-color: var(--overlay-container-plain-bg-color);
+    color: var(--input-text-color);
     border: 1px solid #ddd;
-    border-radius: 5%;
-    max-height: 150px;
-    overflow-y: auto;
-    width: 200px;
+    border-radius: 5px;
+    max-height: 175px;
+    overflow-y: scroll;
+    width: auto;
     z-index: 10;
-    margin-top: 135px;
+    top: inherit;
+    transform: translateY(65%);
+}
+
+.track-information-form .form-group .writer-input-container .suggestions-overlay::-webkit-scrollbar {
+    background-color: var(--input-bg-color);
+}
+
+.track-information-form .form-group .writer-input-container .suggestions-overlay::-webkit-scrollbar-thumb {
+    background-color: var(--input-text-color);
+    border-radius: 5px;
 }
 
 .track-information-form .form-group .writer-input-container .suggestion-item {
@@ -309,7 +314,7 @@
 }
 
 .track-information-form .form-group .writer-input-container .suggestion-item:hover {
-    background-color: #f0f0f0;
+    background-color: var(--container-hover-color);
 }
 
 .track-information-form .form-group button {
@@ -434,5 +439,9 @@
 
     .track-info-page-container .track-information-form h3 {
         font-size: 18px;
+    }
+
+    .track-information-form .form-group .writer-input-container .suggestions-overlay {
+        display: none;
     }
 }

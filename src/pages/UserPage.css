@@ -2,7 +2,7 @@
     max-width: 800px;
     margin: 100px auto 50px auto;
     padding: 20px;
-    background-color: white;
+    background-color: var(--container-bg-color);
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -11,23 +11,24 @@
     display: flex;
     align-items: center;
     text-align: center;
-    padding: 20px; /* Add padding */
-    background: rgba(255, 255, 255, 0.8); /* Slightly opaque background for contrast */
+    padding: 20px;
+    border-radius: 5px;
+    background: var(--user-page-container-bg-color);
 }
 
 .user-page-container .user-info .user-picture-container {
-    position: relative; /* Enable positioning for the overlay */
-    width: 120px; /* Adjust size */
-    height: 120px; /* Adjust size */
+    position: relative;
+    width: 120px;
+    height: 120px;
 }
 
 .user-page-container .user-info .user-picture {
-    width: 100%; /* Make the image fill the container */
-    height: 100%; /* Ensure the image fits the container */
-    border-radius: 50%; /* Circular image */
-    border: 3px solid #fff; /* White border around the picture */
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Stronger shadow */
-    object-fit: cover; /* Cover the container area with the image */
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px solid var(--overlay-container-plain-bg-color);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    object-fit: cover;
 }
 
 .user-page-container .user-info .edit-profile-overlay {
@@ -38,78 +39,75 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.5); /* Semi-transparent dark background */
+    background: rgba(0, 0, 0, 0.5);
     color: white;
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0; /* Initially hidden */
-    font-size: 16px; /* Font size for the label */
-    font-weight: bold; /* Make label bold */
-    transition: opacity 0.3s ease; /* Smooth transition for hover effect */
-    border-radius: 50%; /* Circular image */
-    border: 3px solid #fff; /* White border around the picture */
+    opacity: 0;
+    font-size: 16px;
+    font-weight: bold;
+    transition: opacity 0.3s ease;
+    border-radius: 50%;
+    border: 3px solid #fff;
+}
+
+.dark-theme .user-page-container .user-info .edit-profile-overlay {
+    border: 3px solid #000;
 }
 
 .user-page-container .user-info .user-picture-container:hover .edit-profile-overlay {
-    opacity: 1; /* Show the label when hovered */
-}
-
-/* Optional: Style the "Edit Profile Picture" label */
-.user-page-container .user-info .edit-profile-overlay span {
-    cursor: pointer;
-    color: #007bff; /* Blue color for the text */
-    text-decoration: underline; /* Underline to indicate it's clickable */
+    opacity: 1;
 }
 
 .user-page-container .user-info .user-details {
     text-align: left;
-    flex-grow: 1; /* Allow this section to take up remaining space */
+    flex-grow: 1;
     line-height: 1rem;
     margin-left: 30px;
 }
 
 .user-page-container .user-info .user-details .type {
-    font-size: 16px; /* Font size for user type */
-    color: #7f8c8d; /* Grey color */
+    font-size: 16px;
+    color: var(--info-text-color);
     margin: 0;
     margin-bottom: 5px;
-    font-style: italic; /* Italicize user type */
+    font-style: italic;
 }
 
 .user-page-container .user-info .user-details .legal-name {
-    font-size: 24px; /* Slightly larger font */
+    font-size: 24px;
     margin: 0;
-    color: #2c3e50; /* Darker color for better readability */
-    font-weight: 600; /* Semi-bold font weight */
-    margin-top: 5px; /* Margin for spacing */
-    margin-bottom: 5px; /* Margin for spacing */
+    color: var(--title-text-color);
+    font-weight: 600;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .user-page-container .user-info .user-details .username {
-    font-size: 16px; /* Font size for username */
-    color: #34495e; /* Darker color for contrast */
-    margin-top: 5px; /* Margin for spacing */
-    margin-bottom: 5px; /* Margin for spacing */
+    font-size: 16px;
+    color: var(--artist-text-color);
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .user-page-container .user-info .user-details .points {
-    font-size: 1rem; /* Adjust size as needed */
-    color: #666;     /* Change color as needed */
+    font-size: 1rem;
+    color: var(--info-text-color);
     margin: 0;
-    margin-top: 5px; /* Margin for spacing */
+    margin-top: 5px;
 }
 
 .user-page-container .recent-contributions {
-    background-color: #f9f9f9;
-    border-radius: 8px;
+    background-color: var(--user-page-container-bg-color);
+    border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin: 20px 0;
 }
 
 .user-page-container .recent-contributions h1 {
-    color: #333;
+    color: var(--container-h2-text-color);
     font-size: 1.5em;
     margin-bottom: 15px;
     margin-top: 0px;
@@ -122,66 +120,75 @@
 }
 
 .user-page-container .recent-contributions li {
-    padding: 10px;
     border-bottom: 1px solid #e0e0e0;
 }
 
 .user-page-container .recent-contributions .contribution-item {
-    display: flex;             /* Use flexbox for alignment */
-    align-items: center;      /* Center items vertically */
-    justify-content: space-between; /* Space items evenly */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
 }
 
 .user-page-container .recent-contributions .contribution-item .album-cover {
-    width: 50px;              /* Set width for the album cover */
-    height: 50px;             /* Set height for the album cover */
-    border-radius: 8px;       /* Rounded corners */
-    margin-right: 15px;       /* Space between cover and text */
-    object-fit: cover;        /* Cover the image nicely */
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    margin-right: 15px;
+    object-fit: cover;
 }
 
 .user-page-container .recent-contributions .text-container {
-    flex: 1;                           /* Allow text to take up remaining space */
+    flex: 1;
 }
 
 .user-page-container .recent-contributions a {
     text-decoration: none;
-    color: #007bff;
-    flex: 1;                  /* Allow the link to take up remaining space */
+    color: var(--title-text-color);
+    flex: 1;
+}
+
+.user-page-container .recent-contributions .contribution-item {
+    transition: background-color 0.2s ease;
+    padding: 10px;
+}
+
+.user-page-container .recent-contributions .contribution-item:hover {
+    background-color: var(--container-hover-color);
 }
 
 .user-page-container .recent-contributions .contribution-item .updated-at {
     font-size: 0.9em;
-    color: #666;
-    margin-left: 10px;        /* Space between text and date */
+    color: var(--info-text-color);
+    margin-left: 10px;
 }
 
 .user-page-container .pagination-controls {
     display: flex;
-    justify-content: center; /* Center buttons horizontally */
-    margin: 20px 0; /* Margin for spacing */
+    justify-content: center;
+    margin: 20px 0;
 }
 
 .user-page-container .pagination-controls button {
     font-family: "Hind Siliguri", sans-serif;
-    background-color: #007bff; /* Button background color */
-    color: white; /* Button text color */
-    border: none; /* No border */
-    border-radius: 5px; /* Rounded corners */
-    padding: 10px 15px; /* Padding for buttons */
-    margin: 0 5px; /* Space between buttons */
-    font-size: 16px; /* Font size */
-    cursor: pointer; /* Pointer cursor on hover */
-    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    margin: 0 5px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
 .user-page-container .pagination-controls button:hover:not(:disabled) {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: var(--button-hover-active-bg-color);
 }
 
 .user-page-container .pagination-controls button:disabled {
-    background-color: #ccc; /* Light grey for disabled state */
-    cursor: not-allowed; /* Not-allowed cursor for disabled button */
+    background-color: #ccc;
+    cursor: not-allowed;
 }
 
 @media (max-width: 768px) {
@@ -190,12 +197,12 @@
     }
 
     .user-page-container .user-info {
-        flex-direction: column; /* Stack the picture and details */
-        align-items: center; /* Center-align */
+        flex-direction: column;
+        align-items: center;
     }
 
     .user-page-container .user-info .user-picture {
-        margin-bottom: 15px; /* Space below image */
+        margin-bottom: 15px;
         margin-right: 0px;
     }
 
