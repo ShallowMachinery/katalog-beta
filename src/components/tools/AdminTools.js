@@ -9,6 +9,10 @@ function AdminTools() {
             <MenuBar />
             <h2 className="admin-tools-title">Admin Tools</h2>
             <div className="tool-list">
+                <Link to={`/katalog-admin/reports`} className="tool-entry">
+                    <h4>Database Reports</h4>
+                    <span className="tool-description">View and manage database reports for albums, artists, and tracks</span>
+                </Link>
                 <Link to={`/katalog-admin/tools/importer`} className="tool-entry">
                     <h4>Importer</h4>
                     <span className="tool-description">Import albums or artists to the database from Spotify API</span>

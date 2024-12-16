@@ -34,6 +34,7 @@ try {
 $data = json_decode(file_get_contents('php://input'), true);
 $trackId = $data['trackId'] ?? null;
 $trackName = $data['trackName'] ?? null;
+$trackVanity = $data['trackVanity'] ?? null;
 $isExplicit = $data['isExplicit'] ?? null;
 $trackWriters = array_map(function ($item) {
     return $item['composerName'];
@@ -44,6 +45,7 @@ $trackISRCs = array_map(function ($item) {
 $trackGenreId = $data['trackGenreId'] ?? null;
 $trackGenre = $data['trackGenre'] ?? null;
 $trackLanguage = $data['trackLanguage'] ?? null;
+$youtubeVideoId = $data['youtubeVideoId'] ?? null;
 $contributorId = $decoded->data->user_id ?? null;
 $userHierarchy = $decoded->data->user_hierarchy ?? null;
 $isAdmin = ($userHierarchy === 1);
@@ -58,12 +60,12 @@ $conn->begin_transaction();
 try {
     $stmt = $conn->prepare("
         UPDATE `katalog1`.`Tracks`
-        SET `track_name` = ?, `explicit` = ?
+        SET `track_name` = ?, `track_vanity` = ?, `explicit` = ?, `youtube_video_id` = ?
         WHERE `track_id` = ?");
     if (!$stmt) {
         throw new Exception('Failed to prepare track update statement: ' . $conn->error);
     }
-    $stmt->bind_param("sii", $trackName, $isExplicit, $trackId);
+    $stmt->bind_param("ssisi", $trackName, $trackVanity, $isExplicit, $youtubeVideoId, $trackId);
     if (!$stmt->execute()) {
         throw new Exception('Failed to update track information: ' . $stmt->error);
     }

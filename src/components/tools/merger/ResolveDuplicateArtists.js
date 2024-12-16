@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MenuBar from '../../MenuBar';
 import axios from 'axios';
 import './ResolveDuplicateArtists.css';
@@ -10,6 +11,7 @@ function ResolveDuplicateArtists() {
     const [error, setError] = useState('');
     const [expandedRows, setExpandedRows] = useState([]);
     const [searchQuery, setSearchQuery] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         const userToken = localStorage.getItem('access_token');
@@ -37,7 +39,7 @@ function ResolveDuplicateArtists() {
         const userToken = localStorage.getItem('access_token');
         const idsArray = artistIds.split(',').map(Number);
         const primaryArtistId = idsArray[0];
-    
+
         try {
             const response = await axios.post(`/backend/merge-artists.php`, {
                 primaryArtistId,
@@ -47,7 +49,7 @@ function ResolveDuplicateArtists() {
                     Authorization: `Bearer ${userToken}`
                 }
             });
-    
+
             if (response.data.success) {
                 alert('Artists merged successfully!');
                 window.location.reload();
@@ -86,16 +88,28 @@ function ResolveDuplicateArtists() {
 
             {error && <p className="error-message">{error}</p>}
 
-            <input
-                type="text"
-                className="search-input"
-                placeholder="Search artists..."
-                value={searchQuery}
-                onChange={handleSearch}
-            />
+            <div className="controls">
+                <button onClick={() => navigate("/katalog-admin/tools")}>Go back to tools</button>
+                {duplicateArtists.length > 0 && (
+                    <input
+                        type="text"
+                        placeholder="Search artists..."
+                        value={searchQuery}
+                        onChange={handleSearch}
+                        className="search-input"
+                        autoComplete="off"
+                        autoCorrect="off"
+                        autoCapitalize="off"
+                        spellCheck="false"
+                    />
+                )}
+            </div>
 
             {loading ? (
-                <p>Loading...</p>
+                <div className="loading">
+                    <div className="loading-spinner"></div>
+                    <span>Loading...</span>
+                </div>
             ) : (
                 duplicateArtists.length > 0 ? (
                     <div className="artist-duplicates-list">
@@ -135,7 +149,7 @@ function ResolveDuplicateArtists() {
                                                                 {artist.albums.map(album => (
                                                                     <li key={album.album_id}>
                                                                         <strong>Album Name:</strong> <span title={`Album ID: ${album.album_id}`}>{album.album_name}</span> <br />
-                                                                        <strong>Artist Name:</strong> {album.artist_name} <br />
+                                                                        <strong>Artist Name:</strong> <a href={`/artist/${album.artist_vanity}`}>{album.artist_name}</a> <br />
                                                                         <strong>Artist Vanity:</strong> {album.artist_vanity} <br />
                                                                         {album.artist_spotify_id && (
                                                                             <>
@@ -155,7 +169,7 @@ function ResolveDuplicateArtists() {
                                                                 {artist.tracks.map(track => (
                                                                     <li key={track.track_id}>
                                                                         <strong>Track Name:</strong> <span title={`Track ID: ${track.track_id}`}>{track.track_name}</span> <br />
-                                                                        <strong>Artist Name:</strong> {track.artist_name} <br />
+                                                                        <strong>Artist Name:</strong> <a href={`/artist/${track.artist_vanity}`}>{track.artist_name}</a> <br />
                                                                         <strong>Artist Vanity:</strong> {track.artist_vanity} <br />
                                                                         {track.artist_spotify_id && (
                                                                             <>

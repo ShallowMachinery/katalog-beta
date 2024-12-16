@@ -9,20 +9,6 @@
     z-index: 1;
 }
 
-.loading-spinner {
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #3498db;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    animation: spin 2s linear infinite;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
 .track-info-page-container .dynamic-background {
     position: fixed;
     top: 0;
@@ -34,6 +20,10 @@
     filter: blur(10px);
     z-index: -1;
     opacity: 0.2;
+}
+
+.track-info-page-container .track-not-existing {
+    color: var(--title-text-color);
 }
 
 .track-info-page-container .track-main-information {
@@ -215,6 +205,7 @@
     outline: none;
     cursor: pointer;
     transition: background-color 0.2s;
+    margin-left: auto;
 }
 
 .track-info-page-container .track-information-form form .form-group.checkbox-group input[type="checkbox"]:checked {
@@ -266,16 +257,16 @@
     font-size: 16px;
 }
 
-.track-information-form .form-group .writer-input-container {
+.track-info-page-container .track-information-form .form-group .writer-input-container {
     display: flex;
     align-items: center;
 }
 
-.track-information-form .form-group label {
+.track-info-page-container .track-information-form .form-group label {
     width: 200px;
 }
 
-.track-information-form .form-group .writer-input-container input {
+.track-info-page-container .track-information-form .form-group .writer-input-container input {
     font-family: "Hind Siliguri", sans-serif;
     margin-right: 10px;
     padding: 8px;
@@ -285,7 +276,7 @@
     flex-grow: 1;
 }
 
-.track-information-form .form-group .writer-input-container .suggestions-overlay {
+.track-info-page-container .track-information-form .form-group .writer-input-container .suggestions-overlay {
     position: absolute;
     background-color: var(--overlay-container-plain-bg-color);
     color: var(--input-text-color);
@@ -299,25 +290,25 @@
     transform: translateY(65%);
 }
 
-.track-information-form .form-group .writer-input-container .suggestions-overlay::-webkit-scrollbar {
+.track-info-page-container .track-information-form .form-group .writer-input-container .suggestions-overlay::-webkit-scrollbar {
     background-color: var(--input-bg-color);
 }
 
-.track-information-form .form-group .writer-input-container .suggestions-overlay::-webkit-scrollbar-thumb {
+.track-info-page-container .track-information-form .form-group .writer-input-container .suggestions-overlay::-webkit-scrollbar-thumb {
     background-color: var(--input-text-color);
     border-radius: 5px;
 }
 
-.track-information-form .form-group .writer-input-container .suggestion-item {
+.track-info-page-container .track-information-form .form-group .writer-input-container .suggestion-item {
     padding: 8px;
     cursor: pointer;
 }
 
-.track-information-form .form-group .writer-input-container .suggestion-item:hover {
+.track-info-page-container .track-information-form .form-group .writer-input-container .suggestion-item:hover {
     background-color: var(--container-hover-color);
 }
 
-.track-information-form .form-group button {
+.track-info-page-container .track-information-form .form-group button {
     padding: 6px 12px;
     transition: background-color 0.2s ease;
     color: white;
@@ -328,33 +319,95 @@
     font-family: "Hind Siliguri", sans-serif;
 }
 
-.track-information-form .form-group .writer-input-container button {
+.track-info-page-container .track-information-form .form-group .search-video-button {
+    padding: 6px 12px;
+    transition: background-color 0.2s ease;
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: "Hind Siliguri", sans-serif;
+    transition: background-color 0.2s ease;
+}
+
+.track-info-page-container .track-information-form .form-group .search-video-button:hover {
+    background-color: var(--button-hover-active-bg-color);
+}
+
+.track-info-page-container .track-information-form .form-group .youtube-search-results {
+    background-color: var(--container-bg-color);
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.track-info-page-container .track-information-form .form-group .youtube-search-results .youtube-video-item {
+    background-color: var(--container-bg-color);
+    color: var(--title-text-color);
+    padding: 2rem;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.track-info-page-container .track-information-form .form-group .youtube-search-results .youtube-video-item.active {
+    background-color: var(--hover-color);
+}
+
+.track-info-page-container .track-information-form .form-group .youtube-search-results .youtube-video-item:hover {
+    background-color: var(--hover-color);
+}
+
+.track-info-page-container .track-information-form .form-group .youtube-search-results .youtube-video-item img {
+    width: 160px;
+    height: 120px;
+}
+
+.track-info-page-container .track-information-form .form-group .edit-button {
+    text-decoration: none;
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
+    transition: background-color 0.2s ease;
+    padding: 10px;
+    font-size: small;
+    border-radius: 8px;
+    text-align: center;
+    width: 80px;
+}
+
+.track-info-page-container .track-information-form .form-group .edit-button:hover {
+    background-color: var(--button-hover-active-bg-color);
+}
+
+.track-info-page-container .track-information-form .form-group .writer-input-container button {
     margin-left: 10px;
     background-color: #007bff;
 }
 
-.track-information-form .form-group button.add-writer {
+.track-info-page-container .track-information-form .form-group button.add-writer {
     background-color: #4caf50;
 }
 
-.track-information-form .form-group button.add-writer:hover {
+.track-info-page-container .track-information-form .form-group button.add-writer:hover {
     background-color: #45a049;
 }
 
-.track-information-form .form-group button.remove-writer {
+.track-info-page-container .track-information-form .form-group button.remove-writer {
     background-color: #f44336;
 }
 
-.track-information-form .form-group button.remove-writer:hover {
+.track-info-page-container .track-information-form .form-group button.remove-writer:hover {
     background-color: #e53935;
 }
 
-.track-information-form .form-group .isrc-input-container {
+.track-info-page-container .track-information-form .form-group .isrc-input-container {
     display: flex;
     align-items: center;
 }
 
-.track-information-form .form-group .isrc-input-container input {
+.track-info-page-container .track-information-form .form-group .isrc-input-container input {
     font-family: "Hind Siliguri", sans-serif;
     margin-right: 10px;
     padding: 8px;
@@ -364,28 +417,52 @@
     flex-grow: 1;
 }
 
-.track-information-form .form-group .isrc-input-container button {
+.track-info-page-container .track-information-form .form-group .isrc-input-container button {
     margin-left: 10px;
     background-color: #007bff;
 }
 
-.track-information-form .form-group .isrc-input-container input.invalid {
+.track-info-page-container .track-information-form .form-group .isrc-input-container input.invalid {
     border: 2px solid red;
 }
 
-.track-information-form .form-group button.add-isrc, .track-information-form .form-group button.fetch-isrc {
+.track-info-page-container .track-information-form .form-group button.add-isrc, .track-information-form .form-group button.fetch-isrc {
     background-color: #4caf50;
 }
 
-.track-information-form .form-group button.add-isrc:hover, .track-information-form .form-group button.fetch-isrc:hover {
+.track-info-page-container .track-information-form .form-group button.add-isrc:hover, .track-information-form .form-group button.fetch-isrc:hover {
     background-color: #45a049;
 }
 
-.track-information-form .form-group button.remove-isrc {
+.track-info-page-container .track-information-form .form-group button.remove-isrc {
     background-color: #f44336;
 }
 
-.track-information-form .form-group button.remove-isrc:hover {
+.track-info-page-container .track-information-form .form-group button.remove-isrc:hover {
+    background-color: #e53935;
+}
+
+.track-info-page-container .track-information-form form .buttons {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    gap: 1rem;
+}
+
+.track-info-page-container .track-information-form form .go-back-button {
+    font-family: "Hind Siliguri", sans-serif;
+    background-color: #f44336;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    align-self: flex-end;
+}
+
+.track-info-page-container .track-information-form form .go-back-button:hover {
     background-color: #e53935;
 }
 
@@ -431,6 +508,16 @@
 
     .track-info-page-container .track-main-information .track-details .album-name {
         font-size: 12px;
+    }
+
+    .track-info-page-container .track-information-form .form-group .youtube-search-results {
+        width: 20rem;
+        align-self: center;
+    }
+
+    .track-info-page-container .track-information-form .form-group .youtube-search-results .youtube-video-item img {
+        width: 8rem;
+        height: 6rem;
     }
 
     .track-info-page-container .track-information-form {

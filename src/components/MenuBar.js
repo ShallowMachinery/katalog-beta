@@ -136,10 +136,14 @@ function MenuBar() {
                     params: { term: value }
                 });
                 setShowOverlaySearch(true);
+                console.log(response);
+
+                const sortedTracks = response.data.tracks.sort((a, b) => b.score - a.score);
+
                 setSearchResults({
                     artists: response.data.artists || [],
                     albums: response.data.albums || [],
-                    tracks: response.data.tracks || [],
+                    tracks: sortedTracks,
                     lyrics: response.data.lyrics || [],
                 });
                 setSelectedFilter('all');
@@ -200,7 +204,9 @@ function MenuBar() {
                                                 <a href={`/user/${userData.user_name}`} className="profile-link">
                                                     <li>
                                                         <div className="profile-item">
-                                                            <img src={userData.user_picture_url} alt={userData.user_name} className="profile-picture" loading="lazy" />
+                                                            <img src={userData.user_picture_url && userData.user_picture_url.trim() !== ''
+                                                                ? userData.user_picture_url
+                                                                : '/assets_public/default_user.png'} alt={userData.user_name} className="profile-picture" loading="lazy" />
                                                             <div className="profile-info">
                                                                 {userData.user_name}
                                                             </div>
@@ -208,6 +214,7 @@ function MenuBar() {
                                                     </li>
                                                 </a>
                                             )}
+                                            <hr></hr>
                                             <li onClick={toggleTheme}>
                                                 {isDarkTheme ? 'Dark mode enabled' : 'Dark mode disabled'}
                                             </li>
@@ -281,7 +288,7 @@ function MenuBar() {
                                             <h2 className="search-results-title">Tracks</h2>
                                             <div className="search-results-list">
                                                 {searchResults.tracks.map((track) => (
-                                                    <div key={track.trackId} className="search-result-item">
+                                                    <div className="search-result-item">
                                                         <Link to={`/lyrics/${track.mainArtistVanity}/${track.trackVanity}`} style={{ textDecoration: 'none' }}>
                                                             <img
                                                                 src={track.albumCoverUrl || '/assets_public/music-artist.svg'}

@@ -47,6 +47,15 @@
     background-color: transparent;
 }
 
+.resolve-duplicates-page .artist-duplicates-list table a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.resolve-duplicates-page .artist-duplicates-list table a:hover {
+    text-decoration: underline;
+}
+
 .resolve-duplicates-page .artist-duplicates-list table th, 
 .resolve-duplicates-page .artist-duplicates-list table td {
     padding: 10px;

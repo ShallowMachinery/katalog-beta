@@ -58,10 +58,21 @@ if (!file_exists($targetDir)) {
 }
 
 $targetFile = $targetDir . $userId . ".jpg";
+$userPictureLink = "/assets_public/users/" . $userId . ".jpg";
 
 if (move_uploaded_file($file['tmp_name'], $targetFile)) {
-    echo json_encode(['status' => 'success', 'message' => 'Profile picture uploaded successfully.']);
+    $stmt = $conn->prepare("UPDATE `katalog1`.`accounts` SET `user_picture_link` = ? WHERE `user_id` = ?");
+    $stmt->bind_param("si", $userPictureLink, $userId);
+    
+    if ($stmt->execute()) {
+        echo json_encode(['status' => 'success', 'message' => 'Profile picture uploaded successfully.']);
+    } else {
+        echo json_encode(['status' => 'error', 'message' => 'Failed to update database.']);
+    }
+    $stmt->close();
 } else {
     echo json_encode(['status' => 'error', 'message' => 'Failed to upload profile picture.']);
 }
+
+$conn->close();
 ?>

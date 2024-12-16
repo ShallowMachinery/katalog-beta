@@ -45,7 +45,7 @@
   gap: 10px;
 }
 
-.tabs button {
+.import-box button {
   font-family: "Hind Siliguri", sans-serif;
   flex: 1;
   padding: 10px;
@@ -58,11 +58,11 @@
   transition: background-color 0.2s ease;
 }
 
-.tabs button:hover {
+.import-box button:hover {
   background-color: var(--button-hover-active-bg-color);
 }
 
-.tabs button.active {
+.import-box button.active {
   background-color: var(--button-hover-active-bg-color);
   color: var(--button-text-color);
   cursor: default;

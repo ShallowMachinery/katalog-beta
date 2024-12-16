@@ -15,39 +15,47 @@ function AlbumPage() {
     useEffect(() => {
         const fetchAlbumInfo = async () => {
             try {
-                const response = await axios.get(`/backend/album-info.php`, {
-                    params: { albumVanity, artistVanity },
-                });
+                setLoading(true); // Start loading
+                const [albumInfoResponse, albumTracksResponse, artistAlbumsResponse] = await Promise.all([
+                    axios.get(`/backend/album-info.php`, { params: { albumVanity, artistVanity } }),
+                    axios.get(`/backend/album-tracks.php`, { params: { albumVanity, artistVanity } }),
+                    axios.get(`/backend/artist-albums.php`, { params: { artistVanity } }),
+                ]);
 
-                const albumData = response.data;
+                const albumData = albumInfoResponse.data;
                 setAlbumInfo(albumData);
 
                 if (albumData && albumData.status !== 'error') {
                     document.title = `${albumData.albumName} album by ${albumData.artistName} | Katalog`;
+                } else {
+                    setAlbumInfo(null);
                 }
 
-                const tracksResponse = await axios.get(`/backend/album-tracks.php`, {
-                    params: { albumVanity, artistVanity },
-                });
-                setTracks(tracksResponse.data.tracks);
+                const tracksData = albumTracksResponse.data.tracks;
+                setTracks(tracksData);
 
-                const multiDisc = tracksResponse.data.tracks.some(track => track.discNumber !== 1);
-                setIsMultiDisc(multiDisc);
+                const isMultiDisc = tracksData.some(track => track.discNumber !== 1);
+                setIsMultiDisc(isMultiDisc);
 
-                const moreAlbumsResponse = await axios.get(`/backend/artist-albums.php`, {
-                    params: { artistVanity },
-                });
-                setMoreAlbums(moreAlbumsResponse.data.albums);
+                setMoreAlbums(artistAlbumsResponse.data.albums);
             } catch (error) {
+                console.error("Error fetching album data:", error);
                 if (error.response && error.response.status === 404) {
+                    setAlbumInfo(null);
+                } else {
                     setAlbumInfo(null);
                 }
             } finally {
                 setLoading(false);
             }
         };
+
         fetchAlbumInfo();
     }, [albumVanity, artistVanity]);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     function formatReleaseDate(releaseDate) {
         const date = new Date(releaseDate);
@@ -71,7 +79,10 @@ function AlbumPage() {
             <div>
                 <MenuBar />
                 <div className="album-page-container">
-                <div className="loading-spinner"></div>
+                    <div className="loading">
+                        <div className="loading-spinner"></div>
+                        <span>Loading...</span>
+                    </div>
                 </div>
             </div>
         );
@@ -82,7 +93,7 @@ function AlbumPage() {
             <div>
                 <MenuBar />
                 <div className="album-page-container">
-                    <p>This album doesn't exist.</p>
+                    <p className="album-not-existing">This album doesn't exist.</p>
                 </div>
             </div>
         );
@@ -120,7 +131,7 @@ function AlbumPage() {
                             {isMultiDisc && <h3>Disc {discNumber}</h3>}
                             <ul className="track-list">
                                 {groupedTracks[discNumber].map(track => (
-                                    <a href={`/lyrics/${track.artistVanity}/${track.trackVanity}`}>
+                                    <a key={track.trackId} href={`/lyrics/${track.artistVanity}/${track.trackVanity}`}>
                                         <div key={track.trackId} className="track-list-item">
                                             <span className="track-number">{track.trackNumber}</span>
                                             <div className="track-info">

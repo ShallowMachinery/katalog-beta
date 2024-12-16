@@ -32,12 +32,12 @@ try {
 }
 
 $sql = "
-    SELECT t.track_name, a.artist_name, GROUP_CONCAT(t.track_id) AS track_ids, COUNT(*) AS duplicate_count, t.creation_date AS date_added
+    SELECT t.track_name, a.artist_name, GROUP_CONCAT(t.track_id) AS track_ids, COUNT(*) AS duplicate_count, MAX(t.creation_date) AS date_added
     FROM katalog1.tracks t
     JOIN katalog1.artists a ON t.track_main_artist_id = a.artist_id
     GROUP BY t.track_name, a.artist_name
     HAVING COUNT(*) > 1
-    ORDER BY t.track_name ASC;
+    ORDER BY MAX(t.creation_date) DESC;
 ";
 
 $result = $conn->query($sql);

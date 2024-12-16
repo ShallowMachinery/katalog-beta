@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AlbumImporter from './album-importer/albumImporter';
 import ArtistImporter from './artist-importer/artistImporter';
 import './Importer.css';
@@ -7,6 +8,7 @@ import MenuBar from '../../MenuBar';
 
 function Importer() {
   const [activeTab, setActiveTab] = useState('album');
+  const navigate = useNavigate();
 
   const renderContent = () => {
     if (activeTab === 'album') {
@@ -44,6 +46,7 @@ function Importer() {
             {renderContent()}
           </div>
         </div>
+        <button onClick={() => navigate("/katalog-admin/tools")} style={{ marginTop: "1rem" }}>Go back to tools</button>
       </div>
     </div>
   );

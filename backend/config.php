@@ -32,9 +32,9 @@ $secretKey = $_ENV['JWT_SECRET_KEY'] ?? null;
 if ($secretKey === null) {
     die(json_encode(['success' => false, 'message' => 'Secret key not found.']));
 }
-$servername = "127.0.0.1";
-$username = "root";
-$password = "";
+$servername = $_ENV['SERVERNAME'] ?? null;
+$username = $_ENV['USERNAME'] ?? null;
+$password = $_ENV['PASSWORD'] ?? null;
 $dbname = "katalog1";
 
 $conn = new mysqli($servername, $username, $password, $dbname);

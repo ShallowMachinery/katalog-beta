@@ -9,6 +9,10 @@
     z-index: 1;
 }
 
+.album-page-container .album-not-existing {
+    color: var(--title-text-color);
+}
+
 .album-page-container .dynamic-background {
     position: fixed;
     top: 0;
@@ -118,7 +122,7 @@
     line-height: 75%;
 }
 
-.album-page-container .tracks-section .track-list-item .track-info .track-title{
+.album-page-container .tracks-section .track-list-item .track-info .track-title {
     line-height: 100%;
 }
 

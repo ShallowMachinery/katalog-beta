@@ -90,7 +90,7 @@
     top: 3.5rem;
     right: 1rem;
     background-color: var(--overlay-container-bg-color);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
     z-index: 100;
     width: 12.5rem;
@@ -114,6 +114,7 @@
     background-color: var(--hover-color);
     color: var(--hover-text-color);
     width: auto;
+    border-radius: 5px;
 }
 
 .menu-bar .menu-right-div .menu-links .overlay-container .profile-link {
@@ -130,6 +131,12 @@
     height: 100px;
     border-radius: 50%;
     object-fit: cover;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.dark-theme .menu-bar .menu-right-div .menu-links .overlay-container .profile-link img {
+    background-color: transparent;
 }
 
 .menu-bar .menu-right-div .not-logged-in-links {
@@ -200,6 +207,7 @@
     margin-bottom: 5px;
     border-bottom: 1px solid #ddd;
     padding-bottom: 5px;
+    text-align: center;
 }
 
 .menu-bar .search-overlay .overlay-content .category-container .search-results-list {
@@ -274,7 +282,7 @@
         display: block;
         background-color: transparent;
         color: white;
-        border: none; 
+        border: none;
         font-size: larger;
     }
 
@@ -290,9 +298,13 @@
         transform: translateY(90%);
         background: transparent;
         border: none;
-        color: white;
+        color: black;
         font-size: 20px;
         z-index: 1000;
+    }
+
+    .dark-theme .menu-bar .menu-right-div .search-input-container .close-button {
+        color: white;
     }
 
     .menu-bar .search-overlay {

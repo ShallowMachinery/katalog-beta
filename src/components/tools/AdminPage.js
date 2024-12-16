@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import MenuBar from '../../MenuBar';
+import MenuBar from '../MenuBar';
 import axios from 'axios';
-import './ResolveDuplicateTracks.css';
 
 function ResolveDuplicateTracks() {
     const [duplicateTracks, setDuplicateTracks] = useState([]);
@@ -12,17 +10,11 @@ function ResolveDuplicateTracks() {
     const [selectedTracks, setSelectedTracks] = useState({});
     const [searchQuery, setSearchQuery] = useState('');
     const [sortConfig, setSortConfig] = useState({
-        key: 'date_added',
-        direction: 'descending',
+        key: 'track_name',
+        direction: 'ascending',
     });
-    const location = useLocation();
-    const navigate = useNavigate();
 
     useEffect(() => {
-        const params = new URLSearchParams(location.search);
-        const trackNameFromURL = params.get('trackName');
-        const artistNameFromURL = params.get('artistName');
-
         const fetchDuplicateTracks = async () => {
             const userToken = localStorage.getItem('access_token');
             try {
@@ -33,21 +25,6 @@ function ResolveDuplicateTracks() {
                 });
                 console.log(response.data);
                 setDuplicateTracks(response.data);
-
-                if (trackNameFromURL) {
-                    setExpandedRows((prev) => [...prev, trackNameFromURL]);
-
-                    const rows = document.querySelectorAll('tr');
-                    rows.forEach(row => {
-                        const trackCell = row.querySelector('td');
-                        const artistCell = row.querySelectorAll('td')[1];
-                        if (trackCell && artistCell &&
-                            trackCell.textContent.includes(trackNameFromURL) &&
-                            artistCell.textContent.includes(artistNameFromURL)) {
-                            row.scrollIntoView({ behavior: 'smooth' });
-                        }
-                    });
-                }
             } catch (error) {
                 console.error('Error fetching duplicates:', error);
                 setError('Error fetching track duplicates');
@@ -55,9 +32,8 @@ function ResolveDuplicateTracks() {
                 setLoading(false);
             }
         };
-
         fetchDuplicateTracks();
-    }, [location.search]);
+    }, []);
 
     const filteredTracks = duplicateTracks.filter(track => {
         return track.track_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -74,11 +50,11 @@ function ResolveDuplicateTracks() {
             if (key === 'date_added') {
                 const dateA = a.date_added ? new Date(a.date_added.replace(' ', 'T')) : new Date(0);
                 const dateB = b.date_added ? new Date(b.date_added.replace(' ', 'T')) : new Date(0);
-
+                
                 if (isNaN(dateA.getTime()) || isNaN(dateB.getTime())) {
                     return 0;
                 }
-
+                
                 return direction === 'ascending' ? dateA - dateB : dateB - dateA;
             }
 
@@ -202,29 +178,16 @@ function ResolveDuplicateTracks() {
 
             {error && <p className="error-message">{error}</p>}
 
-            <div className="controls">
-                <button onClick={() => navigate("/katalog-admin/tools")}>Go back to tools</button>
-                {duplicateTracks.length > 0 && (
-                    <input
-                        type="text"
-                        placeholder="Search tracks or artists..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="search-input"
-                        autoComplete="off"
-                        autoCorrect="off"
-                        autoCapitalize="off"
-                        spellCheck="false"
-                    />
-                )}
-            </div>
-
+            <input
+                type="text"
+                placeholder="Search tracks or artists"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="search-input"
+            />
 
             {loading ? (
-                <div className="loading">
-                    <div className="loading-spinner"></div>
-                    <span>Loading...</span>
-                </div>
+                <p>Loading...</p>
             ) : (
                 duplicateTracks.length > 0 ? (
                     <div className="track-duplicates-list">
@@ -243,7 +206,7 @@ function ResolveDuplicateTracks() {
                             <tbody>
                                 {filteredTracks.map((track) => (
                                     <React.Fragment key={track.track_id}>
-                                        <tr key={track.track_name}>
+                                        <tr>
                                             <td>{track.track_name}</td>
                                             <td>{track.artist_name}</td>
                                             <td>{track.duplicate_count}</td>
@@ -271,7 +234,7 @@ function ResolveDuplicateTracks() {
                                                                             onChange={() => handleCheckboxChange(track.track_name, detail.track_id)}
                                                                         />
                                                                         <strong>Track ID:</strong> {detail.track_id} <br />
-                                                                        <strong>Track Name:</strong> <a style={{ textDecoration: "none", color: "inherit" }} href={`/lyrics/${detail.artist_vanity}/${detail.track_vanity}`}>{detail.track_name}</a> <br />
+                                                                        <strong>Track Name:</strong> <a href={`/lyrics/${detail.artist_vanity}/${detail.track_vanity}`}>{detail.track_name}</a> <br />
                                                                         <strong>Artist ID:</strong> {detail.artist_id} <br />
                                                                         <strong>Artist Name:</strong> {detail.artist_name} <br />
                                                                         <strong>Album Name:</strong> {detail.album_name} <br />

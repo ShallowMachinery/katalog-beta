@@ -26,6 +26,8 @@ function ArtistPage() {
 
     useEffect(() => {
         const fetchArtistInfo = async () => {
+            setLoading(true);
+            window.scrollTo(0, 0);
             try {
                 const response = await axios.get(`/backend/artist-info.php`, {
                     params: { artistVanity },
@@ -141,7 +143,10 @@ function ArtistPage() {
             <div>
                 <MenuBar />
                 <div className="artist-page-container">
-                    <div className="loading-spinner"></div>
+                    <div className="loading">
+                        <div className="loading-spinner"></div>
+                        <span>Loading...</span>
+                    </div>
                 </div>
             </div>
         );
@@ -152,7 +157,7 @@ function ArtistPage() {
             <div>
                 <MenuBar />
                 <div className="artist-page-container">
-                    <p>This artist doesn't exist.</p>
+                    <p className="artist-not-existing">This artist doesn't exist.</p>
                 </div>
             </div>
         );
@@ -186,7 +191,7 @@ function ArtistPage() {
         <div>
             <MenuBar />
             <div className="artist-page-container">
-                <div className="dynamic-background" style={{ backgroundImage: `url(${artistInfo.artistPictureUrl})` }}></div>
+                <div className="dynamic-background" style={{ backgroundImage: `url(${artistInfo.artistType === "Multiple" ? (relatedArtists[0]?.artistPictureUrl) : artistInfo.artistPictureUrl})` }}></div>
                 <div className="artist-info">
                     <img
                         src={artistInfo.artistType === "Multiple" ? (relatedArtists[0]?.artistPictureUrl ?? '/assets_public/person.svg') : (artistInfo.artistPictureUrl ? artistInfo.artistPictureUrl : '/assets_public/person.svg')}
@@ -227,25 +232,26 @@ function ArtistPage() {
                                             </>
                                         )}
                                     </div>
-                                    <div className={`search-div ${showSearchInput ? 'show-search' : ''}`}>
-                                        <div className="search-input">
-                                            <input
-                                                type="text"
-                                                placeholder="Search tracks..."
-                                                value={trackSearch}
-                                                onChange={(e) => {
-                                                    setPage(0);
-                                                    setTrackSearch(e.target.value);
-                                                }}
-                                            />
-                                        </div>
-                                        <button
-                                            onClick={() => setShowSearchInput(!showSearchInput)}
-                                            className="toggle-search-btn"
-                                        >
-                                            {showSearchInput ? 'Hide Search' : 'Show Search'}
-                                        </button>
-                                    </div>
+                                    {filteredTracks.length > 0 && (
+                                        <div className={`search-div ${showSearchInput ? 'show-search' : ''}`}>
+                                            <div className="search-input">
+                                                <input
+                                                    type="text"
+                                                    placeholder="Search tracks..."
+                                                    value={trackSearch}
+                                                    onChange={(e) => {
+                                                        setPage(0);
+                                                        setTrackSearch(e.target.value);
+                                                    }}
+                                                />
+                                            </div>
+                                            <button
+                                                onClick={() => setShowSearchInput(!showSearchInput)}
+                                                className="toggle-search-btn"
+                                            >
+                                                {showSearchInput ? 'Hide Search' : 'Show Search'}
+                                            </button>
+                                        </div>)}
                                 </div>
                                 {filteredTracks.length > 0 ? (
                                     <ul className="track-list">
@@ -270,7 +276,7 @@ function ArtistPage() {
                                         ))}
                                     </ul>
                                 ) : (
-                                    <p style={{ textAlign: "center" }}>No tracks found for this artist. Try a different search term.</p>
+                                    <p style={{ textAlign: "center" }}>No tracks found for this artist. {trackSearch.length > 0 ? "Try a different search term." : ""}</p>
                                 )}
                                 {isMobile && filteredTracks.length > limit && (
                                     <div className="pagination-controls" style={{ marginLeft: "auto" }}>
@@ -290,10 +296,20 @@ function ArtistPage() {
                         {showAlbums && (
                             <>
                                 <div className="album-filters">
-                                    <button onClick={() => handleFilterChange('all')} className={albumFilter === 'all' ? 'active' : ''}>Show all</button>
-                                    <button onClick={() => handleFilterChange('single')} className={albumFilter === 'single' ? 'active' : ''}>Singles</button>
-                                    <button onClick={() => handleFilterChange('ep')} className={albumFilter === 'ep' ? 'active' : ''}>EPs</button>
-                                    <button onClick={() => handleFilterChange('album')} className={albumFilter === 'album' ? 'active' : ''}>Albums</button>
+                                    {albums.length > 0 && (
+                                        <>
+                                            <button onClick={() => handleFilterChange('all')} className={albumFilter === 'all' ? 'active' : ''}>Show all</button>
+                                            {albums.some(album => album.albumType === 'single') && (
+                                                <button onClick={() => handleFilterChange('single')} className={albumFilter === 'single' ? 'active' : ''}>Singles</button>
+                                            )}
+                                            {albums.some(album => album.albumType === 'ep') && (
+                                                <button onClick={() => handleFilterChange('ep')} className={albumFilter === 'ep' ? 'active' : ''}>EPs</button>
+                                            )}
+                                            {albums.some(album => ['album', 'compilation'].includes(album.albumType)) && (
+                                                <button onClick={() => handleFilterChange('album')} className={albumFilter === 'album' ? 'active' : ''}>Albums</button>
+                                            )}
+                                        </>
+                                    )}
                                 </div>
                                 {filteredAlbums.length > 0 ? (
                                     <ul className="album-list">
@@ -308,7 +324,7 @@ function ArtistPage() {
                                         ))}
                                     </ul>
                                 ) : (
-                                    <p style={{ textAlign: "center " }}>No albums available for this filter.</p>
+                                    <p style={{ textAlign: "center" }}>{filteredAlbums.length === 0 ? (albums.length === 0 ? "This artist has no albums." : "No albums available for this filter.") : ""}</p>
                                 )}
                             </>
                         )}
@@ -333,7 +349,7 @@ function ArtistPage() {
                                 </li>
                             ))
                         ) : (
-                            <li>No related artists found.</li>
+                            <p>No related artists found.</p>
                         )}
                     </ul>
                 </div>

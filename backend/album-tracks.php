@@ -35,8 +35,8 @@ JOIN
 JOIN 
     `katalog1`.`Artists` a2 ON aa.`artist_id` = a2.`artist_id`
 WHERE 
-    a2.`artist_vanity` = ?  -- Match the album artist vanity
-    AND al.`album_vanity` = ?  -- Match the album vanity
+    a2.`artist_vanity` = ?
+    AND al.`album_vanity` = ?
 GROUP BY 
     t.`track_id`, al.`album_id`, ta2.`track_number`, t.`disc_number`
 ORDER BY 

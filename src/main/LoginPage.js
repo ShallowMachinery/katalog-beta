@@ -44,8 +44,6 @@ function LoginPage() {
                 password
             });
     
-            console.log("Login response:", response.data);
-    
             if (response.data.success) {
                 const { user_id, user_name, user_hierarchy, token } = response.data.user;
                 localStorage.setItem('user_id', user_id);

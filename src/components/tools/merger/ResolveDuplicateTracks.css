@@ -16,7 +16,26 @@
     margin-bottom: 20px;
 }
 
-.resolve-duplicates-page .search-input {
+.resolve-duplicates-page .controls {
+    display: flex;
+}
+
+.resolve-duplicates-page .controls button {
+    font-family: "Hind Siliguri", sans-serif;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.resolve-duplicates-page .controls button:hover {
+    background-color: var(--button-hover-active-bg-color);
+}
+
+.resolve-duplicates-page .controls .search-input {
     font-family: "Hind Siliguri", sans-serif;
     padding: 10px;
     width: 50rem;

@@ -1,0 +1,282 @@
+.database-reports-page {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 100px auto;
+    background-color: var(--container-bg-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.database-reports-page h2 {
+    text-align: center;
+    font-size: 28px;
+    color: var(--container-h2-text-color);
+    margin-bottom: 20px;
+}
+
+.database-reports-page .database-reports .tracks-controls, .database-reports-page .database-reports .albums-controls, .database-reports-page .database-reports .artists-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    color: var(--title-text-color);
+}
+
+.database-reports-page .database-reports .search-input-page {
+    font-family: "Hind Siliguri", sans-serif;
+    padding: 8px 12px;
+    font-size: medium;
+    border-radius: 4px;
+    border: none;
+    width: 20rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: var(--input-bg-color);
+    color: var(--input-text-color);
+}
+
+.dark-theme .database-reports-page .database-reports .search-input-page {
+    border-bottom: 1px solid #ccc;
+}
+
+.database-reports-page .database-reports select {
+    font-family: "Hind Siliguri", sans-serif;
+    width: auto;
+    max-width: 400px;
+    padding: 10px;
+    font-size: 16px;
+    color: var(--input-text-color);
+    background-color: var(--input-bg-color);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    cursor: pointer;
+    margin: 0 5px;
+}
+
+.dark-theme .database-reports-page .database-reports select {
+    border: none;
+    border-bottom: 1px solid #ccc;
+}
+
+.database-reports-page .database-reports select:focus {
+    outline: none;
+}
+
+.database-reports-page .database-reports select option {
+    background-color: var(--overlay-container-plain-bg-color);
+    padding: 10px;
+    font-size: 16px;
+}
+
+.database-reports-page .database-reports fieldset {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.database-reports-page .database-reports fieldset legend {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: var(--title-text-color);
+}
+
+.database-reports-page .database-reports fieldset label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    color: var(--artist-text-color);
+    transition: color 0.3s ease;
+}
+
+.database-reports-page .database-reports fieldset label:hover {
+    color: var(--title-text-color);
+}
+
+.database-reports-page .database-reports fieldset label input[type="checkbox"] {
+    -webkit-appearance: none; /* Remove default checkbox styling */
+    appearance: none; /* Cross-browser reset */
+    width: 16px;
+    height: 16px;
+    margin: 0 5px;
+    border: 2px solid #ccc;
+    border-radius: 50%; /* Make it circular */
+    background-color: #fff; /* Background for unselected state */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.database-reports-page .database-reports fieldset label input[type="checkbox"]:checked {
+    background-color: #007bff; /* Change background for selected state */
+    border-color: #007bff;
+}
+
+.database-reports-page .database-reports fieldset label input[type="checkbox"]:hover {
+    box-shadow: 0 0 3px #007bff; /* Add shadow on hover */
+}
+
+.database-reports-page .database-reports fieldset label input[type="checkbox"]:focus {
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 3px #0056b3; /* Add a custom focus effect */
+}
+
+.database-reports-page .database-reports .tracks-controls label select {
+    font-family: "Hind Siliguri", sans-serif;
+    padding: 10px;
+    max-width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    margin: 0 5px;
+}
+
+.database-reports-page .database-reports {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: var(--container-bg-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.database-reports-page .database-reports h3 {
+    color: var(--container-h3-text-color);
+    font-size: 1.8em;
+    margin-bottom: 15px;
+}
+
+.database-reports-page .database-reports table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.database-reports-page .database-reports table th, .database-reports-page .database-reports table td {
+    padding: 10px;
+    border: 1px solid #ced4da;
+    text-align: left;
+}
+
+.database-reports-page .database-reports table img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.database-reports-page .database-reports table th {
+    background-color: var(--lyric-page-container-bg-color);
+    font-weight: bold;
+    color: var(--title-text-color);
+}
+
+.database-reports-page .database-reports table a {
+    text-decoration: none;
+    color: var(--title-text-color);
+}
+
+.database-reports-page .database-reports table a:hover {
+    text-decoration: underline;
+}
+
+.database-reports-page .database-reports table td {
+    color: var(--title-text-color);
+    word-wrap: break-word;
+}
+
+.database-reports-page .database-reports table td .album-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.database-reports-page .database-reports table td:nth-child(-n+3) {
+    width: 20%;
+}
+
+.database-reports-page .database-reports table td button {
+    font-family: "Hind Siliguri", sans-serif;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.database-reports-page .database-reports table td button:hover {
+    background-color: var(--button-hover-active-bg-color);
+}
+
+.database-reports-page .database-reports .pagination {
+    margin-top: 2rem;
+    color: var(--title-text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.database-reports-page .database-reports .pagination button {
+    font-family: "Hind Siliguri", sans-serif;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.database-reports-page .database-reports .pagination button:hover {
+    background-color: var(--button-hover-active-bg-color);
+}
+
+
+.database-reports-page .database-reports ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 10px;
+}
+
+.database-reports-page .database-reports ul li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #e9ecef;
+    font-size: 1.2em;
+}
+
+.database-reports-page .database-reports ul li:last-child {
+    border-bottom: none;
+}
+
+.database-reports-page .database-reports ul li button {
+    padding: 5px 15px;
+    border: none;
+    border-radius: 4px;
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.database-reports-page .database-reports ul li button:hover {
+    background-color: var(--button-hover-active-bg-color);
+}
+
+.database-reports-page .error-message {
+    color: red;
+    text-align: center;
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}

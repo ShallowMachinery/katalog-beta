@@ -10,6 +10,10 @@
     margin-bottom: 100px;
 }
 
+.lyrics-page-container .track-not-existing {
+    color: var(--title-text-color);
+}
+
 .lyrics-page-container .dynamic-background {
     position: fixed;
     top: 0;
@@ -172,7 +176,7 @@
 
 .lyrics-section .suggestions-overlay {
     position: absolute;
-    background: #fff;
+    background: var(--overlay-container-bg-color);
     border: 1px solid #ccc;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     z-index: 100;
@@ -190,7 +194,7 @@
 }
 
 .lyrics-section .suggestions-overlay .suggestion-item:hover {
-    background: #f0f0f0;
+    background: var(--hover-color);
 }
 
 
@@ -446,10 +450,14 @@
     line-height: 1.6;
     color: var(--info-text-color);
     margin-top: 20px;
-    display: flex;
     background-color: var(--container-bg-color);
     border-radius: 8px;
     gap: 15px;
+}
+
+.additional-info .more-information {
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 .additional-info .more-information .info-header {
@@ -463,7 +471,7 @@
     margin-left: auto;
 }
 
-.additional-info .more-information .info-header .edit-info-button-container .edit-info-button {
+.lyrics-page-container .edit-info-button {
     font-family: "Hind Siliguri", sans-serif;
     background-color: var(--button-bg-color);
     border: none;
@@ -489,6 +497,45 @@
     font-size: 15px;
 }
 
+.additional-info .more-information .info-table .artists-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.additional-info .more-information .info-table .artist-container {
+    background-color: var(--lyric-page-artist-div-bg-color);
+    transition: background-color 0.2s ease;
+    border-radius: 25px;
+}
+
+.additional-info .more-information .info-table .artist-container:hover {
+    background-color: var(--lyric-page-artist-div-hover-bg-color);
+}
+
+.additional-info .more-information .info-table .artist-container .artist-div {
+    width: auto;
+    height: auto;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    gap: 0.5rem;
+    text-decoration: none;
+}
+
+.additional-info .more-information .info-table .artist-container .artist-div .artist-small-picture {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.additional-info .more-information .info-table .artist-container .artist-div .artist-name {
+    color: var(--title-text-color);
+}
+
 .additional-info .more-information .info-table tr .isrc-buttons {
     font-family: "Hind Siliguri", sans-serif;
     border: none;
@@ -511,8 +558,8 @@
     font-weight: bold;
     color: var(--title-text-color);
     padding-right: 50px;
-    width: 1%;
     white-space: nowrap;
+    vertical-align: middle;
 }
 
 .additional-info .more-information .info-table td:last-child {
@@ -521,13 +568,18 @@
 }
 
 .additional-info .track-albums {
-    margin-left: 30px;
+    margin-top: 20px;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 .additional-info .track-albums .track-album-header {
     font-size: 20px;
-    margin-bottom: 15px;
     color: var(--title-text-color);
+}
+
+.additional-info .track-albums .albums {
+    margin-top: 1rem;
 }
 
 .additional-info .track-albums .album-entry {
@@ -580,6 +632,47 @@
     color: var(--info-text-color);
     margin: 0;
     font-size: 0.9em;
+}
+
+.youtube-embed {
+    padding: 20px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--title-text-color);
+    margin-top: 20px;
+    background-color: var(--container-bg-color);
+    border-radius: 8px;
+}
+
+.youtube-embed h3 {
+    line-height: 0;
+}
+
+.youtube-embed .embed-div {
+    position: relative;
+    width: 100%;
+    height: auto;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.youtube-embed .embed-div iframe {
+    width: 100%;
+    height: 57.5vh;
+    aspect-ratio: 16/9;
+    border-radius: 10px;
+}
+
+.youtube-embed .embed-div .no-video-existing {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.youtube-embed .embed-div .no-video-existing .edit-info-button {
+    margin-top: auto;
 }
 
 @media (max-width: 768px) {
@@ -651,6 +744,10 @@
         font-size: 12px;
     }
 
+    .youtube-embed .embed-div iframe {
+        height: 100%;
+    }
+
     .additional-info {
         padding: 20px;
         font-size: 16px;
@@ -659,6 +756,13 @@
         margin-top: 20px;
         display: flex;
         gap: 0px;
+    }
+
+    .additional-info .more-information {
+        width: auto;
+        border-right: 0;
+        padding-left: 0;
+        padding-right: 0;
     }
 
     .additional-info .more-information .info-header {
@@ -679,7 +783,9 @@
     }
 
     .additional-info .track-albums {
-        margin-top: 20px;
+        width: auto;
+        padding-left: 0;
+        padding-right: 0;
     }
 
     .additional-info .track-albums .track-album-header {

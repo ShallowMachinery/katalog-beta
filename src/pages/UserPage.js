@@ -19,6 +19,20 @@ function UserPage() {
         setToast({ show: true, message, type });
     };
 
+    const fetchContributions = useCallback(async (userToken, username) => {
+        try {
+            const contributionsResponse = await axios.get(`/backend/user-recent-contributions.php`, {
+                headers: {
+                    'Authorization': `Bearer ${userToken}`
+                },
+                params: { username },
+            });
+            setRecentContributions(contributionsResponse.data.contributions || []);
+        } catch (error) {
+            console.error('Error fetching contributions:', error);
+        }
+    }, []);
+
     const fetchUserInfo = useCallback(async () => {
         try {
             const userToken = localStorage.getItem('access_token');
@@ -43,21 +57,7 @@ function UserPage() {
             console.error('Error fetching user info or data:', error);
             setLoading(false);
         }
-    }, [username]);
-
-    const fetchContributions = useCallback(async (userToken, username) => {
-        try {
-            const contributionsResponse = await axios.get(`/backend/user-recent-contributions.php`, {
-                headers: {
-                    'Authorization': `Bearer ${userToken}`
-                },
-                params: { username },
-            });
-            setRecentContributions(contributionsResponse.data.contributions || []);
-        } catch (error) {
-            console.error('Error fetching contributions:', error);
-        }
-    }, []);
+    }, [username, fetchContributions]);
 
     useEffect(() => {
         fetchUserInfo();
@@ -108,7 +108,7 @@ function UserPage() {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            
+
             if (response.data.status === "error") {
                 showToast(response.data.message, "error");
             } else {
@@ -116,7 +116,7 @@ function UserPage() {
                 setTimeout(() => {
                     window.location.reload();
                 }, 2000);
-            }            
+            }
         } catch (error) {
             console.error('Error uploading profile picture:', error);
             showToast("Failed to upload profile picture", "error");
@@ -185,7 +185,10 @@ function UserPage() {
             <div>
                 <MenuBar />
                 <div className="user-page-container">
-                    <div className="loading-spinner"></div>
+                    <div className="loading">
+                        <div className="loading-spinner"></div>
+                        <span>Loading...</span>
+                    </div>
                 </div>
             </div>
         );
@@ -196,7 +199,7 @@ function UserPage() {
             <div>
                 <MenuBar />
                 <div className="user-page-container">
-                    <p>This user doesn't exist.</p>
+                    <p className="user-not-existing">This user doesn't exist.</p>
                 </div>
             </div>
         );
@@ -226,7 +229,7 @@ function UserPage() {
                                     style={{ display: 'none' }}
                                 />
                             </label>
-                        </div>} 
+                        </div>}
                     </div>
                     <div className="user-details">
                         <p className="type">{userInfo.user_type_name}</p>
@@ -276,7 +279,7 @@ function UserPage() {
                             })}
                         </ul>
                     ) : (
-                        <p>No recent contributions found.</p>
+                        <p className="no-contributions">No recent contributions found.</p>
                     )}
 
                     {recentContributions.length > limit && (

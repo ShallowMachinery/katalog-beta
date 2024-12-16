@@ -6,6 +6,8 @@ import Importer from './components/tools/importer/Importer';
 import ResolveDuplicateArtists from './components/tools/merger/ResolveDuplicateArtists';
 import ResolveDuplicateTracks from './components/tools/merger/ResolveDuplicateTracks';
 import TrackEditor from './components/tools/catalogue-editor/trackEditor';
+import AlbumEditor from './components/tools/catalogue-editor/albumEditor';
+import ArtistEditor from './components/tools/catalogue-editor/artistEditor';
 import ArtistPage from './pages/ArtistPage';
 import AlbumPage from './pages/AlbumPage';
 import LyricsPage from './pages/LyricsPage';
@@ -13,9 +15,11 @@ import HomePage from './main/HomePage';
 import LoginPage from './main/LoginPage';
 import RegisterPage from './main/RegisterPage';
 import UserPage from './pages/UserPage';
+import AdminPage from './components/tools/AdminPage';
 import NotFoundPage from './main/NotFoundPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import AuthenticatedRoute from './components/AuthenticatedRoute';
+import DatabaseReports from './components/tools/reports/DatabaseReports';
 
 import './App.css';
 
@@ -28,23 +32,39 @@ function App() {
         {/* Admin routes */}
         <Route
           path="/katalog-admin/tools"
-          element={<ProtectedRoute element={<AdminTools />} allowedHierarchy={1} />}
+          element={<ProtectedRoute element={<AdminTools />} adminOnly={true} />}
+        />
+        <Route
+          path="/katalog-admin/tools/all"
+          element={<ProtectedRoute element={<AdminPage />} adminOnly={true} />}
         />
         <Route
           path="/katalog-admin/tools/importer"
-          element={<ProtectedRoute element={<Importer />} allowedHierarchy={1} />}
+          element={<ProtectedRoute element={<Importer />} adminOnly={true} />}
         />
         <Route
           path="/katalog-admin/tools/artist-merger"
-          element={<ProtectedRoute element={<ResolveDuplicateArtists />} allowedHierarchy={1} />}
+          element={<ProtectedRoute element={<ResolveDuplicateArtists />} adminOnly={true} />}
         />
         <Route
           path="/katalog-admin/tools/track-merger"
-          element={<ProtectedRoute element={<ResolveDuplicateTracks />} allowedHierarchy={1} />}
+          element={<ProtectedRoute element={<ResolveDuplicateTracks />} adminOnly={true} />}
+        />
+        <Route
+          path="/katalog-admin/reports"
+          element={<ProtectedRoute element={<DatabaseReports />} adminOnly={true} />}
         />
         <Route
           path="/katalog-admin/catalogue-editor/track/:trackId"
-          element={<ProtectedRoute element={<TrackEditor />} allowedHierarchy={1} />}
+          element={<ProtectedRoute element={<TrackEditor />} adminOnly={true} />}
+        />
+        <Route
+          path="/katalog-admin/catalogue-editor/album/:albumId"
+          element={<ProtectedRoute element={<AlbumEditor />} adminOnly={true} />}
+        />
+        <Route
+          path="/katalog-admin/catalogue-editor/artist/:artistId"
+          element={<ProtectedRoute element={<ArtistEditor />} adminOnly={true} />}
         />
 
         {/* Public routes */}

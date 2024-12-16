@@ -31,7 +31,7 @@ try {
     exit;
 }
 
-$trackId = $_GET['trackId'] ?? '';
+$albumId = $_GET['albumId'] ?? '';
 
 $stmt = $conn->prepare("
     SELECT 
@@ -39,25 +39,18 @@ $stmt = $conn->prepare("
         t.`track_name` AS `trackName`,
         t.`track_vanity` AS `trackVanity`,
         t.`track_main_artist_id` AS `trackMainArtistId`,
-        t.`youtube_video_id` AS `youtubeVideoId`,
-        ts.`track_spotify_id` AS `trackSpotifyId`,
-        a.`artist_id` AS `artistId`,
         a.`artist_name` AS `artistName`, 
-        a.`artist_vanity` AS `artistVanity`, 
+        a.`artist_vanity` AS `artistVanity`,
         al.`album_id` AS `albumId`,
         al.`album_name` AS `albumName`,
-        al.`album_cover_url` AS `albumCoverUrl`,
         al.`album_vanity` AS `albumVanity`,
+        al.`album_cover_url` AS `albumCoverUrl`,
         al.`release_date` AS `releaseDate`,
         al.`label_name` AS `labelName`,
         t.`duration` AS `trackDuration`,
         t.`explicit` AS `isExplicit`,
         ta2.`track_number` AS `trackNumber`,
-        ta2.`disc_number` AS `discNumber`,
-        a2.`artist_vanity` AS `albumArtistVanity`,
-        tg.`genre_id` AS `trackGenreId`,
-        g.`genre_name` AS `trackGenre`,
-        MAX(tl.`language`) AS `language`
+        ta2.`disc_number` AS `discNumber`
     FROM 
         `katalog1`.`Tracks` t
     JOIN 
@@ -70,29 +63,19 @@ $stmt = $conn->prepare("
         `katalog1`.`Album_Artists` aa ON al.`album_id` = aa.`album_id`
     JOIN 
         `katalog1`.`Artists` a2 ON aa.`artist_id` = a2.`artist_id`
-	LEFT JOIN
-		`katalog1`.`Track_Genres` tg ON t.`track_id` = tg.`track_id`
-	LEFT JOIN
-		`katalog1`.`Genres` g ON tg.`genre_id` = g.`genre_id`
-    LEFT JOIN
-        `katalog1`.`Track_Spotify_IDs` ts ON t.`track_id` = ts.`track_id`
-    LEFT JOIN
-        `katalog1`.`Track_Lyrics` tl ON t.`track_id` = tl.`track_id`
     WHERE 
-        t.`track_id` = ?
+        al.`album_id` = ?
     GROUP BY 
-        t.`track_id`, al.`album_id`, ta2.`track_number`, a2.`artist_vanity`
-	LIMIT 1;
+        t.`track_id`, al.`album_id`, ta2.`track_number`, t.`disc_number`
+    ORDER BY 
+        ta2.`disc_number` ASC, ta2.`track_number` ASC;
     ");
-$stmt->bind_param("i", $trackId);
+$stmt->bind_param("i", $albumId);
 $stmt->execute();
 $result = $stmt->get_result();
-$trackInfo = $result->fetch_assoc();
-
-echo json_encode($trackInfo);
+$albumTracks = $result->fetch_all(MYSQLI_ASSOC);
+echo json_encode($albumTracks);
 
 $stmt->close();
-
-
 $conn->close();
 ?>

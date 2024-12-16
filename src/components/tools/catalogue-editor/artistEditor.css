@@ -1,0 +1,176 @@
+.artist-info-page-container {
+    max-width: 70%;
+    margin: 100px auto 50px auto;
+    padding: 20px;
+    background-color: var(--container-bg-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+}
+
+.artist-info-page-container .artist-not-existing {
+    color: var(--title-text-color);
+}
+
+.artist-info-page-container .dynamic-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    filter: blur(10px);
+    z-index: -1;
+    opacity: 0.2;
+}
+
+.artist-info-page-container .artist-main-information {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: var(--user-page-container-bg-color);
+    border-radius: 10px;
+}
+
+.artist-info-page-container .artist-main-information .artist-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+    margin-right: 20px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.artist-info-page-container .artist-main-information .artist-name {
+    margin: 0;
+    font-size: 21px;
+    color: var(--title-text-color);
+    font-weight: bold;
+    line-height: 1.4em;
+    max-height: 2.8em;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    white-space: normal;
+}
+
+.artist-info-page-container .artist-information-form h3 {
+    font-size: 22px;
+    margin-top: 0px;
+    margin-bottom: 15px;
+    color: var(--container-h3-text-color);
+}
+
+.artist-info-page-container .artist-information-form {
+    position: relative;
+    background-color: var(--user-page-container-bg-color);
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.artist-info-page-container .artist-information-form form .form-group-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.artist-info-page-container .artist-information-form form .form-group-row label {
+    color: var(--title-text-color);
+}
+
+.artist-info-page-container .artist-information-form form .form-group-row input {
+    background-color: var(--input-bg-color);
+    color: var(--input-text-color);
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: "Hind Siliguri", sans-serif;
+    width: auto;
+}
+
+.dark-theme .artist-info-page-container .artist-information-form form .form-group-row input {
+    border: none;
+    border-bottom: 1px solid #ccc;
+}
+
+.artist-info-page-container .artist-information-form .form-group-row input:disabled {
+    background-color: var(--input-bg-color);
+    color: gray;
+}
+
+.artist-info-page-container .artist-information-form form .form-group {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.artist-info-page-container .artist-information-form .buttons {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    gap: 1rem;
+}
+
+.artist-info-page-container .artist-information-form .buttons .fetch-artist-info-button {
+    font-family: "Hind Siliguri", sans-serif;
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    align-self: flex-end;
+}
+
+.artist-info-page-container .artist-information-form .buttons .fetch-artist-info-button:hover {
+    background-color: #45a049;
+}
+
+.artist-info-page-container .artist-information-form .buttons .go-back-button {
+    font-family: "Hind Siliguri", sans-serif;
+    background-color: #f44336;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    align-self: flex-end;
+}
+
+.artist-info-page-container .artist-information-form .buttons .go-back-button:hover {
+    background-color: #e53935;
+}
+
+.artist-info-page-container .artist-information-form .buttons .save-button {
+    font-family: "Hind Siliguri", sans-serif;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    align-self: flex-end;
+}
+
+.artist-info-page-container .artist-information-form .buttons .save-button:hover {
+    background-color: #0056b3;
+}

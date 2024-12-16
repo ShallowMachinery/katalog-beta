@@ -10,6 +10,8 @@ $stmt = $conn->prepare("
         t.`track_name` AS `trackName`,
         t.`track_vanity` AS `trackVanity`,
         t.`track_main_artist_id` AS `trackMainArtistId`,
+        t.`youtube_video_id` AS `youtubeVideoId`,
+        a.`artist_picture_link` AS `artistPictureUrl`,
         a.`artist_name` AS `artistName`, 
         a.`artist_vanity` AS `artistVanity`, 
         a.`artist_type` AS `artistType`,

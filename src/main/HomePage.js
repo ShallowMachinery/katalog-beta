@@ -28,10 +28,14 @@ function reducer(state, action) {
 function HomePage() {
     const [state, dispatch] = useReducer(reducer, initialState);
     const { featuredArtists, recentContributions, recentContributionsLength } = state;
-    const [stats, setStats] = useState({ track_count: null, artist_count: null, album_count: null, lyrics_count: null });
+    const [stats, setStats] = useState({ track_count: 0, artist_count: 0, album_count: 0, lyrics_count: 0 });
+    const [animatedStats, setAnimatedStats] = useState({ track_count: 0, artist_count: 0, album_count: 0, lyrics_count: 0 });
+    const [animatedContributionsLength, setAnimatedContributionsLength] = useState(0);
     const [page, setPage] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isLoadingFeaturedArtists, setIsLoadingFeaturedArtists] = useState(false);
     const [isLoadingContributions, setIsLoadingContributions] = useState(true);
+    const [dataLoaded, setDataLoaded] = useState(false);
     const limit = 10;
     const navigate = useNavigate();
     const userToken = localStorage.getItem('access_token');
@@ -52,6 +56,7 @@ function HomePage() {
 
     useEffect(() => {
         const fetchFeaturedArtists = async () => {
+            setIsLoadingFeaturedArtists(true);
             try {
                 const response = await axios.get(`/backend/featured-artists.php`);
                 if (response.data.artists) {
@@ -62,9 +67,11 @@ function HomePage() {
             } catch (error) {
                 console.error('Error fetching featured artists:', error);
             }
+            setIsLoadingFeaturedArtists(false);
         };
 
         const fetchRecentContributions = async () => {
+            setIsLoadingContributions(true);
             try {
                 const userToken = localStorage.getItem('access_token');
                 const sessionExpired = await checkSession();
@@ -111,10 +118,72 @@ function HomePage() {
             }
         };
 
-        fetchFeaturedArtists();
-        fetchRecentContributions();
-        fetchStatistics();
+        const fetchAllData = async () => {
+            try {
+                await Promise.all([fetchFeaturedArtists(), fetchRecentContributions(), fetchStatistics()]);
+            } finally {
+                setDataLoaded(true);
+            }
+        };
+
+        fetchAllData();
     }, []);
+
+    const easeInOutQuad = (t) => {
+        return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+    };
+
+    useEffect(() => {
+        if (dataLoaded) {
+            const animateStats = (key, targetValue, duration = 4000) => {
+                const startTime = performance.now();
+
+                const updateValue = (currentTime) => {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const easedProgress = easeInOutQuad(progress);
+                    const currentValue = Math.floor(easedProgress * targetValue);
+
+                    setAnimatedStats((prev) => ({ ...prev, [key]: currentValue }));
+
+                    if (progress < 1) {
+                        requestAnimationFrame(updateValue);
+                    }
+                };
+
+                requestAnimationFrame(updateValue);
+            };
+
+            Object.keys(stats).forEach((key) => {
+                animateStats(key, stats[key]);
+            });
+        }
+    }, [dataLoaded, stats]);
+
+    useEffect(() => {
+        if (dataLoaded && recentContributionsLength !== null) {
+            const animateValue = (targetValue, duration = 4000) => {
+                const startTime = performance.now();
+
+                const updateValue = (currentTime) => {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const easedProgress = easeInOutQuad(progress);
+                    const currentValue = Math.floor(easedProgress * targetValue);
+
+                    setAnimatedContributionsLength(currentValue);
+
+                    if (progress < 1) {
+                        requestAnimationFrame(updateValue);
+                    }
+                };
+
+                requestAnimationFrame(updateValue);
+            };
+
+            animateValue(recentContributionsLength);
+        }
+    }, [dataLoaded, recentContributionsLength]);
 
     const handleModalConfirm = () => {
         localStorage.clear();
@@ -138,6 +207,7 @@ function HomePage() {
         verified_lyrics: 'Verified',
     };
 
+
     return (
         <div className="home-page-container">
             <MenuBar />
@@ -154,27 +224,26 @@ function HomePage() {
                 <h1>Welcome to Katalog</h1>
                 <p>Your one-stop destination for music lyrics and artist information.</p>
             </div>
-
             <div className="stats-section">
                 <div className="stat-item">
-                    <div className="stat-number">{stats.track_count ?? "..."}</div>
+                    <div className="stat-number">{animatedStats.track_count}</div>
                     <div className="stat-label">tracks</div>
                 </div>
                 <div className="stat-item">
-                    <div className="stat-number">{stats.artist_count ?? "..."}</div>
-                    <div className="stat-label">artists</div>
-                </div>
-                <div className="stat-item">
-                    <div className="stat-number">{stats.album_count ?? "..."}</div>
+                    <div className="stat-number">{animatedStats.album_count}</div>
                     <div className="stat-label">albums</div>
                 </div>
                 <div className="stat-item">
-                    <div className="stat-number">{stats.lyrics_count ?? "..."}</div>
+                    <div className="stat-number">{animatedStats.artist_count}</div>
+                    <div className="stat-label">artists</div>
+                </div>
+                <div className="stat-item">
+                    <div className="stat-number">{animatedStats.lyrics_count}</div>
                     <div className="stat-label">lyrics</div>
                 </div>
                 {userToken && (
                     <div className="stat-item">
-                        <div className="stat-number">{isLoadingContributions ? "..." : recentContributionsLength}</div>
+                        <div className="stat-number">{animatedContributionsLength}</div>
                         <div className="stat-label">contributions so far</div>
                     </div>
                 )}
@@ -182,23 +251,33 @@ function HomePage() {
 
             <section className="featured-artists-section">
                 <h2>Featured Artists</h2>
-                <ul className="artist-list">
-                    {featuredArtists.map((artist) => (
-                        <li key={artist.artistVanity} className="artist-item">
-                            <Link to={`/artist/${artist.artistVanity}`} style={{ textDecoration: 'none' }}>
-                                <img src={artist.artistPictureUrl || '/assets_public/music-artist.svg'} alt={artist.artistName} className="artist-picture" /><br />
-                                <span className="artist-name">{artist.artistName}</span>
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
+                {isLoadingFeaturedArtists ?
+                    <div className="loading">
+                        <div className="loading-spinner"></div>
+                        <span>Loading...</span>
+                    </div>
+                    :
+                    <ul className="artist-list">
+                        {featuredArtists.map((artist) => (
+                            <li key={artist.artistVanity} className="artist-item">
+                                <Link to={`/artist/${artist.artistVanity}`} style={{ textDecoration: 'none' }}>
+                                    <img src={artist.artistPictureUrl || '/assets_public/music-artist.svg'} alt={artist.artistName} className="artist-picture" /><br />
+                                    <span className="artist-name">{artist.artistName}</span>
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                }
             </section>
 
             {userToken && (
                 <section className="recent-contributions-section">
                     <h1>Recent Contributions</h1>
                     {isLoadingContributions ? (
-                        <div className="loading-spinner"></div>
+                        <div className="loading">
+                            <div className="loading-spinner"></div>
+                            <span>Loading...</span>
+                        </div>
                     ) : (
                         displayedContributions.length > 0 ? (
                             <ul>
@@ -242,7 +321,7 @@ function HomePage() {
                                 })}
                             </ul>
                         ) : (
-                            <p>No recent contributions found.</p>
+                            <p style={{ textAlign: "center" }}>No recent contributions found.</p>
                         )
                     )}
                     {recentContributions.length > limit && (

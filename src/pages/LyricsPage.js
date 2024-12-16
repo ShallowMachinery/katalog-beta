@@ -163,6 +163,7 @@ function LyricsPage() {
                     setTrackHasMultipleArtists(true);
                     setTrackArtists(artistsResponse.data);
                 }
+
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching track info or lyrics:', error);
@@ -409,7 +410,10 @@ function LyricsPage() {
             <div>
                 <MenuBar />
                 <div className="lyrics-page-container">
-                    <div className="loading-spinner"></div>
+                    <div className="loading">
+                        <div className="loading-spinner"></div>
+                        <span>Loading...</span>
+                    </div>
                 </div>
             </div>
         );
@@ -420,7 +424,7 @@ function LyricsPage() {
             <div>
                 <MenuBar />
                 <div className="lyrics-page-container">
-                    <p>This track doesn't exist.</p>
+                    <p className="track-not-existing">This track doesn't exist.</p>
                 </div>
             </div>
         );
@@ -567,6 +571,36 @@ function LyricsPage() {
                     )}
                 </div>
 
+                <div className="youtube-embed">
+                    <div className="embed-header">
+                        <h3>YouTube video</h3>
+                    </div>
+                    <div className="embed-div">
+                        {trackInfo.youtubeVideoId ? (
+                            <iframe
+                                title={`${trackInfo.trackName} video`}
+                                className="youtube-embed-fixed"
+                                src={`https://www.youtube.com/embed/${trackInfo.youtubeVideoId}`}
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                loading="lazy"
+                            />
+                        ) : trackInfo.youtubeVideoId !== null ? (
+                            <div className="loading">
+                                <div className="loading-spinner"></div>
+                                <span>Loading video...</span>
+                            </div>
+                        ) : (
+                            <div className="no-video-existing">
+                                <p>No YouTube video available for this track yet.</p>
+                                {isUserAdmin && <Link to={`/katalog-admin/catalogue-editor/track/${trackInfo.trackId}`} style={{ textDecoration: 'none' }}>
+                                    <button className="edit-info-button">+ Add video</button>
+                                </Link>}
+                            </div>
+                        )}
+                    </div>
+                </div>
+
                 <div className="additional-info">
                     <div className="more-information">
                         <div className="info-header">
@@ -582,22 +616,33 @@ function LyricsPage() {
                                 <tr>
                                     <td>{trackHasMultipleArtists ? `Track artists` : `Track artist`}</td>
                                     <td>
-                                        {!trackHasMultipleArtists ? (
-                                            <Link className="artist-name" style={{ textDecoration: 'none', color: 'inherit' }} to={`/artist/${trackInfo.artistVanity}`}>
-                                                {trackInfo.artistName}
-                                            </Link>
-                                        ) : (
-                                            <>
-                                                {trackArtists.artists.map((artist, index) => (
-                                                    <React.Fragment key={artist.artist_id}>
-                                                        <Link className="artist-name" style={{ textDecoration: 'none', color: 'inherit' }} to={`/artist/${artist.artist_vanity}`}>
-                                                            {artist.artist_name}
+                                        <div className="artists-container">
+                                            {!trackHasMultipleArtists ? (
+                                                <>
+                                                    <div className="artist-container">
+                                                        <Link className="artist-div" to={`/artist/${trackInfo.artistVanity}`}>
+                                                            <img className="artist-small-picture" alt={trackInfo.artistName} src={trackInfo.artistPictureUrl ?? '/assets_public/person.svg'} />
+                                                            <span className="artist-name">
+                                                                {trackInfo.artistName}
+                                                            </span>
                                                         </Link>
-                                                        {index < trackArtists.artists.length - 1 && '; '}
-                                                    </React.Fragment>
-                                                ))} <Link className="artist-name" style={{ textDecoration: 'none', color: 'inherit' }} to={`/artist/${trackInfo.artistVanity}`}><br /><small>Go to combined artist page</small></Link>
+                                                    </div>
+                                                </>
+                                            ) : (<>
+                                                {trackArtists.artists.map((artist, index) => (
+                                                    <div className="artist-container" key={artist.artist_id}>
+                                                        <Link className="artist-div" to={`/artist/${artist.artist_vanity}`}>
+                                                            <img className="artist-small-picture" alt={artist.artist_name} src={artist.artist_picture_link ?? '/assets_public/person.svg'} />
+                                                            <span className="artist-name">
+                                                                {artist.artist_name}
+                                                            </span>
+                                                        </Link>
+                                                    </div>
+                                                ))}
                                             </>
-                                        )}</td>
+                                            )}
+                                        </div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>{trackInfo.writerCount > 1 ? `Writers` : `Writer`}</td>
@@ -690,7 +735,7 @@ function LyricsPage() {
                     <div className="track-albums">
                         <strong className="track-album-header">Albums where this track is listed</strong>
                         {albums.length > 0 ? (
-                            <div>
+                            <div className="albums">
                                 {albums.map((album) => (
                                     <div key={album.album_id} className="album-entry">
                                         <Link to={`/album/${album.artist_vanity}/${album.album_vanity}`} className="album-link">

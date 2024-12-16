@@ -7,6 +7,10 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.user-page-container .user-not-existing {
+    color: var(--title-text-color);
+}
+
 .user-page-container .user-info {
     display: flex;
     align-items: center;
@@ -104,6 +108,10 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin: 20px 0;
+}
+
+.user-page-container .recent-contributions .no-contributions {
+    color: var(--title-text-color);
 }
 
 .user-page-container .recent-contributions h1 {

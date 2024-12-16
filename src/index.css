@@ -25,6 +25,8 @@
   --artist-text-color: #666;
   --info-text-color: #666;
   --lyric-page-container-bg-color: #f9f9f98f;
+  --lyric-page-artist-div-bg-color: #cde5ff;
+  --lyric-page-artist-div-hover-bg-color: #c0d7f0;
   --lyric-page-verify-button-hover-color: #2d405a;
   --user-page-container-bg-color: #fcfbfb8f;
   --track-editor-explicit-checkbox-bg-color: #e0e0e0;
@@ -61,6 +63,8 @@
   --artist-text-color: #e7e7e7;
   --info-text-color: #e7e7e7;
   --lyric-page-container-bg-color: #1313138f;
+  --lyric-page-artist-div-bg-color: #3f3f3f;
+  --lyric-page-artist-div-hover-bg-color: #313131;
   --lyric-page-verify-button-hover-color: #575757;
   --user-page-container-bg-color: #1313138f;
   --track-editor-explicit-checkbox-bg-color: #303030;
@@ -68,6 +72,32 @@
   --home-page-gradient-two-color: #2c3e50;
   --home-page-container-bg-color: #4d6d9a1a;
   --home-page-after-color: #f5f5f5;
+}
+
+.loading {
+  padding: 10rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.loading span {
+  color: var(--title-text-color);
+}
+
+.loading .loading-spinner {
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 body {
