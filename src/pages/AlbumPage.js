@@ -15,7 +15,7 @@ function AlbumPage() {
     useEffect(() => {
         const fetchAlbumInfo = async () => {
             try {
-                setLoading(true); // Start loading
+                setLoading(true);
                 const [albumInfoResponse, albumTracksResponse, artistAlbumsResponse] = await Promise.all([
                     axios.get(`/backend/album-info.php`, { params: { albumVanity, artistVanity } }),
                     axios.get(`/backend/album-tracks.php`, { params: { albumVanity, artistVanity } }),

@@ -25,8 +25,8 @@ $stmt = $conn->prepare("
         t.`explicit` AS `isExplicit`,
         ta2.`track_number` AS `trackNumber`,
         ta2.`disc_number` AS `discNumber`,
-        a2.`artist_vanity` AS `albumArtistVanity`,  -- Fetch the album artist vanity
-        GROUP_CONCAT(DISTINCT te.`isrc` SEPARATOR ', ') AS `isrc`,  -- Fetch the ISRC from Track_External_IDs
+        a2.`artist_vanity` AS `albumArtistVanity`,
+        GROUP_CONCAT(DISTINCT te.`isrc` SEPARATOR ', ') AS `isrc`,
         IF(TRIM(tl.`lyrics`) = '@INSTRUMENTAL', 1, 0) AS `isInstrumental`,
         ts.`track_spotify_id` AS `trackSpotifyId`,
         GROUP_CONCAT(DISTINCT c.`composer_name` SEPARATOR '; ') AS `writers`,
@@ -42,13 +42,13 @@ $stmt = $conn->prepare("
     JOIN 
         `katalog1`.`Albums` al ON ta2.`album_id` = al.`album_id`
     JOIN 
-        `katalog1`.`Album_Artists` aa ON al.`album_id` = aa.`album_id`  -- Join Album_Artists to get album artist id
+        `katalog1`.`Album_Artists` aa ON al.`album_id` = aa.`album_id`
     JOIN 
-        `katalog1`.`Artists` a2 ON aa.`artist_id` = a2.`artist_id`  -- Join Artists table to get album artist's vanity
+        `katalog1`.`Artists` a2 ON aa.`artist_id` = a2.`artist_id`
     JOIN
         `katalog1`.`Track_Lyrics` tl ON t.`track_id` = tl.`track_id`
     LEFT JOIN 
-        `katalog1`.`Track_External_IDs` te ON t.`track_id` = te.`track_id`  -- Left join to get ISRC if available
+        `katalog1`.`Track_External_IDs` te ON t.`track_id` = te.`track_id`
     LEFT JOIN 
         `katalog1`.`Track_Spotify_IDs` ts ON t.`track_id` = ts.`track_id`
 	LEFT JOIN
@@ -69,7 +69,7 @@ $stmt = $conn->prepare("
             LIMIT 1
         )
     GROUP BY 
-        t.`track_id`, al.`album_id`, ta2.`track_number`, a2.`artist_vanity` -- Include a2.`artist_vanity` in GROUP B
+        t.`track_id`, al.`album_id`, ta2.`track_number`, a2.`artist_vanity`
     ORDER BY
         al.`release_date` ASC
 	LIMIT 1;

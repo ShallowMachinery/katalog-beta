@@ -6,6 +6,209 @@ A music platform for managing lyrics, contributions, and artists.
 
 A music platform for managing lyrics, contributions, and artists, where users can contribute to song lyrics, manage their contributions, and view artist information, with features including user authentication and session handling, contribution tracking and display, user pointing system, and Spotify embed integration, providing a comprehensive and engaging experience for music enthusiasts.
 
+## Features
+
+### User Management and Contribution Tracking
+- User account creation and login capabilities
+- User profile picture update functionality
+- User pages to view recent contributions
+- Point system awarding points for adding new lyrics and editing/updating existing lyrics
+- Modification attribution with links to user pages of recent modifiers
+- Lyric locking feature for admins to prevent direct edits by member accounts
+- Instrumental lyrics marking with point rewards and optional verification by admins
+
+### Comprehensive Song Information
+- Artist page with song discography, albums with categorization, and recent activities
+- Track information editing for admins, including fetching track ISRC and adding track writers
+- Enhanced track details with writer information and ISRC display option
+- Admin-only features for track information management and verification
+- Album categorization (Singles, EPs, Albums, or view all options)
+
+### Lyrics Management
+- Lyric page with Spotify embeds, font size toggler, where users can add or edit lyrics
+- Advanced lyric tagging and language detection using DetectLanguage API
+- Instrumental lyrics marking with point rewards and optional verification by admins
+- Enhanced lyric locking and verification/deletion by admins with customizable permissions
+
+### Search and Filtering
+- Search function on homepage with responsive design
+- Search filtering for artist song discography and duplicates resolver pages
+- Robust search filtering for artist song discography and duplicates resolver pages
+
+### User Interface
+- Designed home page for enhanced user engagement and modern aesthetic
+- Modernized log in and register pages with responsive layout and clear typography
+- Implemented toast and modal notifications for improved user experience and feedback
+- Enhanced font size toggler for lyrics page to accommodate diverse user needs
+- App-wide dark mode for improved user experience
+
+### Admin Tools
+- Admin tools page with access to artist/album data importer from Spotify, artist and track merger, allowing administrators to:
+  - Import album information, including associated tracks and artist details, from Spotify into the database
+  - Merge duplicate artist entries to maintain data consistency
+  - Merge duplicate track entries to maintain data consistency
+    #### In lyrics editor page:
+    - Manage and verify track information, including ISRC and writer details
+    - Lock lyrics to prevent direct edits by member accounts
+    - Verify or delete member-made lyrics smoothly
+
+## Getting Started
+
+To get started with Katalog, follow these steps:
+
+### Prerequisites
+
+* Node.js and npm installed
+* PHP and Apache environment (e.g., XAMPP for local development)
+* HTTPS support for Spotify embeds (e.g., using a self-signed certificate)
+* Database setup (if applicable) via MySQL
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+git clone https://github.com/ShallowMachinery/katalog-beta
+cd katalog-beta
+```
+2. Install dependencies:
+   ```bash
+npm install
+cd backend
+composer install
+```
+3. If using Apache Web Server, please update the Document Root and the Directory in the config (`XAMPP-installation-folder/apache/conf/httpd.conf`) to the location where the web app is cloned. This is necessary for the backend files to work as intended.
+
+For example:
+
+```conf
+DocumentRoot "C:/xampp/htdocs" ---> DocumentRoot "C:/path/to/where/katalog-beta/is"
+```
+
+```conf
+<Directory "C:/xampp/htdocs">
+    Options Indexes FollowSymLinks
+    AllowOverride All
+    Require all granted
+</Directory>
+```
+
+   --->
+
+```conf
+<Directory "C:/path/to/where/katalog-beta/is">
+    Options Indexes FollowSymLinks
+    AllowOverride All
+    Require all granted
+</Directory>
+```
+
+4. Open up MySQL and import the database schema `sqldumpYYYYMMDDHHMM.sql` file in the project root.
+
+5. Alternatively, you can use my own environment variables instead of creating new ones. However, if you prefer to use your own, create a `.env` file in the project root (please see the section below for more information on getting or generating API keys) and add the following keys:
+
+```bash
+REACT_APP_SPOTIFY_CLIENT_ID={your_spotify_client_id}
+REACT_APP_SPOTIFY_CLIENT_SECRET={your_spotify_client_secret}
+REACT_APP_SPOTIFY_REFRESH_TOKEN={your_spotify_refresh_token}
+REACT_APP_DETECT_LANGUAGE_API_KEY={your_detectlanguage_api_key}
+REACT_APP_YOUTUBE_API_KEY={your_youtube_api_key}
+```
+
+Also create a .env file in the backend directory and add the following keys:
+
+```bash
+JWT_SECRET_KEY={your_jwt_secret_key}
+SERVERNAME={servername}
+USERNAME={database_username}
+PASSWORD={database_password}
+```
+
+6. Run the following commands in the project root:
+
+```bash
+npm start
+```
+
+## Usage Examples
+
+### Adding New Lyrics
+
+To add new lyrics, navigate to the lyrics page and click on the "Add lyrics" button. You can also add tags and mark the song as instrumental if applicable.
+
+### Editing Existing Lyrics
+
+To edit existing lyrics which is unverified by an administrator, navigate to the lyrics page and click on the "Edit lyrics" button. Make the necessary changes to the lyrics and click "Save" to update the changes.
+
+### Searching for Songs
+
+To search for songs, you can use the search bar in the menu bar to enter a song title, artist name, album name, or even part of the lyrics. You can then also filter the search results to show every result, or only selected categories (tracks, artists, albums, lyrics).
+
+### Viewing Artist Information
+
+To view artist information, navigate to the artist page and click on the artist's name. You can view their discography, recent user activities, and related artists.
+
+### Using Admin Tools
+
+To use admin tools, navigate to the admin tools page and click on the desired tool. You can import album information, merge duplicate artist entries, and more.
+
+## API Documentation
+
+### User Management
+- login.php
+- register.php
+- user-info.php
+- user-recent-contributions.php
+- upload-profile-picture.php
+- check-session.php
+
+### Catalogue Viewing
+- featured-artists.php
+- album-info.php
+- album-tracks.php
+- artist-info.php
+- artist-albums.php
+- artist-tracks.php
+- related-artists.php
+- recent-artist-activity.php
+- track-info.php
+- track-lyrics.php
+- get-track-albums.php
+- get-track-artists.php
+- verified-lyrics-info.php
+
+### Lyrics Management
+- update-lyrics.php
+- verify-lyrics.php
+- delete-lyrics.php
+
+### Editor Functions
+- editor-check-vanity.php
+- editor-get-album-info.php
+- editor-get-album-tracks.php
+- editor-update-album-info.php
+- delete-album.php
+- editor-get-artist-info.php
+- editor-update-artist-info.php
+- editor-get-track-info.php
+- editor-get-track-composers.php
+- editor-get-composers.php
+- editor-get-genres.php
+- editor-update-track-info.php
+
+### Admin Tools
+- importAlbum.php
+- timer.php
+- get-duplicate-artists.php
+- merge-artists.php
+- get-duplicate-tracks.php
+- merge-tracks.php
+
+### Search and Reports
+- search.php
+- get-all-count.php
+- get-database-reports.php
+- recent-contributions.php
+
 ## Version History
 
 Note: OV denotes old or former version.
@@ -105,3 +308,39 @@ Note: OV denotes old or former version.
 - Improved the loading spinner animation.
 - Revamped the more information section on the lyrics page.
 - Enhanced database functionality to include a video key for displaying YouTube embeds in the lyric page.
+
+## Getting API Keys
+
+### Spotify API License
+
+1. Go to the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/) and create an account if you haven't already.
+2. Click on "Create an App" and fill in the required information.
+3. Go to the "Edit Settings" page and click on "Show Client Secret" to obtain your Client ID and Client Secret.
+4. You will also need to obtain a Refresh Token, which can be done by following the instructions in the [Spotify API documentation](https://developer.spotify.com/documentation/general/guides/authorization-guide/).
+
+### DetectLanguage API Key
+
+1. Go to the [DetectLanguage API website](https://detectlanguage.com/) and sign up for an account.
+2. Click on "Get API Key" and fill in the required information.
+3. You will receive an API key via email, which you can use to make API requests.
+
+### YouTube API Key
+
+1. Go to the [Google Cloud Console](https://console.cloud.google.com/) and create a new project.
+2. Click on "Enable APIs and Services" and search for the YouTube Data API.
+3. Click on "Enable" and follow the instructions to create credentials for your project.
+4. You will receive an API key, which you can use to make API requests.
+
+## Acknowledgements
+
+### Contributors
+- [Eleazar James Galope](https://purrfolio.vercel.app) - Creator and maintainer of Katalog
+
+### Libraries and Resources Used
+- [Spotify Web API](https://developer.spotify.com/documentation/web-api/) - Used for fetching artist and track information
+- [DetectLanguage API](https://detectlanguage.com/) - Used for detecting the language of lyrics
+- [YouTube Data API](https://developers.google.com/youtube/v3) - Used for fetching video information
+- [React](https://reactjs.org/) - Used for building the user interface
+- [Node.js](https://nodejs.org/) - Used for building the server-side application
+- [MySQL](https://www.mysql.com/) - Used for storing and retrieving data
+- [PHP](https://www.php.net/) - Used as backend for server-side scripting

@@ -43,15 +43,15 @@ if (!$albumId || !$userId) {
 $conn->begin_transaction();
 
 try {
-    // $stmtDeleteFromTrackAlbums = $conn->prepare("DELETE FROM `katalog1`.`track_albums` WHERE `album_id` = ?");
-    // $stmtDeleteFromTrackAlbums->bind_param("i", $albumId);
-    // $stmtDeleteFromTrackAlbums->execute();
-    // $stmtDeleteFromTrackAlbums->close();
+    $stmtDeleteFromTrackAlbums = $conn->prepare("DELETE FROM `katalog1`.`track_albums` WHERE `album_id` = ?");
+    $stmtDeleteFromTrackAlbums->bind_param("i", $albumId);
+    $stmtDeleteFromTrackAlbums->execute();
+    $stmtDeleteFromTrackAlbums->close();
 
-    // $stmtDeleteFromAlbumArtists = $conn->prepare("DELETE FROM `katalog1`.`album_artists` WHERE `album_id` = ?");
-    // $stmtDeleteFromAlbumArtists->bind_param("i", $albumId);
-    // $stmtDeleteFromAlbumArtists->execute();
-    // $stmtDeleteFromAlbumArtists->close();
+    $stmtDeleteFromAlbumArtists = $conn->prepare("DELETE FROM `katalog1`.`album_artists` WHERE `album_id` = ?");
+    $stmtDeleteFromAlbumArtists->bind_param("i", $albumId);
+    $stmtDeleteFromAlbumArtists->execute();
+    $stmtDeleteFromAlbumArtists->close();
 
     $deleteTracksQuery = "
         DELETE FROM `katalog1`.`tracks`
