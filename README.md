@@ -66,16 +66,20 @@ To get started with Katalog, follow these steps:
 ### Installation
 
 1. Clone the repository:
-   ```bash
+
+```bash
 git clone https://github.com/ShallowMachinery/katalog-beta
 cd katalog-beta
 ```
+
 2. Install dependencies:
-   ```bash
+
+```bash
 npm install
 cd backend
 composer install
 ```
+
 3. If using Apache Web Server, please update the Document Root and the Directory in the config (`XAMPP-installation-folder/apache/conf/httpd.conf`) to the location where the web app is cloned. This is necessary for the backend files to work as intended.
 
 For example:
