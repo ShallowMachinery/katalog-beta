@@ -52,6 +52,7 @@ function HomePage() {
 
     useEffect(() => {
         document.title = `Katalog`;
+        window.scrollTo(0, 0);
     }, []);
 
     useEffect(() => {

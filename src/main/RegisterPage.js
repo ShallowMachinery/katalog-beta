@@ -145,7 +145,7 @@ function RegisterPage() {
                         </div>
                         <div className="form-group">
                             <div className="input-icon-wrapper">
-                                <FontAwesomeIcon icon={faCalendar} className="input-icon" />
+                                <FontAwesomeIcon icon={faCalendar} className="input-icon"/>
                                 <input
                                     type="date"
                                     id="birthday"
@@ -155,6 +155,7 @@ function RegisterPage() {
                                     required
                                     max={maxDateStr}
                                     autoComplete="bday"
+                                    style={{ width: "12rem" }}
                                 />
                             </div>
                         </div>

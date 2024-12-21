@@ -315,6 +315,7 @@ Note: OV denotes old or former version.
 
 ### v0.2.2a
 - Added a constraint to the register page to prevent usernames from consisting only of numbers.
+- Fixed some bugs.
 
 ## Getting API Keys
 

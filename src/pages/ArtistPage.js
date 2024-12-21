@@ -232,26 +232,25 @@ function ArtistPage() {
                                             </>
                                         )}
                                     </div>
-                                    {filteredTracks.length > 0 && (
-                                        <div className={`search-div ${showSearchInput ? 'show-search' : ''}`}>
-                                            <div className="search-input">
-                                                <input
-                                                    type="text"
-                                                    placeholder="Search tracks..."
-                                                    value={trackSearch}
-                                                    onChange={(e) => {
-                                                        setPage(0);
-                                                        setTrackSearch(e.target.value);
-                                                    }}
-                                                />
-                                            </div>
-                                            <button
-                                                onClick={() => setShowSearchInput(!showSearchInput)}
-                                                className="toggle-search-btn"
-                                            >
-                                                {showSearchInput ? 'Hide Search' : 'Show Search'}
-                                            </button>
-                                        </div>)}
+                                    <div className={`search-div ${showSearchInput ? 'show-search' : ''}`}>
+                                        <div className="search-input">
+                                            <input
+                                                type="text"
+                                                placeholder="Search tracks..."
+                                                value={trackSearch}
+                                                onChange={(e) => {
+                                                    setPage(0);
+                                                    setTrackSearch(e.target.value);
+                                                }}
+                                            />
+                                        </div>
+                                        <button
+                                            onClick={() => setShowSearchInput(!showSearchInput)}
+                                            className="toggle-search-btn"
+                                        >
+                                            {showSearchInput ? 'Hide Search' : 'Show Search'}
+                                        </button>
+                                    </div>
                                 </div>
                                 {filteredTracks.length > 0 ? (
                                     <ul className="track-list">
