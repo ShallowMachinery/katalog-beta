@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 16, 2024 at 05:32 AM
+-- Generation Time: Dec 18, 2024 at 05:45 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -49,14 +49,14 @@ CREATE TABLE `accounts` (
 INSERT INTO `accounts` (`user_id`, `last_name`, `first_name`, `middle_name`, `user_picture_link`, `user_hierarchy`, `user_type_name`, `user_email`, `user_password`, `user_name`, `birthday`, `creation_date`) VALUES
 (1, 'Galope', 'Eleazar James', 'Suriao', '/assets_public/users/1.jpg', 1, 'Administrator', 'johndoe@gmail.com', '10e23fcb74c3f3c172be34d6ad5e0616665a76b6f628580859d57d8472b2b387', 'eleazargalope', '2003-07-17', '2024-10-24 14:05:23'),
 (2, 'Galope', 'Eleazar', '', '/assets_public/users/2.jpg', 3, 'Contributor', 'eleazar.galope@gmail.com', '6b146d686360c1a8410891e9b169a046d240fb57ed99b13755778fdb9cb0d687', 'eleazar', '2003-07-17', '2024-10-29 16:40:19'),
-(3, 'Azarcon', 'Nel', '', '', 3, 'Contributor', 'azarcon.jhonnel@outlook.com', 'f89d41d6cf0b12d2fe3071e0f13196bb69d761be512aa710d6979b788c514723', 'nelazarcon', '1995-09-21', '2024-10-29 17:14:48'),
-(4, 'Barayoga', 'Janelle', 'D', '', 3, 'Contributor', 'barayogajanelle@gmail.com', '8235431a95f771c8bb5b5e932a905059d1cde200140ac2acd166141bd15854fc', 'penwings', '2005-05-10', '2024-11-04 14:33:19'),
+(3, 'Azarcon', 'Nel', '', '', 3, 'Contributor', 'retracted@gmail.com', 'f89d41d6cf0b12d2fe3071e0f13196bb69d761be512aa710d6979b788c514723', 'nelazarcon', '1995-09-21', '2024-10-29 17:14:48'),
+(4, 'Barayoga', 'Janelle', 'D', '', 3, 'Contributor', 'retracted1@gmail.com', '8235431a95f771c8bb5b5e932a905059d1cde200140ac2acd166141bd15854fc', 'penwings', '2005-05-10', '2024-11-04 14:33:19'),
 (5, 'Yap', 'John Oswald', 'B.', '', 3, 'Contributor', 'yap@gmail.com', '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', 'yappie', '2004-04-28', '2024-11-04 17:52:02'),
 (6, 'Tamondong', 'John', 'Neil', '', 3, 'Contributor', 'johnneil011@gmail.com', 'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', 'johnneilpogi011', '2006-11-03', '2024-11-06 11:27:18'),
 (7, 'bel', 'adi', 'mor', '/assets_public/users/7.jpg', 3, 'Contributor', 'adi@gmail.com', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 'adi', '2004-06-09', '2024-11-20 09:27:18'),
-(8, 'fufu', 'bun', 'bun', '', 3, 'Contributor', 'Buns09@gmail.com', '1841a9e1f164dd2027cfaea7fe98ff62a5ef2368f72f7e9bad20ce474d5d4a72', 'Buns09', '2003-12-09', '2024-11-30 22:36:08'),
-(9, 'Calderon', 'miko', 'B', '', 3, 'Contributor', 'sakayanagi017@gmail.com', '916c83464a0172500d84bd7567b5daf41e0b4733262a865f70d756f45f838303', 'ru', '2006-12-01', '2024-12-09 12:40:05'),
-(10, 'Administrator', 'Test', '', '/assets_public/users/10.jpg', 1, 'Administrator', 'ejsg.0018@gmail.com', '2caeacb082f78f4d4c51e977240e2b85f87c527cd4531ca61b0400d47b0dc8b0', 'testAdmin1', '1998-05-11', '2024-12-16 10:26:25');
+(8, 'fufu', 'bun', 'bun', '', 3, 'Contributor', 'retracted2@gmail.com', '1841a9e1f164dd2027cfaea7fe98ff62a5ef2368f72f7e9bad20ce474d5d4a72', 'Buns09', '2003-12-09', '2024-11-30 22:36:08'),
+(9, 'Calderon', 'miko', 'B', '', 3, 'Contributor', 'retracted3@gmail.com', '916c83464a0172500d84bd7567b5daf41e0b4733262a865f70d756f45f838303', 'ru', '2006-12-01', '2024-12-09 12:40:05'),
+(10, 'Administrator', 'Test', '', '/assets_public/users/10.jpg', 1, 'Administrator', 'retracted4@gmail.com', '2caeacb082f78f4d4c51e977240e2b85f87c527cd4531ca61b0400d47b0dc8b0', 'testAdmin1', '1998-05-11', '2024-12-16 10:26:25');
 
 -- --------------------------------------------------------
 
@@ -2004,7 +2004,6 @@ INSERT INTO `albums` (`album_id`, `album_spotify_id`, `album_name`, `album_vanit
 (1911, '5vVTtFFqkTf0PaY2PXiglc', 'OPM Back to Back Hits of VST & Company & Hagibis', 'OPM-Back-to-Back-Hits-of-VST-Company-Hagibis', '2012-05-16', 'album', 12, 1, 'https://i.scdn.co/image/ab67616d0000b273c8a48d568fe0d0d959579c24', '00:52:54', 'Vicor Music', 1, '2024-11-03 15:23:53'),
 (1912, '2orVtm0HLmOvzO3FQTb7FH', 'Rock Baby Rock', 'Rock-Baby-Rock', '2024-03-08', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b273650e997cd5a4dcb19ad40f93', '00:03:12', 'Sora Music', 1, '2024-11-03 15:23:54'),
 (1913, '55B7nAZ0c4QF5pdHhVOkRY', 'Marilag', 'Marilag', '2024-11-08', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b2734fac68d7fc631af679325118', '00:02:37', 'Universal Music Philippines Inc.', 1, '2024-11-14 22:19:21'),
-(1915, '5X6h1VY5nO8teN7nC0gpYC', 'Collection 2', 'Collection-2', '2022-07-01', 'album', 10, 1, 'https://i.scdn.co/image/ab67616d0000b27355de555a736579e9fe8c9f78', '00:31:30', 'Himig Agila Records', 1, '2024-11-16 00:01:15'),
 (1916, '30sBK7vSI8Dz0fLcV3Hx3Y', 'Joy To The World', 'Joy-To-The-World', '2024-11-14', 'single', 2, 1, 'https://i.scdn.co/image/ab67616d0000b27354958b3ceeb171720e7f17b5', '00:05:38', 'ABS-CBN Music', 1, '2024-11-17 22:21:19'),
 (1917, '63WvfyuCZeEjXeMVqunfej', 'Biyaya', 'Biyaya', '2018-07-27', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b273d1b9ef2143f1ee774995a817', '00:05:22', 'ABS-CBN Film Productions, Inc.', 1, '2024-11-17 22:22:56'),
 (1918, '04rnrw0JeVOpGcxuqClIQu', 'Nasa Puso (From \"Kadenang Ginto\")', 'Nasa-Puso-From-Kadenang-Ginto', '2019-02-08', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b273c4f59b7a3976918c076b6ae7', '00:04:00', 'ABS-CBN Film Productions, Inc.', 1, '2024-11-17 22:22:56'),
@@ -2042,9 +2041,9 @@ INSERT INTO `albums` (`album_id`, `album_spotify_id`, `album_name`, `album_vanit
 (1950, '0SS3f8cdgAkqmuHjfZJHFk', 'Natagpuan', 'Natagpuan', '2022-07-30', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b2735d1516894849ba72add56b5c', '00:04:30', 'Viva Records', 1, '2024-11-17 23:10:39'),
 (1951, '6tgIge8laKuwvRXCvmdbka', 'Infinity', 'Infinity', '2022-08-19', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b273ec47bcb0e736920fd8368dab', '00:04:32', 'Warner Music Philippines', 1, '2024-11-17 23:10:39'),
 (1952, '1AGKE0Yd8FBFzlC6x0ca2N', 'Asa', 'Asa', '2022-09-23', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b273f91fdc531d2487fbb380c32b', '00:03:07', 'Viva Records', 1, '2024-11-17 23:10:39'),
-(1953, '1D8cuFZnAqS52OpTBpuwEB', 'Akin Ka Lang', 'Akin-Ka-Lang', '2022-11-18', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b27367e3b5aa5119ebaa231a9a23', '00:03:37', 'O/C Records', 1, '2024-11-17 23:10:39');
+(1953, '1D8cuFZnAqS52OpTBpuwEB', 'Akin Ka Lang', 'Akin-Ka-Lang', '2022-11-18', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b27367e3b5aa5119ebaa231a9a23', '00:03:37', 'O/C Records', 1, '2024-11-17 23:10:39'),
+(1954, '2Xpw3ExwDyYPdrsAvBZlus', 'Maitim Na Mahika', 'Maitim-Na-Mahika', '2022-11-19', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b273134bb19b5ea3df1e08d2f4fc', '00:04:49', 'Viva Records', 1, '2024-11-17 23:10:40');
 INSERT INTO `albums` (`album_id`, `album_spotify_id`, `album_name`, `album_vanity`, `release_date`, `release_type`, `tracks_count`, `discs_count`, `album_cover_url`, `duration`, `label_name`, `contributor_id`, `creation_date`) VALUES
-(1954, '2Xpw3ExwDyYPdrsAvBZlus', 'Maitim Na Mahika', 'Maitim-Na-Mahika', '2022-11-19', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b273134bb19b5ea3df1e08d2f4fc', '00:04:49', 'Viva Records', 1, '2024-11-17 23:10:40'),
 (1955, '23tIHa5dJoDUb2pbFKCHx4', 'Sige Padayon', 'Sige-Padayon', '2023-02-03', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b273d6abbf2646bb0acf8cd12515', '00:03:17', 'Viva Records', 1, '2024-11-17 23:10:40'),
 (1956, '7IMA9Uv2Eys0tNrQ1ImYrE', 'Right Time', 'Right-Time', '2023-04-14', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b273c9741e65bb2ca541b50b1821', '00:03:28', 'Viva Records', 1, '2024-11-17 23:10:40'),
 (1957, '6SCB4y2XGHKlPBUiIZCVVn', 'Asian Beauty', 'Asian-Beauty', '2023-07-21', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b2739013672dd02c00f7e85c0924', '00:03:24', 'Nara Music', 1, '2024-11-17 23:10:40'),
@@ -2259,9 +2258,9 @@ INSERT INTO `albums` (`album_id`, `album_spotify_id`, `album_name`, `album_vanit
 (2166, '2Ocf5CSTHwhNfPeA173Tgo', 'affable dork', 'affable-dork', '2022-07-15', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b2735c470603621df83810dd3fae', '00:04:19', 'OFFMUTE', 1, '2024-11-19 01:06:39'),
 (2167, '46leWH1QOXzyOFgJWOD5Ws', 'different...', 'different', '2023-01-27', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b27384b99fe1038df9e5b239838e', '00:03:00', 'OFFMUTE', 1, '2024-11-19 01:06:39'),
 (2168, '7wpAZr1j2jJaH7GtP3SemX', 'small town', 'small-town', '2023-04-21', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b273cf041d3e316e8953b45aa891', '00:03:25', 'OFFMUTE', 1, '2024-11-19 01:06:39'),
-(2169, '2AeVBB7LhoQt3MjAt7opVg', 'keep still', 'keep-still', '2023-07-28', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b2733315996ababc2b72708bc31b', '00:04:11', 'OFFMUTE', 1, '2024-11-19 01:06:39');
+(2169, '2AeVBB7LhoQt3MjAt7opVg', 'keep still', 'keep-still', '2023-07-28', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b2733315996ababc2b72708bc31b', '00:04:11', 'OFFMUTE', 1, '2024-11-19 01:06:39'),
+(2170, '6cP0vN86nUAoGcLbpAYiVG', 'Reflection', 'Reflection', '2023-08-05', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b273857d6cf86d231cfc3e618f7f', '00:03:22', 'Ichika Nito & Clara Benin', 1, '2024-11-19 01:06:40');
 INSERT INTO `albums` (`album_id`, `album_spotify_id`, `album_name`, `album_vanity`, `release_date`, `release_type`, `tracks_count`, `discs_count`, `album_cover_url`, `duration`, `label_name`, `contributor_id`, `creation_date`) VALUES
-(2170, '6cP0vN86nUAoGcLbpAYiVG', 'Reflection', 'Reflection', '2023-08-05', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b273857d6cf86d231cfc3e618f7f', '00:03:22', 'Ichika Nito & Clara Benin', 1, '2024-11-19 01:06:40'),
 (2171, '4pnIWjnhk1gg73KghffqGn', 'befriending my tears', 'befriending-my-tears', '2023-08-11', 'album', 9, 1, 'https://i.scdn.co/image/ab67616d0000b273985fbf050508898c963a6a6d', '00:32:44', 'OFFMUTE', 1, '2024-11-19 01:06:40'),
 (2172, '4M4cz61jWcQL3zzGCWknL2', 'can\'t wait to see you on christmas day', 'can-t-wait-to-see-you-on-christmas-day', '2023-11-17', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b2732c2ba57088e28982c4503ba7', '00:02:33', 'OFFMUTE', 1, '2024-11-19 01:06:40'),
 (2173, '5cbW1sXtI0HboJxuVRNRPQ', 'small town (crwn\'s crying in the parking lot edit)', 'small-town-crwn-s-crying-in-the-parking-lot-edit', '2024-08-28', 'single', 2, 1, 'https://i.scdn.co/image/ab67616d0000b2732e3997c7529d90565bc37101', '00:07:12', 'OFFMUTE', 1, '2024-11-19 01:06:40'),
@@ -2475,9 +2474,9 @@ INSERT INTO `albums` (`album_id`, `album_spotify_id`, `album_name`, `album_vanit
 (2381, '2ugCEsgxPP4GOAHYYDBacB', 'Ikaw Lang Sapat Na', 'Ikaw-Lang-Sapat-Na', '2018-05-04', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b273ab8f68f4d8f8a660d4a73a48', '00:03:46', 'ABS-CBN Film Productions, Inc.', 1, '2024-12-07 04:43:05'),
 (2382, '0KyPX1deHRJgsCs9sXMQZD', 'Stellar', 'Stellar', '2018-07-06', 'album', 12, 1, 'https://i.scdn.co/image/ab67616d0000b2736098bbe5450b2e51356f59d1', '00:45:27', 'ABS-CBN Film Productions, Inc.', 1, '2024-12-07 04:43:06'),
 (2383, '4xx3n8hX3SdiYckCcPrwaU', 'Tala (Budots Version)', 'Tala-Budots-Version', '2019-11-11', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b273550e94e99fc3030937bd28a1', '00:05:43', 'ABS-CBN Film Productions, Inc.', 1, '2024-12-07 04:43:07'),
-(2384, '3bytZuM1ZjLlbgOcQ7uJDQ', 'Abot Langit (Budots Version)', 'Abot-Langit-Budots-Version', '2019-11-11', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b2731d69d335ce1e8061344b59c1', '00:04:08', 'ABS-CBN Film Productions, Inc.', 1, '2024-12-07 04:43:07');
+(2384, '3bytZuM1ZjLlbgOcQ7uJDQ', 'Abot Langit (Budots Version)', 'Abot-Langit-Budots-Version', '2019-11-11', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b2731d69d335ce1e8061344b59c1', '00:04:08', 'ABS-CBN Film Productions, Inc.', 1, '2024-12-07 04:43:07'),
+(2385, '7sArAacrchjAciDMJ1cEkR', 'Not For Me', 'Not-For-Me', '2020-09-22', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b273bf76be3f1401991c740aaa34', '00:03:16', 'Sony Music Entertainment', 1, '2024-12-07 04:43:07');
 INSERT INTO `albums` (`album_id`, `album_spotify_id`, `album_name`, `album_vanity`, `release_date`, `release_type`, `tracks_count`, `discs_count`, `album_cover_url`, `duration`, `label_name`, `contributor_id`, `creation_date`) VALUES
-(2385, '7sArAacrchjAciDMJ1cEkR', 'Not For Me', 'Not-For-Me', '2020-09-22', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b273bf76be3f1401991c740aaa34', '00:03:16', 'Sony Music Entertainment', 1, '2024-12-07 04:43:07'),
 (2386, '5NZ4DvFlxU2JOP3Q1UDcLZ', 'Kahit Na Anong Sablay', 'Kahit-Na-Anong-Sablay', '2020-11-12', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b27362d656e7a6ba6655a353c53a', '00:03:56', 'Sony Music Entertainment', 1, '2024-12-07 04:43:08'),
 (2387, '2Bgb8VifCidqRqIGNQnO18', 'Ate Sandali', 'Ate-Sandali', '2021-06-23', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b273f3f7c8c4d1a669104a5f2382', '00:03:18', 'Sony Music Entertainment', 1, '2024-12-07 04:43:08'),
 (2388, '3YdFHNsvn0cmkgMy5WgVPy', 'Asa Naman', 'Asa-Naman', '2021-09-15', 'single', 1, 1, 'https://i.scdn.co/image/ab67616d0000b273aed41fd66f2bdeb2119a311f', '00:03:00', 'Sony Music Entertainment', 1, '2024-12-07 04:43:08'),
@@ -4500,7 +4499,6 @@ INSERT INTO `album_artists` (`album_id`, `artist_id`, `row_id`) VALUES
 (1911, 1699, 1911),
 (1912, 1701, 1912),
 (1913, 211, 1913),
-(1915, 3, 1915),
 (1916, 82, 1916),
 (1917, 282, 1917),
 (1918, 282, 1918),
@@ -12946,16 +12944,6 @@ INSERT INTO `tracks` (`track_id`, `track_name`, `track_vanity`, `track_number`, 
 (6026, 'Lalake', 'Lalake', 12, 1, 1700, 0, '04:25', 1, '2024-11-03 15:23:53', NULL),
 (6027, 'Rock Baby Rock', 'Rock-Baby-Rock', 1, 1, 1701, 0, '03:12', 1, '2024-11-03 15:23:54', NULL),
 (6028, 'Marilag', 'Marilag', 1, 1, 211, 0, '02:37', 1, '2024-11-14 22:19:21', NULL),
-(6035, 'Selos - 2022 Remaster', 'Selos-2022-Remaster', 1, 1, 3, 0, '02:31', 1, '2024-11-16 00:01:15', NULL),
-(6036, 'Salubong - 2022 Remaster', 'Salubong-2022-Remaster', 2, 1, 3, 0, '04:08', 1, '2024-11-16 00:01:15', 'n4cDO2hj2Ng'),
-(6037, 'Seresa - 2022 Remaster', 'Seresa-2022-Remaster', 3, 1, 3, 0, '04:07', 1, '2024-11-16 00:01:15', NULL),
-(6038, 'Maniwala - 2022 Remaster', 'Maniwala-2022-Remaster', 4, 1, 3, 0, '03:02', 1, '2024-11-16 00:01:15', NULL),
-(6039, 'Sa Pagkalimot - 2022 Remaster', 'Sa-Pagkalimot-2022-Remaster', 5, 1, 3, 0, '02:34', 1, '2024-11-16 00:01:15', NULL),
-(6040, 'Mapanakit - 2022 Remaster', 'Mapanakit-2022-Remaster', 6, 1, 3, 0, '04:28', 1, '2024-11-16 00:01:15', NULL),
-(6041, 'Mapanghusga - 2022 Remaster', 'Mapanghusga-2022-Remaster', 7, 1, 3, 0, '02:30', 1, '2024-11-16 00:01:15', NULL),
-(6042, 'Maniwala - Instrumental Version', 'Maniwala-Instrumental-Version', 8, 1, 3, 0, '03:02', 1, '2024-11-16 00:01:15', NULL),
-(6043, 'Sa Pagkalimot - Instrumental Version', 'Sa-Pagkalimot-Instrumental-Version', 9, 1, 3, 0, '02:34', 1, '2024-11-16 00:01:15', NULL),
-(6044, 'Mapanghusga - Instrumental Version', 'Mapanghusga-Instrumental-Version', 10, 1, 3, 0, '02:30', 1, '2024-11-16 00:01:15', NULL),
 (6045, 'Joy To The World', 'Joy-To-The-World', 1, 1, 82, 0, '02:41', 1, '2024-11-17 22:21:19', NULL),
 (6046, 'Cherry On Top - Christmas Remix', 'Cherry-On-Top-Christmas-Remix', 2, 1, 1705, 0, '02:56', 1, '2024-11-17 22:21:19', NULL),
 (6047, 'Biyaya', 'Biyaya', 1, 1, 282, 0, '05:22', 1, '2024-11-17 22:22:56', NULL),
@@ -13417,8 +13405,7 @@ INSERT INTO `tracks` (`track_id`, `track_name`, `track_vanity`, `track_number`, 
 (6527, 'Nisila/Ako Naman Muna', 'Nisila-Ako-Naman-Muna', 1, 1, 1909, 0, '04:16', 1, '2024-11-18 23:05:19', NULL),
 (6528, 'KKK - Kasangga, Katuwang, Karamay', 'KKK-Kasangga-Katuwang-Karamay', 1, 1, 1909, 0, '04:54', 1, '2024-11-18 23:05:19', NULL),
 (6529, 'Ako Naman Muna - English Version', 'Ako-Naman-Muna-English-Version', 1, 1, 125, 0, '05:27', 1, '2024-11-18 23:05:19', NULL),
-(6530, 'Saying Goodbye', 'Saying-Goodbye', 1, 1, 1912, 0, '03:32', 1, '2024-11-18 23:05:19', NULL);
-INSERT INTO `tracks` (`track_id`, `track_name`, `track_vanity`, `track_number`, `disc_number`, `track_main_artist_id`, `explicit`, `duration`, `contributor_id`, `creation_date`, `youtube_video_id`) VALUES
+(6530, 'Saying Goodbye', 'Saying-Goodbye', 1, 1, 1912, 0, '03:32', 1, '2024-11-18 23:05:19', NULL),
 (6531, 'If We Fall in Love', 'If-We-Fall-in-Love', 2, 1, 125, 0, '03:52', 1, '2024-11-18 23:05:19', NULL),
 (6532, 'It\'s Okay Not To Be Okay', 'It-s-Okay-Not-To-Be-Okay', 1, 1, 125, 0, '02:38', 1, '2024-11-18 23:05:19', NULL),
 (6533, 'Your Everything', 'Your-Everything', 1, 1, 1913, 0, '03:36', 1, '2024-11-18 23:05:20', NULL),
@@ -13429,7 +13416,8 @@ INSERT INTO `tracks` (`track_id`, `track_name`, `track_vanity`, `track_number`, 
 (6538, 'May Pag-asa Ba? - From \"Lyric And Beat, Vol. 4\"', 'May-Pag-asa-Ba-From-Lyric-And-Beat-Vol-4', 1, 1, 1915, 0, '03:03', 1, '2024-11-18 23:05:20', NULL),
 (6539, 'Kontrol', 'Kontrol', 4, 1, 125, 0, '04:19', 1, '2024-11-18 23:05:20', NULL),
 (6540, 'Akala Maling Akala', 'Akala-Maling-Akala', 5, 1, 125, 0, '05:21', 1, '2024-11-18 23:05:21', NULL),
-(6541, 'Buti Pa Noon', 'Buti-Pa-Noon', 6, 1, 125, 0, '03:56', 1, '2024-11-18 23:05:21', NULL),
+(6541, 'Buti Pa Noon', 'Buti-Pa-Noon', 6, 1, 125, 0, '03:56', 1, '2024-11-18 23:05:21', NULL);
+INSERT INTO `tracks` (`track_id`, `track_name`, `track_vanity`, `track_number`, `disc_number`, `track_main_artist_id`, `explicit`, `duration`, `contributor_id`, `creation_date`, `youtube_video_id`) VALUES
 (6542, 'Payapa Lang', 'Payapa-Lang', 7, 1, 125, 0, '03:29', 1, '2024-11-18 23:05:21', NULL),
 (6543, 'Sila Pa Rin', 'Sila-Pa-Rin', 8, 1, 125, 0, '04:44', 1, '2024-11-18 23:05:21', NULL),
 (6544, 'Dambana', 'Dambana', 1, 1, 125, 0, '04:37', 1, '2024-11-18 23:05:21', NULL),
@@ -13880,8 +13868,7 @@ INSERT INTO `tracks` (`track_id`, `track_name`, `track_vanity`, `track_number`, 
 (6997, 'Won\'t Stay Silent', 'Won-t-Stay-Silent', 7, 1, 1988, 0, '04:14', 1, '2024-11-21 21:40:30', NULL),
 (6998, 'Believe (Song of Lament)', 'Believe-Song-of-Lament', 8, 1, 1988, 0, '06:12', 1, '2024-11-21 21:40:30', NULL),
 (6999, 'Still My Heart', 'Still-My-Heart', 9, 1, 1988, 0, '03:04', 1, '2024-11-21 21:40:30', NULL),
-(7000, 'I Will Follow', 'I-Will-Follow', 10, 1, 1988, 0, '02:37', 1, '2024-11-21 21:40:30', NULL);
-INSERT INTO `tracks` (`track_id`, `track_name`, `track_vanity`, `track_number`, `disc_number`, `track_main_artist_id`, `explicit`, `duration`, `contributor_id`, `creation_date`, `youtube_video_id`) VALUES
+(7000, 'I Will Follow', 'I-Will-Follow', 10, 1, 1988, 0, '02:37', 1, '2024-11-21 21:40:30', NULL),
 (7001, 'Walk On Water', 'Walk-On-Water', 11, 1, 1988, 0, '04:27', 1, '2024-11-21 21:40:30', NULL),
 (7002, 'Good News - Instrumental', 'Good-News-Instrumental', 1, 1, 1988, 0, '04:19', 1, '2024-11-21 21:40:31', NULL),
 (7003, 'No Greater Love - Instrumental', 'No-Greater-Love-Instrumental', 2, 1, 1988, 0, '05:13', 1, '2024-11-21 21:40:31', NULL),
@@ -13891,7 +13878,8 @@ INSERT INTO `tracks` (`track_id`, `track_name`, `track_vanity`, `track_number`, 
 (7007, 'Great Things - Instrumental', 'Great-Things-Instrumental', 6, 1, 1988, 0, '05:39', 1, '2024-11-21 21:40:31', NULL),
 (7008, 'Won\'t Stay Silent - Instrumental', 'Won-t-Stay-Silent-Instrumental', 7, 1, 1988, 0, '04:14', 1, '2024-11-21 21:40:31', NULL),
 (7009, 'Believe (Song of Lament) - Instrumental', 'Believe-Song-of-Lament-Instrumental', 8, 1, 1988, 0, '06:11', 1, '2024-11-21 21:40:31', NULL),
-(7010, 'Still My Heart - Instrumental', 'Still-My-Heart-Instrumental', 9, 1, 1988, 0, '03:04', 1, '2024-11-21 21:40:31', NULL),
+(7010, 'Still My Heart - Instrumental', 'Still-My-Heart-Instrumental', 9, 1, 1988, 0, '03:04', 1, '2024-11-21 21:40:31', NULL);
+INSERT INTO `tracks` (`track_id`, `track_name`, `track_vanity`, `track_number`, `disc_number`, `track_main_artist_id`, `explicit`, `duration`, `contributor_id`, `creation_date`, `youtube_video_id`) VALUES
 (7011, 'I Will Follow - Instrumental', 'I-Will-Follow-Instrumental', 10, 1, 1988, 0, '02:37', 1, '2024-11-21 21:40:31', NULL),
 (7012, 'Walk On Water - Instrumental', 'Walk-On-Water-Instrumental', 11, 1, 1988, 0, '04:27', 1, '2024-11-21 21:40:31', NULL),
 (7013, 'Glory to God', 'Glory-to-God', 1, 1, 1988, 0, '02:43', 1, '2024-11-21 21:40:31', NULL),
@@ -14367,8 +14355,7 @@ INSERT INTO `tracks` (`track_id`, `track_name`, `track_vanity`, `track_number`, 
 (7504, 'Mahal Kita Kasi', 'Mahal-Kita-Kasi', 2, 1, 2127, 0, '03:57', 1, '2024-12-07 01:51:49', NULL),
 (7505, 'Ikaw Lamang', 'Ikaw-Lamang', 3, 1, 265, 0, '04:21', 1, '2024-12-07 01:51:49', NULL),
 (7506, 'Mula Sa Puso', 'Mula-Sa-Puso', 4, 1, 2128, 0, '04:07', 1, '2024-12-07 01:51:49', NULL),
-(7507, 'Minsan Lang Kita Iibigin', 'Minsan-Lang-Kita-Iibigin', 5, 1, 777, 0, '04:43', 1, '2024-12-07 01:51:49', NULL);
-INSERT INTO `tracks` (`track_id`, `track_name`, `track_vanity`, `track_number`, `disc_number`, `track_main_artist_id`, `explicit`, `duration`, `contributor_id`, `creation_date`, `youtube_video_id`) VALUES
+(7507, 'Minsan Lang Kita Iibigin', 'Minsan-Lang-Kita-Iibigin', 5, 1, 777, 0, '04:43', 1, '2024-12-07 01:51:49', NULL),
 (7508, 'Ikaw Lamang', 'Ikaw-Lamang', 6, 1, 2129, 0, '04:18', 1, '2024-12-07 01:51:49', NULL),
 (7509, 'Sakaling Malimutan Ka', 'Sakaling-Malimutan-Ka', 7, 1, 2130, 0, '04:37', 1, '2024-12-07 01:51:49', NULL),
 (7510, 'Sana', 'Sana', 8, 1, 2131, 0, '03:55', 1, '2024-12-07 01:51:49', NULL),
@@ -14381,7 +14368,8 @@ INSERT INTO `tracks` (`track_id`, `track_name`, `track_vanity`, `track_number`, 
 (7517, 'Hero', 'Hero', 16, 1, 1099, 0, '04:29', 1, '2024-12-07 01:51:49', NULL),
 (7518, 'Bida Best Sa Tag-Araw', 'Bida-Best-Sa-Tag-Araw', 17, 1, 2135, 0, '04:52', 1, '2024-12-07 01:51:49', NULL),
 (7519, 'Happy Yipee Yehey', 'Happy-Yipee-Yehey', 18, 1, 2138, 0, '02:05', 1, '2024-12-07 01:51:49', NULL),
-(7520, 'Sabay Tayo', 'Sabay-Tayo', 19, 1, 1567, 0, '03:29', 1, '2024-12-07 01:51:49', NULL),
+(7520, 'Sabay Tayo', 'Sabay-Tayo', 19, 1, 1567, 0, '03:29', 1, '2024-12-07 01:51:49', NULL);
+INSERT INTO `tracks` (`track_id`, `track_name`, `track_vanity`, `track_number`, `disc_number`, `track_main_artist_id`, `explicit`, `duration`, `contributor_id`, `creation_date`, `youtube_video_id`) VALUES
 (7521, 'Habambuhay', 'Habambuhay-1', 1, 2, 61, 0, '03:58', 1, '2024-12-07 01:51:49', NULL),
 (7522, 'Sukob Na', 'Sukob-Na', 2, 2, 1202, 0, '03:16', 1, '2024-12-07 01:51:49', NULL),
 (7523, 'Kung Ako Na Lang Sana', 'Kung-Ako-Na-Lang-Sana', 3, 2, 2143, 0, '04:12', 1, '2024-12-07 01:51:49', NULL),
@@ -14836,8 +14824,7 @@ INSERT INTO `tracks` (`track_id`, `track_name`, `track_vanity`, `track_number`, 
 (8031, 'Sabi Na Nga Ba', 'Sabi-Na-Nga-Ba', 3, 1, 2241, 0, '03:56', 1, '2024-12-08 19:17:59', NULL),
 (8032, 'Love Has Come My Way', 'Love-Has-Come-My-Way', 4, 1, 2242, 0, '03:25', 1, '2024-12-08 19:17:59', NULL),
 (8033, 'Bakit', 'Bakit', 5, 1, 1178, 0, '04:21', 1, '2024-12-08 19:17:59', NULL),
-(8034, 'Only I', 'Only-I', 6, 1, 2220, 0, '03:52', 1, '2024-12-08 19:17:59', NULL);
-INSERT INTO `tracks` (`track_id`, `track_name`, `track_vanity`, `track_number`, `disc_number`, `track_main_artist_id`, `explicit`, `duration`, `contributor_id`, `creation_date`, `youtube_video_id`) VALUES
+(8034, 'Only I', 'Only-I', 6, 1, 2220, 0, '03:52', 1, '2024-12-08 19:17:59', NULL),
 (8036, 'Kailanpaman', 'Kailanpaman', 8, 1, 2233, 0, '03:21', 1, '2024-12-08 19:17:59', NULL),
 (8037, 'Kung Ako Nalang Sana', 'Kung-Ako-Nalang-Sana', 9, 1, 2243, 0, '04:08', 1, '2024-12-08 19:17:59', NULL),
 (8038, 'Kung Ako Ba Siya', 'Kung-Ako-Ba-Siya', 10, 1, 1099, 0, '03:39', 1, '2024-12-08 19:17:59', NULL),
@@ -14849,7 +14836,8 @@ INSERT INTO `tracks` (`track_id`, `track_name`, `track_vanity`, `track_number`, 
 (8044, 'Maibabalik Ko Ba', 'Maibabalik-Ko-Ba', 7, 1, 2246, 0, '03:57', 1, '2024-12-08 19:25:47', NULL),
 (8045, 'Stop Think', 'Stop-Think', 8, 1, 2247, 0, '03:49', 1, '2024-12-08 19:25:47', NULL),
 (8046, 'Huwag Ka Nang Umiyak', 'Huwag-Ka-Nang-Umiyak', 9, 1, 744, 0, '03:32', 1, '2024-12-08 19:25:47', NULL),
-(8047, 'Narito Lang Ako', 'Narito-Lang-Ako', 10, 1, 2129, 0, '03:57', 1, '2024-12-08 19:25:47', NULL),
+(8047, 'Narito Lang Ako', 'Narito-Lang-Ako', 10, 1, 2129, 0, '03:57', 1, '2024-12-08 19:25:47', NULL);
+INSERT INTO `tracks` (`track_id`, `track_name`, `track_vanity`, `track_number`, `disc_number`, `track_main_artist_id`, `explicit`, `duration`, `contributor_id`, `creation_date`, `youtube_video_id`) VALUES
 (8048, 'Bakit Ganyan Ka?', 'Bakit-Ganyan-Ka', 1, 1, 2248, 0, '03:25', 1, '2024-12-08 19:28:33', NULL),
 (8049, 'Bakit Ganyan Ka? - Acoustic Version', 'Bakit-Ganyan-Ka-Acoustic-Version', 1, 1, 2248, 0, '03:23', 1, '2024-12-08 19:28:33', NULL),
 (8050, 'Poblacion', 'Poblacion', 1, 1, 2250, 0, '05:39', 1, '2024-12-08 19:28:34', NULL),
@@ -21431,16 +21419,6 @@ INSERT INTO `track_albums` (`track_id`, `album_id`, `track_number`, `row_id`, `d
 (6026, 1911, 12, 6562, 1),
 (6027, 1912, 1, 6563, 1),
 (6028, 1913, 1, 6564, 1),
-(6035, 1915, 1, 6573, 1),
-(6036, 1915, 2, 6574, 1),
-(6037, 1915, 3, 6575, 1),
-(6038, 1915, 4, 6576, 1),
-(6039, 1915, 5, 6577, 1),
-(6040, 1915, 6, 6578, 1),
-(6041, 1915, 7, 6579, 1),
-(6042, 1915, 8, 6580, 1),
-(6043, 1915, 9, 6581, 1),
-(6044, 1915, 10, 6582, 1),
 (6045, 1916, 1, 6583, 1),
 (6046, 1916, 2, 6584, 1),
 (6047, 1917, 1, 6585, 1),
@@ -23367,8 +23345,7 @@ INSERT INTO `track_albums` (`track_id`, `album_id`, `track_number`, `row_id`, `d
 (7704, 2406, 10, 8506, 1),
 (7705, 2406, 11, 8507, 1),
 (7706, 2406, 12, 8508, 1),
-(7707, 2406, 13, 8509, 1);
-INSERT INTO `track_albums` (`track_id`, `album_id`, `track_number`, `row_id`, `disc_number`) VALUES
+(7707, 2406, 13, 8509, 1),
 (7708, 2406, 14, 8510, 1),
 (7709, 2406, 15, 8511, 1),
 (7710, 2407, 1, 8512, 1),
@@ -23378,7 +23355,8 @@ INSERT INTO `track_albums` (`track_id`, `album_id`, `track_number`, `row_id`, `d
 (7714, 2407, 5, 8516, 1),
 (7715, 2408, 1, 8517, 1),
 (7716, 2408, 2, 8518, 1),
-(7717, 2408, 3, 8519, 1),
+(7717, 2408, 3, 8519, 1);
+INSERT INTO `track_albums` (`track_id`, `album_id`, `track_number`, `row_id`, `disc_number`) VALUES
 (7718, 2408, 4, 8520, 1),
 (7719, 2408, 5, 8521, 1),
 (7720, 2408, 6, 8522, 1),
@@ -32154,16 +32132,6 @@ INSERT INTO `track_artists` (`track_id`, `artist_id`, `row_id`) VALUES
 (6027, 1701, 8915),
 (6027, 1702, 8916),
 (6028, 211, 8918),
-(6035, 3, 8929),
-(6036, 3, 8930),
-(6037, 3, 8931),
-(6038, 3, 8932),
-(6039, 3, 8933),
-(6040, 3, 8934),
-(6041, 3, 8935),
-(6042, 3, 8936),
-(6043, 3, 8937),
-(6044, 3, 8938),
 (6045, 82, 8939),
 (6046, 82, 8941),
 (6046, 1584, 8942),
@@ -32722,8 +32690,7 @@ INSERT INTO `track_artists` (`track_id`, `artist_id`, `row_id`) VALUES
 (6382, 1673, 9531),
 (6383, 1673, 9518),
 (6383, 1673, 9535),
-(6384, 1673, 9519);
-INSERT INTO `track_artists` (`track_id`, `artist_id`, `row_id`) VALUES
+(6384, 1673, 9519),
 (6384, 1673, 9525),
 (6385, 1673, 9520),
 (6385, 1673, 9537),
@@ -32731,7 +32698,8 @@ INSERT INTO `track_artists` (`track_id`, `artist_id`, `row_id`) VALUES
 (6386, 1673, 9533),
 (6387, 1673, 9530),
 (6388, 1673, 9534),
-(6389, 306, 9539),
+(6389, 306, 9539);
+INSERT INTO `track_artists` (`track_id`, `artist_id`, `row_id`) VALUES
 (6390, 306, 9540),
 (6391, 306, 9541),
 (6393, 306, 9543),
@@ -41114,16 +41082,6 @@ INSERT INTO `track_external_ids` (`track_id`, `isrc`, `upc`, `ean`, `row_id`) VA
 (6026, 'PHV021011214', 'N/A', 'N/A', 6551),
 (6027, 'USLZJ2466350', 'N/A', 'N/A', 6552),
 (6028, 'PHUM72400160', 'N/A', 'N/A', 6553),
-(6035, 'AUBEC2186390', 'N/A', 'N/A', 6562),
-(6036, 'GX38U2497097', 'N/A', 'N/A', 6563),
-(6037, 'AUBEC2186391', 'N/A', 'N/A', 6564),
-(6038, 'GX38U2416563', 'N/A', 'N/A', 6565),
-(6039, 'AUBEC2186388', 'N/A', 'N/A', 6566),
-(6040, 'AUBEC2186386', 'N/A', 'N/A', 6567),
-(6041, 'GX38U2476996', 'N/A', 'N/A', 6568),
-(6042, 'GX38U2416563', 'N/A', 'N/A', 6569),
-(6043, 'AUBEC2186394', 'N/A', 'N/A', 6570),
-(6044, 'GX38U2476996', 'N/A', 'N/A', 6571),
 (6045, 'PHS032402834', 'N/A', 'N/A', 6572),
 (6046, 'PHS032402831', 'N/A', 'N/A', 6573),
 (6047, 'PHS031801022', 'N/A', 'N/A', 6574),
@@ -41293,8 +41251,7 @@ INSERT INTO `track_external_ids` (`track_id`, `isrc`, `upc`, `ean`, `row_id`) VA
 (6205, 'FR6V82355108', 'N/A', 'N/A', 6739),
 (6206, 'PHU011312959', 'N/A', 'N/A', 6740),
 (6207, 'PHU011312960', 'N/A', 'N/A', 6741),
-(6208, 'PHU011312961', 'N/A', 'N/A', 6742);
-INSERT INTO `track_external_ids` (`track_id`, `isrc`, `upc`, `ean`, `row_id`) VALUES
+(6208, 'PHU011312961', 'N/A', 'N/A', 6742),
 (6209, 'PHU011312962', 'N/A', 'N/A', 6743),
 (6210, 'PHU011312963', 'N/A', 'N/A', 6744),
 (6211, 'PHU011312964', 'N/A', 'N/A', 6745),
@@ -41304,7 +41261,8 @@ INSERT INTO `track_external_ids` (`track_id`, `isrc`, `upc`, `ean`, `row_id`) VA
 (6215, 'PHU011312968', 'N/A', 'N/A', 6749),
 (6216, 'PHU011312969', 'N/A', 'N/A', 6750),
 (6217, 'PHU011312970', 'N/A', 'N/A', 6751),
-(6218, 'PHU011312971', 'N/A', 'N/A', 6752),
+(6218, 'PHU011312971', 'N/A', 'N/A', 6752);
+INSERT INTO `track_external_ids` (`track_id`, `isrc`, `upc`, `ean`, `row_id`) VALUES
 (6219, 'PHU011312972', 'N/A', 'N/A', 6753),
 (6223, 'PHU010609837', 'N/A', 'N/A', 6768),
 (6227, 'PHG111500924', 'N/A', 'N/A', 6772),
@@ -42491,8 +42449,7 @@ INSERT INTO `track_external_ids` (`track_id`, `isrc`, `upc`, `ean`, `row_id`) VA
 (7433, 'PHP171400005', 'N/A', 'N/A', 8208),
 (7434, 'PHP171400006', 'N/A', 'N/A', 8209),
 (7435, 'PHP171400007', 'N/A', 'N/A', 8210),
-(7436, 'PHP171400008', 'N/A', 'N/A', 8211);
-INSERT INTO `track_external_ids` (`track_id`, `isrc`, `upc`, `ean`, `row_id`) VALUES
+(7436, 'PHP171400008', 'N/A', 'N/A', 8211),
 (7437, 'PHP171400009', 'N/A', 'N/A', 8212),
 (7438, 'PHP171400010', 'N/A', 'N/A', 8213),
 (7439, 'PHP171400011', 'N/A', 'N/A', 8214),
@@ -42502,7 +42459,8 @@ INSERT INTO `track_external_ids` (`track_id`, `isrc`, `upc`, `ean`, `row_id`) VA
 (7443, 'PHI012107850', 'N/A', 'N/A', 8218),
 (7444, 'PHI012107807', 'N/A', 'N/A', 8219),
 (7445, 'PHP172300082', 'N/A', 'N/A', 8220),
-(7446, 'NL8RL2423553', 'N/A', 'N/A', 8221),
+(7446, 'NL8RL2423553', 'N/A', 'N/A', 8221);
+INSERT INTO `track_external_ids` (`track_id`, `isrc`, `upc`, `ean`, `row_id`) VALUES
 (7447, 'NL8RL2437008', 'N/A', 'N/A', 8222),
 (7448, 'QMFME2438585', 'N/A', 'N/A', 8223),
 (7449, 'PHV031810404', 'N/A', 'N/A', 8224),
@@ -43158,7 +43116,6 @@ INSERT INTO `track_genres` (`track_id`, `genre_id`, `row_id`) VALUES
 (5114, 1, 19),
 (5781, 23, 45),
 (5842, 1, 52),
-(6036, 1, 56),
 (6602, 1, 28),
 (6669, 1, 32),
 (7031, 1, 62),
@@ -49221,16 +49178,6 @@ INSERT INTO `track_lyrics` (`lyrics_id`, `track_id`, `lyrics`, `last_contributor
 (6037, 6027, '', 1, NULL, NULL, '2024-11-03 07:23:54', '2024-11-03 07:23:54', NULL),
 (6038, 1036, '@intro\nPaikot-ikot lang mula no\'ng mailang\nGawa ng \'yong tingin at ngiti\n\'Di sinasadyang mahulog, mahibang\nAasa na tayo sa huli\n\n@verse\nAaminin ko ba o baka bigla lang mawala\nKung ano mang pumapagitan sa \'ting dalawa?\nNaiisip mo ba sa mga oras na tayo\'y magkasama\nKung ano tayo sa buhay ng isa\'t isa?\n\n@chorus\nPaikot-ikot lang mula no\'ng mailang\nGawa ng \'yong tingin at ngiti\n\'Di sinasadyang mahulog, mahibang\nAasa na tayo sa huli\n\n@verse\nAraw-gabi, tanging ikaw ang nasa isip\nKahit laman ng panaginip ay ikaw\nAng aking hiling, tumanda nang ikaw lang ang kapiling\nHabang-buhay ay pipiliin ko ikaw\n\n@chorus\nPaikot-ikot lang mula no\'ng mailang\nGawa ng \'yong tingin at ngiti\n\'Di sinasadyang mahulog, mahibang\nAasa na tayo sa huli\n\n@hook\nAh\nAh\n\n@bridge\nPaulit-ulit na lang sinasabi\nPero \'di ko naman pinaninindigan\nOh, palaging nagdadal\'wang-isip\nPaulit-ulit ko lang sinasabi\nSa sarili ko ang mga hindi\nMabitawang salita para sa \'yo\nIkaw lang at ikaw ang sinisigaw\nNg puso kong \'di mapakali\nIkaw lang at ikaw ang sinisigaw\nPag-ibig ko\'y sana mapansin\nIkaw lang at ikaw ang sinisigaw\nNg puso kong \'di mapakali\nIkaw lang at ikaw ang sinisigaw\nPag-ibig ko\'y sana mapansin\n\n@outro\nPaikot-ikot lang mula no\'ng mailang\nGawa ng \'yong tingin at ngiti\n\'Di sinasadyang mahulog, mahibang\nAasa na tayo sa huli', 1, 1, 1, '2024-11-13 20:26:06', '2024-11-13 20:26:06', 'tl'),
 (6039, 6028, '', 1, NULL, NULL, '2024-11-14 14:19:21', '2024-11-14 14:19:21', NULL),
-(6046, 6035, '', 1, NULL, NULL, '2024-11-15 16:01:15', '2024-11-15 16:01:15', NULL),
-(6047, 6036, '', 1, NULL, NULL, '2024-11-15 16:01:15', '2024-11-15 16:01:15', NULL),
-(6048, 6037, '', 1, NULL, NULL, '2024-11-15 16:01:15', '2024-11-15 16:01:15', NULL),
-(6049, 6038, '', 1, NULL, NULL, '2024-11-15 16:01:15', '2024-11-15 16:01:15', NULL),
-(6050, 6039, '', 1, NULL, NULL, '2024-11-15 16:01:15', '2024-11-15 16:01:15', NULL),
-(6051, 6040, '', 1, NULL, NULL, '2024-11-15 16:01:15', '2024-11-15 16:01:15', NULL),
-(6052, 6041, '', 1, NULL, NULL, '2024-11-15 16:01:15', '2024-11-15 16:01:15', NULL),
-(6053, 6042, '', 1, NULL, NULL, '2024-11-15 16:01:15', '2024-11-15 16:01:15', NULL),
-(6054, 6043, '', 1, NULL, NULL, '2024-11-15 16:01:15', '2024-11-15 16:01:15', NULL),
-(6055, 6044, '', 1, NULL, NULL, '2024-11-15 16:01:15', '2024-11-15 16:01:15', NULL),
 (6056, 6045, '', 1, NULL, NULL, '2024-11-17 14:21:19', '2024-11-17 14:21:19', NULL),
 (6057, 6046, '', 1, NULL, NULL, '2024-11-17 14:21:19', '2024-11-17 14:21:19', NULL),
 (6058, 6047, '', 1, NULL, NULL, '2024-11-17 14:22:56', '2024-11-17 14:22:56', NULL),
@@ -49278,8 +49225,7 @@ INSERT INTO `track_lyrics` (`lyrics_id`, `track_id`, `lyrics`, `last_contributor
 (6100, 6089, '', 1, NULL, NULL, '2024-11-17 15:10:37', '2024-11-17 15:10:37', NULL),
 (6101, 6090, '', 1, NULL, NULL, '2024-11-17 15:10:37', '2024-11-17 15:10:37', NULL),
 (6102, 6091, '', 1, NULL, NULL, '2024-11-17 15:10:37', '2024-11-17 15:10:37', NULL),
-(6103, 6092, '', 1, NULL, NULL, '2024-11-17 15:10:38', '2024-11-17 15:10:38', NULL);
-INSERT INTO `track_lyrics` (`lyrics_id`, `track_id`, `lyrics`, `last_contributor_id`, `verified`, `verifier_id`, `created_at`, `updated_at`, `language`) VALUES
+(6103, 6092, '', 1, NULL, NULL, '2024-11-17 15:10:38', '2024-11-17 15:10:38', NULL),
 (6104, 6093, '', 1, NULL, NULL, '2024-11-17 15:10:38', '2024-11-17 15:10:38', NULL),
 (6105, 6094, '', 1, NULL, NULL, '2024-11-17 15:10:38', '2024-11-17 15:10:38', NULL),
 (6106, 6095, '', 1, NULL, NULL, '2024-11-17 15:10:38', '2024-11-17 15:10:38', NULL),
@@ -49289,7 +49235,8 @@ INSERT INTO `track_lyrics` (`lyrics_id`, `track_id`, `lyrics`, `last_contributor
 (6110, 6099, '', 1, NULL, NULL, '2024-11-17 15:10:39', '2024-11-17 15:10:39', NULL),
 (6111, 6100, '', 1, NULL, NULL, '2024-11-17 15:10:39', '2024-11-17 15:10:39', NULL),
 (6112, 6101, '', 1, NULL, NULL, '2024-11-17 15:10:39', '2024-11-17 15:10:39', NULL),
-(6113, 6102, '', 1, NULL, NULL, '2024-11-17 15:10:40', '2024-11-17 15:10:40', NULL),
+(6113, 6102, '', 1, NULL, NULL, '2024-11-17 15:10:40', '2024-11-17 15:10:40', NULL);
+INSERT INTO `track_lyrics` (`lyrics_id`, `track_id`, `lyrics`, `last_contributor_id`, `verified`, `verifier_id`, `created_at`, `updated_at`, `language`) VALUES
 (6114, 6103, '', 1, NULL, NULL, '2024-11-17 15:10:40', '2024-11-17 15:10:40', NULL),
 (6115, 6104, '', 1, NULL, NULL, '2024-11-17 15:10:40', '2024-11-17 15:10:40', NULL),
 (6116, 6105, '', 1, NULL, NULL, '2024-11-17 15:10:40', '2024-11-17 15:10:40', NULL),
@@ -49791,11 +49738,11 @@ INSERT INTO `track_lyrics` (`lyrics_id`, `track_id`, `lyrics`, `last_contributor
 (6612, 6598, '', 1, NULL, NULL, '2024-11-19 19:42:52', '2024-11-19 19:42:52', NULL),
 (6613, 6599, '', 1, NULL, NULL, '2024-11-19 19:42:53', '2024-11-19 19:42:53', NULL),
 (6614, 6600, '', 1, NULL, NULL, '2024-11-19 19:42:53', '2024-11-19 19:42:53', NULL),
-(6615, 6601, '', 1, NULL, NULL, '2024-11-19 19:42:53', '2024-11-19 19:42:53', NULL);
-INSERT INTO `track_lyrics` (`lyrics_id`, `track_id`, `lyrics`, `last_contributor_id`, `verified`, `verifier_id`, `created_at`, `updated_at`, `language`) VALUES
+(6615, 6601, '', 1, NULL, NULL, '2024-11-19 19:42:53', '2024-11-19 19:42:53', NULL),
 (6616, 6602, '@intro\nOh, back to where we started\nBack to where we started, oh\nOh, back to when\nHey, baby\n\n@verse\nIt\'s been 45 minutes you been blowing my phone\nI mean, shit, situation is outta control\nMy bad, I been so fired up in here\nSo when the coast is clear\nI\'m moving far out of reach\nWhat I got on my mind\nIs that I\'m hurt and you like it\nThis ain\'t chess I ain\'t no side piece\n\n@pre-chorus\nBut I bet you\'re too upset to even notice\nI been trying hard to keep us floating\nYou wouldn\'t mind if I rewind it\nThis shit got me pretty honest\nAnd I\'m tired (I\'m tired), of being open (being open)\n\'Cause we keep on going back to where we started\n(Never mind, I said I wish you\'d mind)\n\n@chorus\nNever mind, I said I wish you\'d mind\nPutting you past so we can\'t rewind\nIf I end up with you one more time\nThen I guess you\'re my favorite crime\nThat\'s right (that\'s right), I\'m out (I\'m out)\nBut that\'s fine (that\'s fine), \'cause I\'m back to (\'cause I\'m back to)\nLying when I said I wish you\'d mind\nPutting you past so we can\'t rewind\n\n@verse\nNever mind, I\'ll miss you\nBefore I kiss you\nThis song on repeat then reminisce you\nI don\'t get the issue of being untrue, baby\nWhen it all comes down I\'m still up, waiting, wasting my breath\nNo, never get rest out of my impatience\nUsed to you, I don\'t know if I can repent\n\n@pre-chorus\nBut I bet you\'re too upset to even notice\nI been trying hard to keep us floating\nYou wouldn\'t mind if I rewind it\nThis shit got me pretty honest\nAnd I\'m tired (I\'m tired), of being open (being open)\n\'Cause we keep on going back to where we started\n(Never mind, I said I wish you\'d mind)\n\n@chorus\nNever mind, I said I wish you\'d mind\nPutting you past so we can\'t rewind\nIf I end up with you one more time\nThen I guess you\'re my favorite crime\nThat\'s right (that\'s right), I\'m out (I\'m out)\nBut that\'s fine (that\'s fine), \'cause I\'m back to (\'cause I\'m back to)\nLying when I said I wish you\'d mind\nPutting you past so we can\'t rewind\n\n@outro\nOh, back to where we started\nBack to where we started, oh\nOh, back to when\nNever mind, I said I wish you\'d mind\nPutting you past so we can\'t rewind', 1, 1, 1, '2024-11-19 19:42:53', '2024-11-19 19:45:41', 'en'),
 (6617, 6603, '', 1, NULL, NULL, '2024-11-19 19:42:53', '2024-11-19 19:42:53', NULL),
-(6618, 6604, '', 1, NULL, NULL, '2024-11-19 19:42:53', '2024-11-19 19:42:53', NULL),
+(6618, 6604, '', 1, NULL, NULL, '2024-11-19 19:42:53', '2024-11-19 19:42:53', NULL);
+INSERT INTO `track_lyrics` (`lyrics_id`, `track_id`, `lyrics`, `last_contributor_id`, `verified`, `verifier_id`, `created_at`, `updated_at`, `language`) VALUES
 (6619, 6605, '', 1, NULL, NULL, '2024-11-19 19:42:54', '2024-11-19 19:42:54', NULL),
 (6620, 6606, '', 1, NULL, NULL, '2024-11-19 19:42:54', '2024-11-19 19:42:54', NULL),
 (6621, 6607, '', 1, NULL, NULL, '2024-11-19 19:42:54', '2024-11-19 19:42:54', NULL),
@@ -50284,8 +50231,7 @@ INSERT INTO `track_lyrics` (`lyrics_id`, `track_id`, `lyrics`, `last_contributor
 (7104, 7089, '', 1, NULL, NULL, '2024-11-24 18:15:25', '2024-11-24 18:15:25', NULL),
 (7105, 7090, '', 1, NULL, NULL, '2024-11-24 18:15:25', '2024-11-24 18:15:25', NULL),
 (7106, 7091, '', 1, NULL, NULL, '2024-11-24 18:15:25', '2024-11-24 18:15:25', NULL),
-(7107, 7092, '', 1, NULL, NULL, '2024-11-24 18:15:26', '2024-11-24 18:15:26', NULL);
-INSERT INTO `track_lyrics` (`lyrics_id`, `track_id`, `lyrics`, `last_contributor_id`, `verified`, `verifier_id`, `created_at`, `updated_at`, `language`) VALUES
+(7107, 7092, '', 1, NULL, NULL, '2024-11-24 18:15:26', '2024-11-24 18:15:26', NULL),
 (7108, 7093, '', 1, NULL, NULL, '2024-11-24 18:15:26', '2024-11-24 18:15:26', NULL),
 (7109, 7094, '', 1, NULL, NULL, '2024-11-24 18:15:26', '2024-11-24 18:15:26', NULL),
 (7110, 7095, '', 1, NULL, NULL, '2024-11-30 14:42:12', '2024-11-30 14:42:12', NULL),
@@ -50314,7 +50260,8 @@ INSERT INTO `track_lyrics` (`lyrics_id`, `track_id`, `lyrics`, `last_contributor
 (7133, 7118, '', 1, NULL, NULL, '2024-11-30 14:42:12', '2024-11-30 14:42:12', NULL),
 (7134, 7119, '', 1, NULL, NULL, '2024-11-30 14:42:12', '2024-11-30 14:42:12', NULL),
 (7135, 7120, '', 1, NULL, NULL, '2024-11-30 14:42:12', '2024-11-30 14:42:12', NULL),
-(7136, 7121, '', 1, NULL, NULL, '2024-11-30 14:42:12', '2024-11-30 14:42:12', NULL),
+(7136, 7121, '', 1, NULL, NULL, '2024-11-30 14:42:12', '2024-11-30 14:42:12', NULL);
+INSERT INTO `track_lyrics` (`lyrics_id`, `track_id`, `lyrics`, `last_contributor_id`, `verified`, `verifier_id`, `created_at`, `updated_at`, `language`) VALUES
 (7137, 7122, '', 1, NULL, NULL, '2024-11-30 14:42:13', '2024-11-30 14:42:13', NULL),
 (7138, 7123, '', 1, NULL, NULL, '2024-11-30 14:42:13', '2024-11-30 14:42:13', NULL),
 (7139, 7124, '', 1, NULL, NULL, '2024-11-30 14:42:13', '2024-11-30 14:42:13', NULL),
@@ -50870,8 +50817,7 @@ INSERT INTO `track_lyrics` (`lyrics_id`, `track_id`, `lyrics`, `last_contributor
 (7689, 7633, '', 1, NULL, NULL, '2024-12-08 07:46:10', '2024-12-08 08:32:36', NULL),
 (7690, 7674, '', 1, NULL, NULL, '2024-12-08 07:46:10', '2024-12-08 07:46:10', NULL),
 (7691, 7649, '', 1, NULL, NULL, '2024-12-08 07:46:10', '2024-12-08 08:53:04', NULL),
-(7692, 7676, '', 1, NULL, NULL, '2024-12-08 07:46:10', '2024-12-08 07:46:10', NULL);
-INSERT INTO `track_lyrics` (`lyrics_id`, `track_id`, `lyrics`, `last_contributor_id`, `verified`, `verifier_id`, `created_at`, `updated_at`, `language`) VALUES
+(7692, 7676, '', 1, NULL, NULL, '2024-12-08 07:46:10', '2024-12-08 07:46:10', NULL),
 (7693, 7655, '', 1, NULL, NULL, '2024-12-08 07:46:10', '2024-12-08 08:29:23', NULL),
 (7695, 7648, '', 1, NULL, NULL, '2024-12-08 07:46:10', '2024-12-08 08:45:37', NULL),
 (7697, 7653, '', 1, NULL, NULL, '2024-12-08 07:46:10', '2024-12-08 08:30:17', NULL),
@@ -50900,7 +50846,8 @@ INSERT INTO `track_lyrics` (`lyrics_id`, `track_id`, `lyrics`, `last_contributor
 (7720, 7704, '', 1, NULL, NULL, '2024-12-08 07:46:10', '2024-12-08 07:46:10', NULL),
 (7721, 7705, '', 1, NULL, NULL, '2024-12-08 07:46:10', '2024-12-08 07:46:10', NULL),
 (7722, 7706, '', 1, NULL, NULL, '2024-12-08 07:46:10', '2024-12-08 07:46:10', NULL),
-(7723, 7707, '', 1, NULL, NULL, '2024-12-08 07:46:10', '2024-12-08 07:46:10', NULL),
+(7723, 7707, '', 1, NULL, NULL, '2024-12-08 07:46:10', '2024-12-08 07:46:10', NULL);
+INSERT INTO `track_lyrics` (`lyrics_id`, `track_id`, `lyrics`, `last_contributor_id`, `verified`, `verifier_id`, `created_at`, `updated_at`, `language`) VALUES
 (7724, 7708, '', 1, NULL, NULL, '2024-12-08 07:46:10', '2024-12-08 07:46:10', NULL),
 (7725, 7709, '', 1, NULL, NULL, '2024-12-08 07:46:10', '2024-12-08 07:46:10', NULL),
 (7726, 7710, '', 1, NULL, NULL, '2024-12-08 07:46:11', '2024-12-08 07:46:11', NULL),
@@ -57822,16 +57769,6 @@ INSERT INTO `track_spotify_ids` (`track_id`, `track_spotify_id`, `row_id`) VALUE
 (6028, '2zbq6eS68i4NIJWekIuW1s', 6553),
 (15, '3VfV5iiaVh9ZOD1X2OfFua', 6554),
 (2, '4NPrmnBmZSAm5YVZXIdix8', 6556),
-(6035, '7qdsRgZtEg91ytinOED0yR', 6562),
-(6036, '0fRbVJEFftXyVrIKoiyYSP', 6563),
-(6037, '6h9zfapiweGWcJTXH0G3Zz', 6564),
-(6038, '56axbuJ67Z1S1VTLTla0e2', 6565),
-(6039, '5tVvhiKybj1dBQuS4aAOko', 6566),
-(6040, '4XXnabFwKm2q1XsaMWLdrI', 6567),
-(6041, '2RPk0mdMp74CZLkdHJ70FV', 6568),
-(6042, '56axbuJ67Z1S1VTLTla0e2', 6569),
-(6043, '165TjFrHyoS1wPXqy3No8r', 6570),
-(6044, '2RPk0mdMp74CZLkdHJ70FV', 6571),
 (6045, '0SpVJoztP97waXXnu0GjbL', 6572),
 (6046, '4yYs78Dt1jvFc3WfVNiLVt', 6573),
 (6047, '0t31dEapSyQIbljLKUrgUN', 6574),
@@ -57902,8 +57839,7 @@ INSERT INTO `track_spotify_ids` (`track_id`, `track_spotify_id`, `row_id`) VALUE
 (6107, '25zZW15ewC8RgiOI0ncX3A', 6639),
 (6108, '2wR42wqch8ADdGRahszF9W', 6640),
 (6109, '6fDPr9fQhnjSYHKKmu4fRQ', 6641),
-(6110, '7fPXYO0OqiU2roIYKRzuwy', 6642);
-INSERT INTO `track_spotify_ids` (`track_id`, `track_spotify_id`, `row_id`) VALUES
+(6110, '7fPXYO0OqiU2roIYKRzuwy', 6642),
 (6111, '5Up7xF5RxUvqHt6dXQZ2c2', 6643),
 (6112, '7KRc40Yw9QmzKYcjTWkm92', 6644),
 (6113, '5PRjIbBsS1x6cBoisHsLsh', 6645),
@@ -57913,7 +57849,8 @@ INSERT INTO `track_spotify_ids` (`track_id`, `track_spotify_id`, `row_id`) VALUE
 (6115, '00IoywtcjMMMAHBl5t0thC', 6649),
 (6116, '1DvBIeVrFPLxBr95WorifO', 6650),
 (6117, '6qozWs8Yu5eBbZiQRWYv7d', 6651),
-(6118, '6KwEQE1Gp7rg2GC0n4HZqz', 6652),
+(6118, '6KwEQE1Gp7rg2GC0n4HZqz', 6652);
+INSERT INTO `track_spotify_ids` (`track_id`, `track_spotify_id`, `row_id`) VALUES
 (6119, '3IAGtL73wEaxjYYu4RCs7U', 6653),
 (6120, '3qdwcVCAiSfPZ4z2fk4BbW', 6654),
 (6121, '2aDsFWfPWztMfCDyvllb0E', 6655),
@@ -59216,8 +59153,7 @@ INSERT INTO `track_spotify_ids` (`track_id`, `track_spotify_id`, `row_id`) VALUE
 (7290, '1sbjspm4nfOsLIwsgw5Wwe', 7952),
 (616, '6C4jFxNkZb0sSPrJlarwTN', 7953),
 (7291, '1ZnsrLBm0CqMvNiKxtUsZt', 7954),
-(619, '7s7sb46RL04kA8KVqjG7rC', 7955);
-INSERT INTO `track_spotify_ids` (`track_id`, `track_spotify_id`, `row_id`) VALUES
+(619, '7s7sb46RL04kA8KVqjG7rC', 7955),
 (7292, '5x4TPTh8GB2vteHfMfPWjv', 7956),
 (7293, '0P6t8jG5y2Q3xHvaCwxs9Y', 7957),
 (7294, '100ZllQ0QNUNG2vwIsZpZ6', 7958),
@@ -59227,7 +59163,8 @@ INSERT INTO `track_spotify_ids` (`track_id`, `track_spotify_id`, `row_id`) VALUE
 (6580, '7h21aXTvpQkS9Dg7kqt03r', 7962),
 (6582, '0qlvV9GZOvDkxOUyYBJXNw', 7963),
 (6581, '1j8yBbEKCtO5YvlcmBEvOY', 7964),
-(6588, '0uhNBVdYIuFcHfbA219NGa', 7965),
+(6588, '0uhNBVdYIuFcHfbA219NGa', 7965);
+INSERT INTO `track_spotify_ids` (`track_id`, `track_spotify_id`, `row_id`) VALUES
 (6584, '4CxPnikZ1XcAQTpSNM92aV', 7966),
 (6589, '7kFxtuOC89zEYTbPz5kqzH', 7967),
 (6590, '22pJQMZ8uDsdIYAIrYYmPp', 7968),
