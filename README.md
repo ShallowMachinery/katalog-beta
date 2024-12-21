@@ -309,6 +309,9 @@ Note: OV denotes old or former version.
 - Revamped the more information section on the lyrics page.
 - Enhanced database functionality to include a video key for displaying YouTube embeds in the lyric page.
 
+### v0.2.2a
+- Added a constraint to the register page to prevent usernames from consisting only of numbers.
+
 ## Getting API Keys
 
 ### Spotify API License

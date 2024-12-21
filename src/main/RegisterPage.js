@@ -33,6 +33,11 @@ function RegisterPage() {
     const handleRegister = async (e) => {
         e.preventDefault();
 
+        if (!/^[a-zA-Z0-9]+$/.test(username) || !username.match(/[a-zA-Z]/)) {
+            showToast("Username should contain at least one letter and only alphanumeric characters.", 'error');
+            return;
+        }
+
         if (password !== confirmPassword) {
             showToast("Passwords do not match.", 'error');
             return;
@@ -67,10 +72,10 @@ function RegisterPage() {
     return (
         <div className="register-page-container">
             <MenuBar />
+            {toast.show && <NotificationToast message={toast.message} type={toast.type} onClose={() => setToast({ show: false })} />}
             <div className="register-wrapper">
                 <div className="register-container">
                     <h2>Create an Account</h2>
-                    {toast.show && <NotificationToast message={toast.message} type={toast.type} onClose={() => setToast({ show: false })} />}
                     <form onSubmit={handleRegister}>
                         <div className="form-group">
                             <div className="input-icon-wrapper">
