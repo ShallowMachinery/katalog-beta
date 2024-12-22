@@ -57,7 +57,9 @@ $trackStmt = $conn->prepare("
         t.`track_id`, t.`track_name`, t.`track_vanity`, t.`track_main_artist_id`, 
         a.`artist_name`, a.`artist_vanity`, al.`album_id`, al.`album_name`, al.`album_cover_url`,
         (CASE 
-            WHEN t.`track_name` = ? THEN 3
+            WHEN t.`track_name` = ? AND a.`artist_name` = ? THEN 5
+            WHEN t.`track_name` = ? THEN 4
+            WHEN a.`artist_name` = ? THEN 3
             WHEN t.`track_name` LIKE CONCAT('%', ?, '%') THEN 2
             WHEN SOUNDEX(t.`track_name`) = SOUNDEX(?) THEN 1
             ELSE 0 
@@ -71,14 +73,16 @@ $trackStmt = $conn->prepare("
     LEFT JOIN 
         `katalog1`.`Albums` AS al ON ta.`album_id` = al.`album_id`
     WHERE 
-        t.`track_name` LIKE CONCAT('%', ?, '%') OR SOUNDEX(t.`track_name`) = SOUNDEX(?)
+        (t.`track_name` LIKE CONCAT('%', ?, '%') OR SOUNDEX(t.`track_name`) = SOUNDEX(?)) 
+        OR a.`artist_name` LIKE CONCAT('%', ?, '%')
     GROUP BY 
         t.`track_id`
     ORDER BY 
         score DESC
     LIMIT 10;
 ");
-$trackStmt->bind_param("sssss", $likeTerm, $likeTerm, $likeTerm, $likeTerm, $likeTerm);
+
+$trackStmt->bind_param("sssssssss", $searchTerm, $searchTerm, $searchTerm, $searchTerm, $searchTerm, $likeTerm, $likeTerm, $likeTerm, $likeTerm);
 $trackStmt->execute();
 $trackResult = $trackStmt->get_result();
 while ($row = $trackResult->fetch_assoc()) {
@@ -95,6 +99,7 @@ while ($row = $trackResult->fetch_assoc()) {
         'score' => $row['score']
     ];
 }
+
 
 $lyricStmt = $conn->prepare("
     SELECT l.`lyrics_id`, l.`lyrics`, l.`track_id`, 
